@@ -1,2 +1,4 @@
 # Git Started!
 ## IT 202-009
+
+Now if only I could edit files on github and somehow "pull" the remote changes to my local machine...
