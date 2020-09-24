@@ -1,5 +1,4 @@
 
-<?php
 <p>Run me in the browser from your server to try</p>
 <form method="POST">
   <label for="email">Email:</label>
@@ -10,7 +9,7 @@
   <input type="password" id="p2" name="confirm" required/>
   <input type="submit" name="register" value="Register"/>
 </form>
-
+<?php
 if(isset($_POST["register"])){
   $email = null;
   $password = null;
