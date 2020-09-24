@@ -3,4 +3,8 @@ myprivatecreds.*
 nevercommitme.txt
 my.log.file
 my.log.2
+<<<<<<< HEAD
 config.php
+=======
+config.php
+>>>>>>> c72cc3816410e13f73545a52864c62191ea11eb4
