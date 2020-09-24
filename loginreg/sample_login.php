@@ -57,8 +57,6 @@ if(isset($_POST["login"])){
 		else{
 			echo "<br>Invalid user<br>";
 		}
-		
-		
 	}
   }
   else{
