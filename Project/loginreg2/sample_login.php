@@ -42,10 +42,10 @@ if(isset($_POST["login"])){
 		if($result && isset($result["password"])){
 			$password_hash_from_db = $result["password"];
 			if(password_verify($password, $password_hash_from_db)){
-        session_start();//we only need to active session when it's worth activating it
-        unset($result["password"]);//remove password so we don't leak it beyond this page
+        session_start(); //we only need to active session when it's worth activating it
+        unset($result["password"]); //remove password so we don't leak it beyond this page
         //let's create a session for our user based on the other data we pulled from the table
-        $_SESSION["user"] = $result;//we can save the entire result array since we removed password
+        $_SESSION["user"] = $result; //we can save the entire result array since we removed password
         //on successful login let's serve-side redirect the user to the home page.
 			  header("Location: home.php");
 			}
