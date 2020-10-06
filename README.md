@@ -3,6 +3,4 @@
 
 My first repository
 
-First edit right here!
-
-And another one!
+Navigate to the project folder for the cool stuff!
