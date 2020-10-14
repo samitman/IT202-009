@@ -72,3 +72,9 @@ input:nth-of-type(5) {
     margin-left: 5px !important;
     margin-right: 5px !important;
 }
+
+#flash {
+     font-family: arial;
+     font-size: 1.0em;
+     color: #DC143C;
+}
