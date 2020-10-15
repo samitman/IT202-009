@@ -78,3 +78,10 @@ input:nth-of-type(5) {
      font-size: 1.0em;
      color: #DC143C;
 }
+
+#title {
+     font-size: 2em;
+     color: #fff;
+     margin: 0;
+
+}

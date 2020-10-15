@@ -4,6 +4,7 @@
 require_once(__DIR__ . "/../lib/helpers.php");
 ?>
 <nav>
+<h1 id = "title">Sam's Shop</h1>
 <ul class="nav">
     <li><a href="home.php">Home</a></li>
     <?php if (!is_logged_in()): ?>
