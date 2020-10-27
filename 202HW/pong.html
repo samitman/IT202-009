@@ -57,12 +57,28 @@ function resetBall() {
     ball.sY = ballSpeed / 2;
 
     // Randomize initial direction
-    if (Math.random() > 0.5) {
-        ball.sX *= -1;
+    if(leftScore == rightScore){
+        if (Math.random() > 0.5) {
+            ball.sX *= -1;
+        }
+        // Randomize initial direction
+        if (Math.random() > 0.5) {
+            ball.sY *= -1;
+        }
     }
-    // Randomize initial direction
-    if (Math.random() > 0.5) {
-        ball.sY *= -1;
+    // if Left score is greater, ball goes left
+    if(leftScore>rightScore){
+          ball.sX *= 1;
+          if (Math.random() > 0.5) {
+            ball.sY *= -1;
+          }
+    }
+    // if right score is greater, ball goes right
+    if(leftScore<rightScore){
+          ball.sX *= -1;
+          if (Math.random() > 0.5) {
+            ball.sY *= -1;
+          }
     }
 }
 // Bounce the ball off of a paddle
@@ -186,11 +202,23 @@ function checkPaddleCollision() {
     // Bounce the ball off the paddles
     if (ball.y + ball.h / 2 >= leftPaddle.y && ball.y + ball.h / 2 <= leftPaddle.y + leftPaddle.h) {
         if (ball.x <= leftPaddle.x + leftPaddle.w) {
+            //colors array in ROYGBIV order
+            var colors = ['FF0000','FFA500','FFFF00','0000FF','800080','FF00FF'];
+            //get a random color between position 0 and 6
+            var rand = Math.random()*7;
+            var colorPos = Math.floor(rand);
+            leftPaddle.c = colors[colorPos];
             bounceBall();
         }
     }
     if (ball.y + ball.h / 2 >= rightPaddle.y && ball.y + ball.h / 2 <= rightPaddle.y + rightPaddle.h) {
         if (ball.x + ball.w >= rightPaddle.x) {
+             //colors array in ROYGBIV order
+            var colors = ['FF0000','FFA500','FFFF00','0000FF','800080','FF00FF'];
+            //get a random color between position 0 and 6
+            var rand = Math.random()*7;
+            var colorPos = Math.floor(rand);
+            rightPaddle.c = colors[colorPos];
             bounceBall();
         }
     }
