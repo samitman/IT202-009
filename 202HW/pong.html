@@ -240,7 +240,9 @@ function checkScore() {
     }
     if (rightScore - 5 >= leftScore){
       leftPaddle.h = 150;
-    }
+    } else {
+      leftPaddle.h = 100;
+    } 
 }
 function drawScores() {
     // Draw the scores
