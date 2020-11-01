@@ -20,19 +20,19 @@ if(isset($_POST["save"])){
 	$quantity = $_POST["quantity"];
 	$price = $_POST["price"];
 	$description = $_POST["description"];
-	$created = date('Y-m-d H:i:s'); //calc
+	$modified = date('Y-m-d H:i:s'); //calc
 	$user = get_user_id();
 	$db = getDB();
 	if(isset($id)){
-		$stmt = $db->prepare("UPDATE Products set name=:name, quantity=:quantity, price=:price, description=:description, created=:created, where id=:id");
+		$stmt = $db->prepare("UPDATE Products set name=:name, quantity=:quantity, price=:price, description=:description, modified=:modified where id=:id");
 		//$stmt = $db->prepare("INSERT INTO Products (name, quantity, price, description, created, user_id) VALUES(:name, :quantity, :price, :description,:created,:user)")
 		$r = $stmt->execute([
 			":name"=>$name,
-            ":quantity"=>$quantity,
-            ":price"=>$price,
-            ":description"=>$description,
-            ":created"=>$created,
-            ":user"=>$user
+           	        ":quantity"=>$quantity,
+                        ":price"=>$price,
+                        ":description"=>$description,
+                        ":modified"=>$modified,
+                        ":id"=>$id
 		]);
 		if($r){
 			flash("Updated successfully with id: " . $id);
@@ -53,7 +53,7 @@ $result = [];
 if(isset($id)){
 	$id = $_GET["id"];
 	$db = getDB();
-	$stmt = $db->prepare("SELECT * FROM Products where id = :id");
+	$stmt = $db->prepare("SELECT * FROM Products where id=:id");
 	$r = $stmt->execute([":id"=>$id]);
 	$result = $stmt->fetch(PDO::FETCH_ASSOC);
 }
@@ -72,4 +72,4 @@ if(isset($id)){
 </form>
 
 
-<?php require(__DIR__ . "/partials/flash.php");
+<?php require(__DIR__ . "/partials/flash.php");?>
