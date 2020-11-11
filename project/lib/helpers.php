@@ -72,7 +72,7 @@ function getURL($path) {
     if (substr($path, 0, 1) == "/") {
         return $path;
     }
-    return $_SERVER["CONTEXT_PREFIX"] . "/~si237/repo/project/$path";
+    return $_SERVER["CONTEXT_PREFIX"] . "/repo/project/$path";
 }
 
 //end flash
