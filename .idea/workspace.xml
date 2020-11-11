@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="89cb132f-9887-4362-88bf-4055c6e7142f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/project/lib/helpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/project/lib/helpers.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/partials/nav.php" beforeDir="false" afterPath="$PROJECT_DIR$/project/partials/nav.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/test_create_cart.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/test_create_product.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/test_edit_cart.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/test_edit_product.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/test_list_carts.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/test_list_product.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/test_view_cart.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/test_view_product.php" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1k6R59vsxm2cWWDFiiDxTJMtm0O" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="89cb132f-9887-4362-88bf-4055c6e7142f" name="Default Changelist" comment="" />
+      <created>1605018870860</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1605018870860</updated>
+      <workItem from="1605018873419" duration="133000" />
+      <workItem from="1605129899280" duration="672000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

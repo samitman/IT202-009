@@ -1,4 +1,4 @@
-<?php require_once(__DIR__ . "/partials/nav.php"); ?>
+<?php require_once(__DIR__ . "../partials/nav.php"); ?>
 <?php
 
 //check if user is an admin
@@ -60,4 +60,4 @@ if (isset($_POST["save"])) {
 }
 ?>
     
-<?php require(__DIR__ . "/partials/flash.php");
+<?php require(__DIR__ . "../partials/flash.php");
