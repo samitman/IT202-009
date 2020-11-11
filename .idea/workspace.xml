@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="89cb132f-9887-4362-88bf-4055c6e7142f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/lib/helpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/project/lib/helpers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/partials/nav.php" beforeDir="false" afterPath="$PROJECT_DIR$/project/partials/nav.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/test_create_cart.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/test_create_product.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/test_edit_cart.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/test_edit_product.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/test_list_carts.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/test_list_product.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/test_view_cart.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/test_view_product.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +36,7 @@
       <option name="presentableId" value="Default" />
       <updated>1605018870860</updated>
       <workItem from="1605018873419" duration="133000" />
-      <workItem from="1605129899280" duration="672000" />
+      <workItem from="1605129899280" duration="1446000" />
     </task>
     <servers />
   </component>
