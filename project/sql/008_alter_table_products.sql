@@ -1,2 +1,2 @@
 ALTER TABLE Products
-	ADD COLUMN vis BIT;
+	ADD COLUMN visibility TINYINT;
