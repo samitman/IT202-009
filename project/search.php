@@ -30,6 +30,9 @@ if (isset($_POST["search"]) && !empty($query)) {
     }
 }
 ?>
+
+<?php var_export($results);?>
+
 <form method="POST">
     <input name="query" placeholder="Search" value="<?php safer_echo($query); ?>"/>
     <input type="submit" value="Search" name="search"/>
