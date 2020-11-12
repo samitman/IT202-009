@@ -26,6 +26,9 @@
                     <div>
                         <a type="button" href="test/test_view_product.php?id=<?php safer_echo($product['id']); ?>">View</a>
                     </div>
+                    <div>
+                        <br>
+                    </div>
                 </div>
             <?php endforeach; ?>
         </div>
