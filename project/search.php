@@ -1,5 +1,6 @@
 <?php require_once(__DIR__ . "/partials/nav.php"); ?>
 
+
 <p>Search Products</p>
 
 <?php
