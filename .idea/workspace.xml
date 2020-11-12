@@ -20,7 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89cb132f-9887-4362-88bf-4055c6e7142f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/project/sql/008_alter_table_products.sql" beforeDir="false" afterPath="$PROJECT_DIR$/project/sql/008_alter_table_products.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/test/test_edit_product.php" beforeDir="false" afterPath="$PROJECT_DIR$/project/test/test_edit_product.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +57,7 @@
       <workItem from="1605138544620" duration="3855000" />
       <workItem from="1605145870305" duration="478000" />
       <workItem from="1605194606178" duration="576000" />
-      <workItem from="1605209332428" duration="3411000" />
+      <workItem from="1605209332428" duration="3848000" />
     </task>
     <servers />
   </component>
