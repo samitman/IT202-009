@@ -10,6 +10,7 @@
 <div class="results">
         <div class="list-group">
             <?php foreach ($results as $product): ?>
+                <?php if (!has_role("Admin") && $product["visibility"]==0){continue;}?>
                 <div class="list-group-item">
                     <div>
                         <div>Name: <?php safer_echo($product["name"]); ?></div>
