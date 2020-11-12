@@ -11,7 +11,7 @@ if (isset($_POST["query"])) {
 if (isset($_POST["search"]) && !empty($query)) {
     if (!has_role("Admin")) {
         $db = getDB();
-        $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,category,visibility, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name like :q OR category like :q AND Products.visibility!=0 LIMIT 10 ORDER BY name");
+        $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,category,visibility, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name like :q AND category like :q AND Products.visibility!=0 LIMIT 10 ORDER BY name");
         $r = $stmt->execute([":q" => "%$query%"]);
         if ($r) {
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -20,7 +20,7 @@ if (isset($_POST["search"]) && !empty($query)) {
         }
     } elseif (has_role("Admin")) {
         $db = getDB();
-        $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,category,visibility, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name like :q OR category like :q LIMIT 10 ORDER BY name");
+        $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,category,visibility, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name like :q AND category like :q LIMIT 10 ORDER BY name");
         $r = $stmt->execute([":q" => "%$query%"]);
         if ($r) {
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
