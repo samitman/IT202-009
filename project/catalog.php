@@ -3,7 +3,7 @@
 
 <?php
     $db = getDB();
-    $stmt = $db->prepare("SELECT id,name,price,quantity,user_id FROM Products");
+    $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id, Users.username FROM Products JOIN Users on Products.user_id = Users.id");
     $r = $stmt->execute([]);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -12,20 +12,16 @@
             <?php foreach ($results as $product): ?>
                 <div class="list-group-item">
                     <div>
-                        <div>Name:</div>
-                        <div><?php safer_echo($product["name"]); ?></div>
+                        <div>Name: <?php safer_echo($product["name"]); ?></div>
                     </div>
                     <div>
-                        <div>Price:</div>
-                        <div><?php safer_echo($product["price"]); ?></div>
+                        <div>Price: <?php safer_echo($product["price"]); ?></div>
                     </div>
                     <div>
-                        <div>Units Available:</div>
-                        <div><?php safer_echo($product["quantity"]); ?></div>
+                        <div>Units Available: <?php safer_echo($product["quantity"]); ?></div>
                     </div>
                     <div>
-                        <div>Seller ID:</div>
-                        <div><?php safer_echo($product["user_id"]); ?></div>
+                        <div>Seller: <?php safer_echo($product["username"]); ?></div>
                     </div>
                     <div>
                         <a type="button" href="test/test_view_product.php?id=<?php safer_echo($product['id']); ?>">View</a>
