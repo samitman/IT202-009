@@ -16,11 +16,12 @@ if (!has_role("Admin")) {
 	<input type="number" min="0" step="0.01" name="price"/>
 	<label>Description</label>
 	<input type="text" name="description"/>
-    <label>Visibility <br></label>
-        <input type="radio" id="True" name="vis" value="1">
-        <label for="True">True</label><br>
-        <input type="radio" id="False" name="vis" value="0">
-        <label for="False">False</label><br>
+    <label for="vis">Visibility:</label>
+        <select name="vis" id="vis">
+            <option value=1>True</option>
+            <option value=0>False</option>
+        </select>
+    <br>
 	<input type="submit" name="save" value="Create"/>
 </form>
 
