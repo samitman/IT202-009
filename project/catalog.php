@@ -6,6 +6,7 @@
     $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id, Users.username FROM Products JOIN Users on Products.user_id = Users.id");
     $r = $stmt->execute([]);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    ksort($results);
 ?>
 <div class="results">
         <div class="list-group">
