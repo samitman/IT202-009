@@ -16,6 +16,11 @@ if (!has_role("Admin")) {
 	<input type="number" min="0" step="0.01" name="price"/>
 	<label>Description</label>
 	<input type="text" name="description"/>
+    <label>Visibility <br></label>
+        <input type="radio" id="True" name="vis" value="1">
+        <label for="True">True</label><br>
+        <input type="radio" id="False" name="vis" value="0">
+        <label for="False">False</label><br>
 	<input type="submit" name="save" value="Create"/>
 </form>
 
@@ -26,15 +31,17 @@ if(isset($_POST["save"])){
 	$quantity = $_POST["quantity"];
 	$price = $_POST["price"];
 	$description = $_POST["description"];
+	$vis = $_POST["vis"];
 	$created = date('Y-m-d H:i:s'); //calc
 	$user = get_user_id();
 	$db = getDB();
-	$stmt = $db->prepare("INSERT INTO Products (name, quantity, price, description, created, user_id) VALUES(:name, :quantity, :price, :description,:created,:user)");
+	$stmt = $db->prepare("INSERT INTO Products (name, quantity, price, description, vis, created, user_id) VALUES(:name, :quantity, :price, :description, :vis, :created,:user)");
 	$r = $stmt->execute([
 		":name"=>$name,
 		":quantity"=>$quantity,
 		":price"=>$price,
 		":description"=>$description,
+		":vis"=>$vis,
 		":created"=>$created,
 		":user"=>$user
 	]);
