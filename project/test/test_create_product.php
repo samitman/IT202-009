@@ -21,7 +21,7 @@ if (!has_role("Admin")) {
             <option value=1>True</option>
             <option value=0>False</option>
         </select>
-    <br>
+    <br><br>
 	<input type="submit" name="save" value="Create"/>
 </form>
 
