@@ -3,14 +3,9 @@
 
 <?php
     $db = getDB();
-    $stmt = $db->prepare("SELECT id,name,price,quantity,user_id, Users.username FROM Products JOIN Users on Products.user_id = Users.id");
+    $stmt = $db->prepare("SELECT id,name,price,quantity,user_id FROM Products");
     $r = $stmt->execute([]);
-    if ($r) {
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    else {
-        flash("There was a problem fetching the results");
-    }
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="results">
         <div class="list-group">
@@ -30,11 +25,10 @@
                     </div>
                     <div>
                         <div>Seller ID:</div>
-                        <div><?php safer_echo($product["username"]); ?></div>
+                        <div><?php safer_echo($product["user_id"]); ?></div>
                     </div>
                     <div>
-                        <a type="button" href="test_edit_product.php?id=<?php safer_echo($r['id']); ?>">Edit</a>
-                        <a type="button" href="test_view_product.php?id=<?php safer_echo($r['id']); ?>">View</a>
+                        <a type="button" href="test/test_view_product.php?id=<?php safer_echo($product['id']); ?>">View</a>
                     </div>
                 </div>
             <?php endforeach; ?>
