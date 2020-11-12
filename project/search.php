@@ -6,23 +6,37 @@
 <?php
 $query = "";
 $results = [];
-if (isset($_POST["query"])) {
-    $query = $_POST["query"];
-}
 if (isset($_POST["search"]) && !empty($query)) {
-    $db = getDB();
-    $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name like :q LIMIT 10");
-    $r = $stmt->execute([":q" => "%$query%"]);
-    if ($r) {
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    else {
-        flash("There was a problem fetching the results");
+    $filter = $_POST["filter"];
+    if (!has_role("Admin")) {
+        $db = getDB();
+        $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE :filter like :q AND Products.visibility!=0 LIMIT 10 ORDER BY name");
+        $r = $stmt->execute([":q" => "%$query%",":filter"=>$filter]);
+        if ($r) {
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            flash("There was a problem fetching the results");
+        }
+    } elseif (has_role("Admin")) {
+        $db = getDB();
+        $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE :filter like :q LIMIT 10 ORDER BY name");
+        $r = $stmt->execute([":q" => "%$query%",":filter"=>$filter]);
+        if ($r) {
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            flash("There was a problem fetching the results");
+        }
     }
 }
 ?>
 <form method="POST">
     <input name="query" placeholder="Search" value="<?php safer_echo($query); ?>"/>
+    <br><br>
+    <label for="filter">Filter:</label>
+    <select name="filter" id="filter">
+        <option value="name">Name</option>
+        <option value="category">Category</option>
+    </select>
     <input type="submit" value="Search" name="search"/>
 </form>
 <div class="results">
@@ -35,6 +49,9 @@ if (isset($_POST["search"]) && !empty($query)) {
                     </div>
                     <div>
                         <div>Price: <?php safer_echo($r["price"]); ?></div>
+                    </div>
+                    <div>
+                        <div>Category: <?php safer_echo($r["category"]); ?></div>
                     </div>
                     <div>
                         <div>Units Available: <?php safer_echo($r["quantity"]); ?></div>
