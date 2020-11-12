@@ -20,7 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89cb132f-9887-4362-88bf-4055c6e7142f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/project/catalog.php" beforeDir="false" afterPath="$PROJECT_DIR$/project/catalog.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/search.php" beforeDir="false" afterPath="$PROJECT_DIR$/project/search.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +58,7 @@
       <workItem from="1605138544620" duration="3855000" />
       <workItem from="1605145870305" duration="478000" />
       <workItem from="1605194606178" duration="576000" />
-      <workItem from="1605209332428" duration="6533000" />
+      <workItem from="1605209332428" duration="7435000" />
     </task>
     <servers />
   </component>
@@ -74,5 +75,11 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="129" y="0" width="999" height="659" key="dock-window-1" timestamp="1605217165027">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="129" y="0" width="999" height="659" key="dock-window-1/0.0.1280.720@0.0.1280.720" timestamp="1605217165027" />
   </component>
 </project>
