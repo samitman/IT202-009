@@ -16,6 +16,8 @@ if (!has_role("Admin")) {
 	<input type="number" min="0" step="0.01" name="price"/>
 	<label>Description</label>
 	<input type="text" name="description"/>
+    <label>Category</label>
+    <input type="text" name="category"/>
     <label for="vis">Visibility:</label>
         <select name="vis" id="vis">
             <option value="1">True</option>
@@ -32,11 +34,12 @@ if(isset($_POST["save"])){
 	$quantity = $_POST["quantity"];
 	$price = $_POST["price"];
 	$description = $_POST["description"];
+	$category = $_POST["category"];
 	$visibility = $_POST["vis"];
 	$created = date('Y-m-d H:i:s'); //calc
 	$user = get_user_id();
 	$db = getDB();
-	$stmt = $db->prepare("INSERT INTO Products (name, quantity, price, description, created, user_id, visibility) VALUES(:name, :quantity, :price, :description, :created, :user, :vis)");
+	$stmt = $db->prepare("INSERT INTO Products (name, quantity, price, description, created, user_id, category, visibility) VALUES(:name, :quantity, :price, :description, :created, :user, :cat, :vis)");
 	$r = $stmt->execute([
 		":name"=>$name,
 		":quantity"=>$quantity,
@@ -44,6 +47,7 @@ if(isset($_POST["save"])){
 		":description"=>$description,
 		":created"=>$created,
 		":user"=>$user,
+        ":cat"=>$category,
         ":vis"=>$visibility
 	]);
 	if($r){
