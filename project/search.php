@@ -30,23 +30,22 @@ if (isset($_POST["search"]) && !empty($query)) {
             <?php foreach ($results as $r): ?>
                 <div class="list-group-item">
                     <div>
-                        <div>Name:</div>
-                        <div><?php safer_echo($r["name"]); ?></div>
+                        <div>Name: <?php safer_echo($r["name"]); ?></div>
                     </div>
                     <div>
-                        <div>Price:</div>
-                        <div><?php safer_echo($r["price"]); ?></div>
+                        <div>Price: <?php safer_echo($r["price"]); ?></div>
                     </div>
                     <div>
-                        <div>Units Available:</div>
-                        <div><?php safer_echo($r["quantity"]); ?></div>
+                        <div>Units Available: <?php safer_echo($r["quantity"]); ?></div>
                     </div>
                     <div>
-                        <div>Seller:</div>
-                        <div><?php safer_echo($r["username"]); ?></div>
+                        <div>Seller: <?php safer_echo($r["username"]); ?></div>
                     </div>
                     <div>
                         <a type="button" href="test/test_view_product.php?id=<?php safer_echo($r['id']); ?>">View</a>
+                    </div>
+                    <div>
+                        <br>
                     </div>
                 </div>
             <?php endforeach; ?>
