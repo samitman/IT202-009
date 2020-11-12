@@ -18,7 +18,7 @@ if (isset($_POST["search"]) && !empty($query)) {
         } else {
             flash("There was a problem fetching the results");
         }
-    } elseif (!has_role("Admin")) {
+    } elseif (has_role("Admin")) {
         $db = getDB();
         $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name like :q LIMIT 10");
         $r = $stmt->execute([":q" => "%$query%"]);
