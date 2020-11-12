@@ -13,7 +13,6 @@
     }
 ?>
 <div class="results">
-    <?php if (count($results) > 0): ?>
         <div class="list-group">
             <?php foreach ($results as $product): ?>
                 <div class="list-group-item">
@@ -40,7 +39,4 @@
                 </div>
             <?php endforeach; ?>
         </div>
-    <?php else: ?>
-        <p>No results</p>
-    <?php endif; ?>
 </div>
