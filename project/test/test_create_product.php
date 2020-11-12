@@ -36,15 +36,15 @@ if(isset($_POST["save"])){
 	$created = date('Y-m-d H:i:s'); //calc
 	$user = get_user_id();
 	$db = getDB();
-	$stmt = $db->prepare("INSERT INTO Products (name, quantity, price, description, vis, created, user_id) VALUES(:name, :quantity, :price, :description, :vis, :created,:user)");
+	$stmt = $db->prepare("INSERT INTO Products (name, quantity, price, description, created, user_id, vis) VALUES(:name, :quantity, :price, :description, :created, :user, :vis)");
 	$r = $stmt->execute([
 		":name"=>$name,
 		":quantity"=>$quantity,
 		":price"=>$price,
 		":description"=>$description,
-		":vis"=>$vis,
 		":created"=>$created,
-		":user"=>$user
+		":user"=>$user,
+        ":vis"=>$vis
 	]);
 	if($r){
 		flash("Created successfully with id: " . $db->lastInsertId());
