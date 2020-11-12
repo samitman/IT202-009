@@ -1,2 +1,3 @@
 ALTER TABLE Products
-    ALTER COLUMN vis TINYINT;
+    DROP COLUMN vis;
+    ADD COLUMN visibility TINYINT;

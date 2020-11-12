@@ -18,8 +18,8 @@ if (!has_role("Admin")) {
 	<input type="text" name="description"/>
     <label for="vis">Visibility:</label>
         <select name="vis" id="vis">
-            <option value=1>True</option>
-            <option value=0>False</option>
+            <option value="1">True</option>
+            <option value="0">False</option>
         </select>
     <br><br>
 	<input type="submit" name="save" value="Create"/>
@@ -32,11 +32,11 @@ if(isset($_POST["save"])){
 	$quantity = $_POST["quantity"];
 	$price = $_POST["price"];
 	$description = $_POST["description"];
-	$vis = $_POST["vis"];
+	$visibility = $_POST["vis"];
 	$created = date('Y-m-d H:i:s'); //calc
 	$user = get_user_id();
 	$db = getDB();
-	$stmt = $db->prepare("INSERT INTO Products (name, quantity, price, description, created, user_id, vis) VALUES(:name, :quantity, :price, :description, :created, :user, :vis)");
+	$stmt = $db->prepare("INSERT INTO Products (name, quantity, price, description, created, user_id, visibility) VALUES(:name, :quantity, :price, :description, :created, :user, :vis)");
 	$r = $stmt->execute([
 		":name"=>$name,
 		":quantity"=>$quantity,
@@ -44,7 +44,7 @@ if(isset($_POST["save"])){
 		":description"=>$description,
 		":created"=>$created,
 		":user"=>$user,
-        ":vis"=>$vis
+        ":vis"=>$visibility
 	]);
 	if($r){
 		flash("Created successfully with id: " . $db->lastInsertId());
