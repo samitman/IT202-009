@@ -1,7 +1,5 @@
 <?php require_once(__DIR__ . "/partials/nav.php"); ?>
 
-<p>Search Products</p>
-
 <?php
 $query = "";
 $results = [];
@@ -9,12 +7,10 @@ if (isset($_POST["query"])) {
     $query = $_POST["query"];
 }
 
-if (isset($_POST["search"]) && !empty($query)) {
+if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
 
-    if(isset($_POST["filter"])){
         $filter = $_POST["filter"];
         $safeFilter = "name";
-
         switch($filter){
             case "category":
                 $safeFilter = "category";
@@ -26,11 +22,10 @@ if (isset($_POST["search"]) && !empty($query)) {
                 break;
         }
 
-
         if($safeFilter == "category" || $safeFilter == "name") {
             if (!has_role("Admin")) {
                 $db = getDB();
-                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE $safeFilter like :q AND Products.visibility!=0 ORDER BY name LIMIT 10");
+                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE $safeFilter LIKE :q AND Products.visibility!=0 ORDER BY name LIMIT 10");
                 $r = $stmt->execute([":q" => "%$query%"]);
                 if ($r) {
                     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -39,7 +34,7 @@ if (isset($_POST["search"]) && !empty($query)) {
                 }
             } elseif (has_role("Admin")) {
                 $db = getDB();
-                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE $safeFilter like :q ORDER BY name LIMIT 10");
+                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE $safeFilter LIKE :q ORDER BY name LIMIT 10");
                 $r = $stmt->execute([":q" => "%$query%"]);
                 if ($r) {
                     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -50,7 +45,7 @@ if (isset($_POST["search"]) && !empty($query)) {
         }elseif($safeFilter == "price") {
             if (!has_role("Admin")) {
                 $db = getDB();
-                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name like :q AND Products.visibility!=0 ORDER BY price LIMIT 10");
+                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q AND Products.visibility!=0 ORDER BY price LIMIT 10");
                 $r = $stmt->execute([":q" => "%$query%"]);
                 if ($r) {
                     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -59,7 +54,7 @@ if (isset($_POST["search"]) && !empty($query)) {
                 }
             } elseif (has_role("Admin")) {
                 $db = getDB();
-                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name like :q ORDER BY price LIMIT 10");
+                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q ORDER BY price LIMIT 10");
                 $r = $stmt->execute([":q" => "%$query%"]);
                 if ($r) {
                     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -68,11 +63,12 @@ if (isset($_POST["search"]) && !empty($query)) {
                 }
             }
         }
-    }
 }
 ?>
+
 <form method="POST">
-    <input name="query" placeholder="Search" value="<?php safer_echo($query); ?>"/>
+    <label for="query">Search Products:</label>
+    <input name="query" id="query" placeholder="Search" value="<?php safer_echo($query); ?>"/>
     <br>
     <label for="filter">Filter:</label>
     <select name="filter" id="filter">
@@ -83,6 +79,7 @@ if (isset($_POST["search"]) && !empty($query)) {
     <br>
     <input type="submit" value="Search" name="search"/>
 </form>
+
 <div class="results">
     <?php if (count($results) > 0): ?>
         <div class="list-group">
