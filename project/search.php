@@ -8,30 +8,75 @@ $results = [];
 if (isset($_POST["query"])) {
     $query = $_POST["query"];
 }
+if(isset($_POST["filter"])){
+    $filter = $_POST["filter"];
+    $safeFilter = "name";
+
+    switch($filter){
+        case "category":
+            $safeFilter = "category";
+            break;
+        case "price":
+            $safeFilter = "price";
+            break;
+        default:
+            break;
+    }
+}
 if (isset($_POST["search"]) && !empty($query)) {
-    if (!has_role("Admin")) {
-        $db = getDB();
-        $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name like :q AND Products.visibility!=0 ORDER BY name LIMIT 10");
-        $r = $stmt->execute([":q" => "%$query%"]);
-        if ($r) {
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            flash("There was a problem fetching the results");
+    if($safeFilter == "category" || $safeFilter == "name") {
+        if (!has_role("Admin")) {
+            $db = getDB();
+            $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE $safeFilter like :q AND Products.visibility!=0 ORDER BY name LIMIT 10");
+            $r = $stmt->execute([":q" => "%$query%"]);
+            if ($r) {
+                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                flash("There was a problem fetching the results");
+            }
+        } elseif (has_role("Admin")) {
+            $db = getDB();
+            $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE $safeFilter like :q ORDER BY name LIMIT 10");
+            $r = $stmt->execute([":q" => "%$query%"]);
+            if ($r) {
+                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                flash("There was a problem fetching the results");
+            }
         }
-    } elseif (has_role("Admin")) {
-        $db = getDB();
-        $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name like :q ORDER BY name LIMIT 10");
-        $r = $stmt->execute([":q" => "%$query%"]);
-        if ($r) {
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            flash("There was a problem fetching the results");
+    }elseif($safeFilter == "price"){
+        if (!has_role("Admin")) {
+            $db = getDB();
+            $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name like :q AND Products.visibility!=0 ORDER BY price LIMIT 10");
+            $r = $stmt->execute([":q" => "%$query%"]);
+            if ($r) {
+                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                flash("There was a problem fetching the results");
+            }
+        } elseif (has_role("Admin")) {
+            $db = getDB();
+            $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name like :q ORDER BY price LIMIT 10");
+            $r = $stmt->execute([":q" => "%$query%"]);
+            if ($r) {
+                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                flash("There was a problem fetching the results");
+            }
         }
     }
 }
 ?>
 <form method="POST">
     <input name="query" placeholder="Search" value="<?php safer_echo($query); ?>"/>
+    <br>
+    <label for="filter">Filter:</label>
+    <select name="filter" id="filter">
+        <option value="name">Name</option>
+        <option value="category">Category</option>
+        <option value="price">Price</option>
+    </select>
+    <br>
     <input type="submit" value="Search" name="search"/>
 </form>
 <div class="results">
