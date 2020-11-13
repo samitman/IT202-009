@@ -92,10 +92,7 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
                         <div>Price: <?php safer_echo($r["price"]); ?></div>
                     </div>
                     <div>
-                        <div>Units Available: <?php safer_echo($r["quantity"]); ?></div>
-                    </div>
-                    <div>
-                        <div>Seller: <?php safer_echo($r["username"]); ?></div>
+                        <div>Category: <?php safer_echo($r["category"]); ?></div>
                     </div>
                     <div>
                         <a type="button" href="test/test_view_product.php?id=<?php safer_echo($r['id']); ?>">View</a>
