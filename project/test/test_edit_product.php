@@ -20,18 +20,22 @@ if(isset($_POST["save"])){
 	$quantity = $_POST["quantity"];
 	$price = $_POST["price"];
 	$description = $_POST["description"];
+	$category = $_POST["category"];
+	$visibility = $_POST["vis"];
 	$modified = date('Y-m-d H:i:s'); //calc
 	$user = get_user_id();
 	$db = getDB();
 	if(isset($id)){
-		$stmt = $db->prepare("UPDATE Products set name=:name, quantity=:quantity, price=:price, description=:description, modified=:modified where id=:id");
+		$stmt = $db->prepare("UPDATE Products set name=:name, quantity=:quantity, price=:price, description=:description, category=:category, modified=:modified, visibility=:visibility where id=:id");
 		//$stmt = $db->prepare("INSERT INTO Products (name, quantity, price, description, created, user_id) VALUES(:name, :quantity, :price, :description,:created,:user)")
 		$r = $stmt->execute([
 			":name"=>$name,
            	        ":quantity"=>$quantity,
                         ":price"=>$price,
                         ":description"=>$description,
+                        ":category"=>$category,
                         ":modified"=>$modified,
+                        "visibility"=>$visibility,
                         ":id"=>$id
 		]);
 		if($r){
@@ -68,6 +72,14 @@ if(isset($id)){
 	<input type="number" min="0" step="0.01" name="price" value="<?php echo $result["price"];?>" />
 	<label>Description</label>
 	<input type="text" name="description" value="<?php echo $result["description"];?>" />
+    <label>Category</label>
+    <input type="text" name="category" value="<?php echo $result["category"];?>" />
+    <label for="vis">Visibility:</label>
+    <select name="vis" id="vis">
+        <option value="1">True</option>
+        <option value="0">False</option>
+    </select>
+    <br><br>
 	<input type="submit" name="save" value="Update"/>
 </form>
 
