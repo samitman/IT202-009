@@ -89,13 +89,13 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
                         <div>Name: <?php safer_echo($r["name"]); ?></div>
                     </div>
                     <div>
-                        <div>Price: <?php safer_echo($r["price"]); ?></div>
+                        <div>Price: $<?php safer_echo($r["price"]); ?></div>
                     </div>
                     <div>
                         <div>Category: <?php safer_echo($r["category"]); ?></div>
                     </div>
                     <div>
-                        <a type="button" href="test/test_view_product.php?id=<?php safer_echo($r['id']); ?>">View</a>
+                        <a type="button" href="productView.php?id=<?php safer_echo($r['id']); ?>">View</a>
                     </div>
                     <div>
                         <br>
