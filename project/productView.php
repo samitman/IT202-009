@@ -28,8 +28,8 @@ if (isset($id)) {
         <div class="card-body">
             <div>
                 <p>Product Information</p>
-                <div>Price: <?php safer_echo($result["price"]); ?></div>
-                <div>Units Availible: <?php safer_echo($result["quantity"]); ?></div>
+                <div>Price: $<?php safer_echo($result["price"]); ?></div>
+                <div>Units Available: <?php safer_echo($result["quantity"]); ?></div>
                 <div>Description: <?php safer_echo($result["description"]); ?></div>
                 <div>Category: <?php safer_echo($result["category"]); ?></div>
                 <div>Seller ID: <?php safer_echo($result["username"]); ?></div>

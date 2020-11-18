@@ -22,7 +22,7 @@ if (!has_role("Admin")) {
                         <div>Name: <?php safer_echo($product["name"]); ?></div>
                     </div>
                     <div>
-                        <div>Price: <?php safer_echo($product["price"]); ?></div>
+                        <div>Price: $<?php safer_echo($product["price"]); ?></div>
                     </div>
                     <div>
                         <div>Units Available: <?php safer_echo($product["quantity"]); ?></div>
