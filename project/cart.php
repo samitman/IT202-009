@@ -50,13 +50,23 @@ if (isset($_POST["save"])) {
         ":user" => $user
     ]);
     if ($r) {
-        flash("Created successfully with id: " . $db->lastInsertId());
+        flash("Successfully added to cart.");
     }
     else {
         $e = $stmt->errorInfo();
         flash("Error creating: " . var_export($e, true));
     }
 }
+?>
+
+<?php
+//below will display the cart contents for the user to see
+$userID = get_user_id();
+$db = getDB();
+$stmt = $db->prepare("SELECT c.id,c.product_id,c.quantity,c.price, Users.username, Product.name as product FROM Cart as c JOIN Users on c.user_id = Users.id LEFT JOIN Products Product on Product.id = c.product_id where c.user_id = :id");
+$r = $stmt->execute([":id" => $userID]);
+$products = $stmt->fetch(PDO::FETCH_ASSOC);
+var_export($products);
 ?>
 
 <?php require(__DIR__ . "/partials/flash.php");
