@@ -31,7 +31,7 @@ if (!has_role("Admin")) {
                         <div>Seller: <?php safer_echo($product["username"]); ?></div>
                     </div>
                     <div>
-                        <a type="button" href="test/test_view_product.php?id=<?php safer_echo($product['id']); ?>">View</a>
+                        <a type="button" href="productView.php?id=<?php safer_echo($product['id']); ?>">View</a>
                     </div>
                     <div>
                         <br>
