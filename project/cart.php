@@ -65,8 +65,39 @@ $userID = get_user_id();
 $db = getDB();
 $stmt = $db->prepare("SELECT c.id,c.product_id,c.quantity,c.price, Product.name as product FROM Cart as c JOIN Users on c.user_id = Users.id LEFT JOIN Products Product on Product.id = c.product_id where c.user_id = :id");
 $r = $stmt->execute([":id" => $userID]);
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-var_export($products);
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+var_export($results);
 ?>
+    <div class="results">
+        <div class="list-group">
+            <div>
+                <div>Cart Contents</div>
+            </div>
+            <?php
+            if(empty($results)){safer_echo("Your cart is empty, let's change that.");}
+            foreach ($results as $product):?>
+                <div class="list-group-item">
+                    <div>
+                        <div>Name: <?php safer_echo($product["product"]); ?></div>
+                    </div>
+                    <div>
+                        <div>Quantity: <?php safer_echo($product["quantity"]); ?></div>
+                    </div>
+                    <div>
+                        <div>Price: $<?php safer_echo($product["price"]); ?></div>
+                    </div>
+                    <div>
+                        <div>Subtotal: $<?php safer_echo($product["price"]*$product["quantity"]); ?></div>
+                    </div>
+                    <div>
+                        <a type="button" href="productView.php?id=<?php safer_echo($product["product_id"]); ?>">View</a>
+                    </div>
+                    <div>
+                        <br>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
 
 <?php require(__DIR__ . "/partials/flash.php");
