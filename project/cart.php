@@ -73,8 +73,12 @@ var_export($results);
             <div>
                 <div>Cart Contents</div>
             </div>
+            <div>
+                <br>
+            </div>
             <?php
             if(empty($results)){safer_echo("Your cart is empty, let's change that.");}
+            $cartTotal = 0;
             foreach ($results as $product):?>
                 <div class="list-group-item">
                     <div>
@@ -87,7 +91,7 @@ var_export($results);
                         <div>Price: $<?php safer_echo($product["price"]); ?></div>
                     </div>
                     <div>
-                        <div>Subtotal: $<?php safer_echo($product["price"]*$product["quantity"]); ?></div>
+                        <div>Subtotal: $<?php safer_echo($product["price"]*$product["quantity"]); $cartTotal+=$product["price"]*$product["quantity"]; ?></div>
                     </div>
                     <div>
                         <a type="button" href="productView.php?id=<?php safer_echo($product["product_id"]); ?>">View</a>
@@ -97,6 +101,9 @@ var_export($results);
                     </div>
                 </div>
             <?php endforeach; ?>
+        </div>
+        <div>
+            <div>Total Cart Value: $<?php safer_echo($cartTotal); ?></div>
         </div>
     </div>
 
