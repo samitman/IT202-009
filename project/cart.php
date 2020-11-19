@@ -110,7 +110,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
 <form method="POST">
-    <input type="button" value="Clear Cart" name="clear"/>
+    <input type="submit" value="Clear Cart" name="clear"/>
 </form>
 
 <?php
