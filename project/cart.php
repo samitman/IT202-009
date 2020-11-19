@@ -50,7 +50,7 @@ if (isset($_POST["save"])) {
         ":user" => $user
     ]);
     if ($r) {
-        flash("Created successfully with id: " . $db->lastInsertId());
+        flash("Successfully added to cart.");
     }
     else {
         $e = $stmt->errorInfo();
@@ -58,5 +58,52 @@ if (isset($_POST["save"])) {
     }
 }
 ?>
+
+<?php
+//below will display the cart contents for the user to see
+$userID = get_user_id();
+$db = getDB();
+$stmt = $db->prepare("SELECT c.id,c.product_id,c.quantity,c.price, Product.name as product FROM Cart as c JOIN Users on c.user_id = Users.id LEFT JOIN Products Product on Product.id = c.product_id where c.user_id = :id");
+$r = $stmt->execute([":id" => $userID]);
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+    <div class="results">
+        <div class="list-group">
+            <div>
+                <div><b>Cart Contents</b></div>
+            </div>
+            <div>
+                <br>
+            </div>
+            <?php
+            if(empty($results)){safer_echo("Your cart is empty, let's change that.");echo("<br>");}
+            $cartTotal = 0;
+            foreach ($results as $product):?>
+                <div class="list-group-item">
+                    <div>
+                        <div><u><?php safer_echo($product["product"]); ?></u></div>
+                    </div>
+                    <div>
+                        <div>Quantity: <?php safer_echo($product["quantity"]); ?></div>
+                    </div>
+                    <div>
+                        <div>Price: $<?php safer_echo($product["price"]); ?></div>
+                    </div>
+                    <div>
+                        <div>Subtotal: $<?php safer_echo($product["price"]*$product["quantity"]); $cartTotal+=$product["price"]*$product["quantity"]; ?></div>
+                    </div>
+                    <div>
+                        <a type="button" href="productView.php?id=<?php safer_echo($product["product_id"]); ?>">View</a>
+                    </div>
+                    <div>
+                        <br>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <div>
+            <div><b>Total Cart Value: $<?php safer_echo($cartTotal); ?></b></div>
+        </div>
+    </div>
 
 <?php require(__DIR__ . "/partials/flash.php");
