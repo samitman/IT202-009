@@ -66,12 +66,11 @@ $db = getDB();
 $stmt = $db->prepare("SELECT c.id,c.product_id,c.quantity,c.price, Product.name as product FROM Cart as c JOIN Users on c.user_id = Users.id LEFT JOIN Products Product on Product.id = c.product_id where c.user_id = :id");
 $r = $stmt->execute([":id" => $userID]);
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-var_export($results);
 ?>
     <div class="results">
         <div class="list-group">
             <div>
-                <div>Cart Contents</div>
+                <div><b>Cart Contents</b></div>
             </div>
             <div>
                 <br>
@@ -103,7 +102,7 @@ var_export($results);
             <?php endforeach; ?>
         </div>
         <div>
-            <div>Total Cart Value: $<?php safer_echo($cartTotal); ?></div>
+            <div><b>Total Cart Value: $<?php safer_echo($cartTotal); ?></b></div>
         </div>
     </div>
 
