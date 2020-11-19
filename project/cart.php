@@ -81,7 +81,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($results as $product):?>
                 <div class="list-group-item">
                     <div>
-                        <div>Name: <?php safer_echo($product["product"]); ?></div>
+                        <div><u><?php safer_echo($product["product"]); ?></u></div>
                     </div>
                     <div>
                         <div>Quantity: <?php safer_echo($product["quantity"]); ?></div>
