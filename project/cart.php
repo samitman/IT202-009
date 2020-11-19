@@ -76,7 +76,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <br>
             </div>
             <?php
-            if(empty($results)){safer_echo("Your cart is empty, let's change that.");}
+            if(empty($results)){safer_echo("Your cart is empty, let's change that.");safer_echo("<br>");}
             $cartTotal = 0;
             foreach ($results as $product):?>
                 <div class="list-group-item">
