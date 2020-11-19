@@ -119,7 +119,9 @@ if(isset($_POST["clear"])){
     $db = getDB();
     $stmt = $db->prepare("DELETE FROM Cart where user_id=:id");
     $r = $stmt->execute([":id" => $userID]);
-    flash("Cart emptied");
+    if($r){
+        flash("Cart emptied");
+    }
 }
 ?>
 <?php require(__DIR__ . "/partials/flash.php");
