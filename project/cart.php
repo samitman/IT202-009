@@ -104,7 +104,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             $userID = get_user_id();
                             $db = getDB();
                             $stmt = $db->prepare("DELETE FROM Cart where user_id=:id AND product_id=:pid");
-                            $r = $stmt->execute(["pid" => $productID,":id" => $userID]);
+                            $r = $stmt->execute([":pid" => $productID,":id" => $userID]);
                             if($r){
                                 flash("Removed item from cart");
                             }
