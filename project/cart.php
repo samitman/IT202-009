@@ -95,12 +95,12 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div>
                         <a type="button" href="productView.php?id=<?php safer_echo($product["product_id"]); ?>">View</a>
                         <form method="POST">
-                            <button type="submit" name="remove">Remove</button>
+                            <button type="submit" value=<?php safer_echo($product["product_id"]);?> name="remove">Remove</button>
                         </form>
 
                         <?php
                         if(isset($_POST["remove"])){
-                            $productID = $product["product_id"];
+                            $productID = $_POST["remove"];
                             $userID = get_user_id();
                             $db = getDB();
                             $stmt = $db->prepare("DELETE FROM Cart where user_id=:id AND product_id=:pid");
