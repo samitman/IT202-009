@@ -100,12 +100,13 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                         <?php
                         if(isset($_POST["remove"])){
+                            $productID = $product["product_id"];
                             $userID = get_user_id();
                             $db = getDB();
-                            $stmt = $db->prepare("DELETE FROM Cart where product_id=:pid AND user_id=:id");
-                            $r = $stmt->execute(["pid" => $product["product_id"],":id" => $userID]);
+                            $stmt = $db->prepare("DELETE FROM Cart where user_id=:id AND product_id=:pid");
+                            $r = $stmt->execute(["pid" => $productID,":id" => $userID]);
                             if($r){
-                                flash("Cart emptied");
+                                flash("Removed item from cart");
                             }
                         }
                         ?>
