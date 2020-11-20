@@ -98,6 +98,8 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <label>Quantity</label>
                             <input name="quantity" type="number"/>
                             <button type="submit" value=<?php safer_echo($product["product_id"]);?>name="change">Update</button>
+                        </form>
+                        <form method="POST">
                             <button type="submit" value=<?php safer_echo($product["product_id"]);?> name="remove">Remove</button>
                         </form>
 
@@ -118,7 +120,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             $userID = get_user_id();
                             $db = getDB();
                             $stmt = $db->prepare("UPDATE Cart SET quantity=:quant WHERE user_id=:id AND product_id=:pid");
-                            $r = $stmt->execute([":quant" => $newQuantity,":pid" => $productID,":id" => $userID]);
+                            $r = $stmt->execute([":quant" => $newQuantity,":id" => $userID,":pid" => $productID]);
                             if($r){
                                 flash("Updated quantity");
                             }
