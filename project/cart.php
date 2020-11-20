@@ -118,9 +118,12 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             $productID = $_POST["change"];
                             $newQuantity = $_POST["quantity"];
                             $userID = get_user_id();
-                            $db = getDB();
-                            $stmt = $db->prepare("UPDATE Cart SET quantity=:quant WHERE user_id=:id AND product_id=:pid");
-                            $r = $stmt->execute([":quant" => $newQuantity,":id" => $userID,":pid" => $productID]);
+                            var_export($productID);
+                            var_export($newQuantity);
+                            var_export($userID);
+                           // $db = getDB();
+                           // $stmt = $db->prepare("UPDATE Cart SET quantity=:quantity WHERE user_id=:id AND product_id=:pid");
+                           // $r = $stmt->execute([":quantity" => $newQuantity,":id" => $userID,":pid" => $productID]);
                             if($r){
                                 flash("Updated quantity");
                             }
