@@ -99,6 +99,25 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <input name="quantity" type="number"/>
                             <button type="submit" value=<?php safer_echo($product["product_id"]);?>name="change">Update</button>
                         </form>
+
+                        <?php
+                        if(isset($_POST["change"])&&isset($_POST["quantity"])){
+                            $productID = $_POST["change"];
+                            $newQuantity = $_POST["quantity"];
+                            $userID = get_user_id();
+                            var_export($productID);
+                            var_export($newQuantity);
+                            var_export($userID);
+                            // $db = getDB();
+                            // $stmt = $db->prepare("UPDATE Cart SET quantity=:quantity WHERE user_id=:id AND product_id=:pid");
+                            // $r = $stmt->execute([":quantity" => $newQuantity,":id" => $userID,":pid" => $productID]);
+                            if($r){
+                                flash("Updated quantity");
+                            }
+                        }
+                        ?>
+                    </div>
+                    <div>
                         <form method="POST">
                             <button type="submit" value=<?php safer_echo($product["product_id"]);?> name="remove">Remove</button>
                         </form>
@@ -112,20 +131,6 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             $r = $stmt->execute([":pid" => $productID,":id" => $userID]);
                             if($r){
                                 flash("Removed item from cart");
-                            }
-                        }
-                        if(isset($_POST["change"])&&isset($_POST["quantity"])){
-                            $productID = $_POST["change"];
-                            $newQuantity = $_POST["quantity"];
-                            $userID = get_user_id();
-                            var_export($productID);
-                            var_export($newQuantity);
-                            var_export($userID);
-                           // $db = getDB();
-                           // $stmt = $db->prepare("UPDATE Cart SET quantity=:quantity WHERE user_id=:id AND product_id=:pid");
-                           // $r = $stmt->execute([":quantity" => $newQuantity,":id" => $userID,":pid" => $productID]);
-                            if($r){
-                                flash("Updated quantity");
                             }
                         }
                         ?>
