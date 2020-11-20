@@ -94,6 +94,22 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div>
                         <a type="button" href="productView.php?id=<?php safer_echo($product["product_id"]); ?>">View</a>
+                        <form method="POST">
+                            <button type="submit" value=<?php safer_echo($product["product_id"]);?> name="remove">Remove</button>
+                        </form>
+
+                        <?php
+                        if(isset($_POST["remove"])){
+                            $productID = $_POST["remove"];
+                            $userID = get_user_id();
+                            $db = getDB();
+                            $stmt = $db->prepare("DELETE FROM Cart where user_id=:id AND product_id=:pid");
+                            $r = $stmt->execute([":pid" => $productID,":id" => $userID]);
+                            if($r){
+                                flash("Removed item from cart");
+                            }
+                        }
+                        ?>
                     </div>
                     <div>
                         <br>
