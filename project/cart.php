@@ -110,7 +110,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
 <form method="POST">
-    <button type="submit" name="clear" onClick=window.location.reload();>Clear Cart</button>
+    <button type="submit" name="clear">Clear Cart</button>
 </form>
 
 <?php
