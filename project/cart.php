@@ -104,6 +104,24 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div>
             <div><b>Total Cart Value: $<?php safer_echo($cartTotal); ?></b></div>
         </div>
+        <div>
+            <div><br></div>
+        </div>
     </div>
 
+<form method="POST">
+    <button type="submit" name="clear">Clear Cart</button>
+</form>
+
+<?php
+if(isset($_POST["clear"])){
+    $userID = get_user_id();
+    $db = getDB();
+    $stmt = $db->prepare("DELETE FROM Cart where user_id=:id");
+    $r = $stmt->execute([":id" => $userID]);
+    if($r){
+        flash("Cart emptied");
+    }
+}
+?>
 <?php require(__DIR__ . "/partials/flash.php");
