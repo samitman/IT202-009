@@ -64,7 +64,7 @@ if (isset($_POST["save"])) {
 //below will display the cart contents for the user to see
 $userID = get_user_id();
 $db = getDB();
-$stmt = $db->prepare("SELECT c.id,c.product_id,c.quantity,c.price, Product.name as product FROM Cart as c JOIN Users on c.user_id = Users.id LEFT JOIN Products Product on Product.id = c.product_id where c.user_id = :id");
+$stmt = $db->prepare("SELECT c.id,c.product_id,c.quantity,c.price, Product.name as product FROM Cart as c JOIN Users on c.user_id = Users.id LEFT JOIN Products Product on Product.id = c.product_id where c.user_id = :id ORDER by product");
 $r = $stmt->execute([":id" => $userID]);
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
