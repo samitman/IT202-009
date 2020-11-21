@@ -1,6 +1,7 @@
 <?php require_once(__DIR__ . "/partials/nav.php"); ?>
 <?php
 
+//only let's users access their cart if logged in
 if (!is_logged_in()) {
     flash("You must be logged in to access this page");
     die(header("Location: login.php"));
@@ -63,7 +64,7 @@ if (isset($_POST["save"])) {
 //below will display the cart contents for the user to see
 $userID = get_user_id();
 $db = getDB();
-$stmt = $db->prepare("SELECT c.id,c.product_id,c.quantity,c.price, Product.name as product FROM Cart as c JOIN Users on c.user_id = Users.id LEFT JOIN Products Product on Product.id = c.product_id where c.user_id = :id");
+$stmt = $db->prepare("SELECT c.id,c.product_id,c.quantity,c.price, Product.name as product FROM Cart as c JOIN Users on c.user_id = Users.id LEFT JOIN Products Product on Product.id = c.product_id where c.user_id = :id ORDER by product");
 $r = $stmt->execute([":id" => $userID]);
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -94,11 +95,13 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div>
                         <a type="button" href="productView.php?id=<?php safer_echo($product["product_id"]); ?>">View</a>
+
                         <form method="POST">
                             <button type="submit" value=<?php safer_echo($product["product_id"]);?> name="remove">Remove</button>
                         </form>
 
                         <?php
+                        //removes product from cart
                         if(isset($_POST["remove"])){
                             $productID = $_POST["remove"];
                             $userID = get_user_id();
