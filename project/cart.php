@@ -6,6 +6,53 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 
+//updating item quantity
+if (isset($_POST["update"]) && isset($_POST["quantity"])) {
+    $productID = $_POST["update"];
+    $newQuantity = $_POST["quantity"];
+    $userID = get_user_id();
+    $db = getDB();
+
+    //remove if quantity set to 0
+    if ($newQuantity == 0) {
+        $stmt = $db->prepare("DELETE FROM Cart where user_id=:id AND product_id=:pid");
+        $r = $stmt->execute([":pid" => $productID, ":id" => $userID]);
+        if ($r) {
+            flash("Removed item from cart");
+        }
+    } else { //updates quantity
+        $stmt = $db->prepare("UPDATE Cart SET quantity=:quantity WHERE user_id=:id AND product_id=:pid");
+        $r = $stmt->execute([":quantity" => $newQuantity, ":id" => $userID, ":pid" => $productID]);
+        if ($r) {
+            flash("Updated quantity");
+        }
+    }
+}
+
+//removes product from cart
+if (isset($_POST["remove"])) {
+    $productID = $_POST["remove"];
+    $userID = get_user_id();
+    $db = getDB();
+    $stmt = $db->prepare("DELETE FROM Cart where user_id=:id AND product_id=:pid");
+    $r = $stmt->execute([":pid" => $productID, ":id" => $userID]);
+    if ($r) {
+        flash("Removed item from cart");
+    }
+}
+
+//clears entire cart
+if (isset($_POST["clear"])) {
+    $userID = get_user_id();
+    $db = getDB();
+    $stmt = $db->prepare("DELETE FROM Cart where user_id=:id");
+    $r = $stmt->execute([":id" => $userID]);
+    if ($r) {
+        flash("Cart emptied");
+    }
+}
+
+
 //gets products for dropdown
 $db = getDB();
 $stmt = $db->prepare("SELECT id,name,price,visibility from Products WHERE visibility != 0 LIMIT 10");
@@ -100,49 +147,11 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <input name="quantity" type="number"/>
                             <button type="submit" value="<?php safer_echo($product["product_id"]);?>" name="update">Update</button>
                         </form>
-
-                        <?php
-                        if(isset($_POST["update"])&&isset($_POST["quantity"])){
-                            $productID = $_POST["update"];
-                            $newQuantity = $_POST["quantity"];
-                            $userID = get_user_id();
-                            $db = getDB();
-
-                            //remove if quantity set to 0
-                            if($newQuantity==0){
-                                $stmt = $db->prepare("DELETE FROM Cart where user_id=:id AND product_id=:pid");
-                                $r = $stmt->execute([":pid" => $productID,":id" => $userID]);
-                                if($r){
-                                    flash("Removed item from cart");
-                                }
-                            }else{ //updates quantity
-                                $stmt = $db->prepare("UPDATE Cart SET quantity=:quantity WHERE user_id=:id AND product_id=:pid");
-                                $r = $stmt->execute([":quantity" => $newQuantity, ":id" => $userID, ":pid" => $productID]);
-                                if ($r) {
-                                    flash("Updated quantity");
-                                }
-                            }
-                        }
-                        ?>
                     </div>
                     <div>
                         <form method="POST">
                             <button type="submit" value="<?php safer_echo($product["product_id"]);?>" name="remove">Remove</button>
                         </form>
-
-                        <?php
-                        //removes product from cart
-                        if(isset($_POST["remove"])){
-                            $productID = $_POST["remove"];
-                            $userID = get_user_id();
-                            $db = getDB();
-                            $stmt = $db->prepare("DELETE FROM Cart where user_id=:id AND product_id=:pid");
-                            $r = $stmt->execute([":pid" => $productID,":id" => $userID]);
-                            if($r){
-                                flash("Removed item from cart");
-                            }
-                        }
-                        ?>
                     </div>
                     <div>
                         <br>
@@ -161,16 +170,4 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <form method="POST">
         <button type="submit" name="clear">Clear Cart</button>
     </form>
-
-<?php
-if(isset($_POST["clear"])){
-    $userID = get_user_id();
-    $db = getDB();
-    $stmt = $db->prepare("DELETE FROM Cart where user_id=:id");
-    $r = $stmt->execute([":id" => $userID]);
-    if($r){
-        flash("Cart emptied");
-    }
-}
-?>
 <?php require(__DIR__ . "/partials/flash.php");
