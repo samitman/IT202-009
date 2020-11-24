@@ -39,4 +39,35 @@ if (isset($id)) {
 <?php else: ?>
     <p>Error looking up id...</p>
 <?php endif; ?>
+//add product to cart
+    <div>
+        <form method="POST">
+            <label>Quantity</label>
+            <input name="quantity" type="number" value="1"/>
+            <input type="submit" name="save" value="Add to Cart"/>
+        </form>
+    </div>
+<?php
+if (isset($_POST["save"])) {
+    $id = $_GET["id"];
+    $quantity = $_POST["quantity"];
+    $price = $result["price"];
+    $user = get_user_id();
+    $db = getDB();
+    $stmt = $db->prepare("INSERT INTO Cart (product_id, quantity, price, user_id) VALUES(:id, :quantity, :price, :user)");
+    $r = $stmt->execute([
+        ":id" => $id,
+        ":quantity" => $quantity,
+        ":price" => $price,
+        ":user" => $user
+    ]);
+    if ($r) {
+        flash("Successfully added to cart.");
+    }
+    else {
+        $e = $stmt->errorInfo();
+        flash("Error creating: " . var_export($e, true));
+    }
+}
+?>
 <?php require(__DIR__ . "/partials/flash.php");

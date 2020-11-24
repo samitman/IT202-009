@@ -70,7 +70,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endforeach; ?>
         </select>
         <label>Quantity</label>
-        <input name="quantity" type="number"/>
+        <input name="quantity" type="number" value="1"/>
         <input type="submit" name="save" value="Submit"/>
     </form>
 
