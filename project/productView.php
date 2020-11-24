@@ -23,7 +23,7 @@ if (isset($id)) {
 <?php if (isset($result) && !empty($result)): ?>
     <div class="card">
         <div class="card-title">
-            <?php safer_echo($result["name"]); ?>
+            <div><u><?php safer_echo($result["name"]); ?> </u></div>
         </div>
         <div class="card-body">
             <div>
@@ -36,10 +36,11 @@ if (isset($id)) {
             </div>
         </div>
     </div>
+<br><br>
 <?php else: ?>
     <p>Error looking up id...</p>
 <?php endif; ?>
-//add product to cart
+
     <div>
         <form method="POST">
             <label>Quantity</label>
