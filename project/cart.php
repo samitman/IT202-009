@@ -141,7 +141,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div>
                         <a type="button" href="productView.php?id=<?php safer_echo($product["product_id"]); ?>">View</a>
-                        <br>
+                        <br><br>
                         <form method="POST">
                             <label>Change Quantity</label>
                             <input name="quantity" type="number"/>
