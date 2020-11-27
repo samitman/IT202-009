@@ -71,7 +71,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </select>
         <label>Quantity</label>
         <input name="quantity" type="number" value="1"/>
-        <input type="submit" name="save" value="Submit"/>
+        <button type="submit" name="save" value="Submit">Submit</button>
     </form>
 
 <?php
