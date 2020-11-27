@@ -68,9 +68,11 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
 
 <form method="POST">
     <label for="query">Search Products:</label>
+    <br>
     <input name="query" id="query" placeholder="Search" value="<?php safer_echo($query); ?>"/>
     <br>
     <label for="filter">Filter:</label>
+    <br>
     <select name="filter" id="filter">
         <option value="name">Name</option>
         <option value="category">Category</option>

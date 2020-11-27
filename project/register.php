@@ -70,13 +70,17 @@ if (!isset($username)) {
 ?>
     <form method="POST">
         <label for="email">Email:</label>
+        <br>
         <input type="email" id="email" name="email" required value="<?php safer_echo($email); ?>"/>
         <label for="user">Username:</label>
+        <br>
         <input type="text" id="user" name="username" required maxlength="60" value="<?php safer_echo($username); ?>"/>
         <label for="p1">Password:</label>
+        <br>
         <input type="password" id="p1" name="password" required/>
         <label for="p2">Confirm Password:</label>
+        <br>
         <input type="password" id="p2" name="confirm" required/>
-        <input type="submit" name="register" value="Register"/>
+        <button type="submit" name="register" value="Register">Register</button>
     </form>
 <?php require(__DIR__."/partials/flash.php"); ?>

@@ -65,16 +65,22 @@ if(isset($id)){
 
 <form method="POST">
 	<label>Product Name</label>
+    <br>
 	<input name="name" placeholder="Name" value="<?php echo $result["name"];?>"/>
 	<label>Quantity</label>
+    <br>
 	<input type="number" min="0" name="quantity" value="<?php echo $result["quantity"];?>" />
 	<label>Price</label>
+    <br>
 	<input type="number" min="0" step="0.01" name="price" value="<?php echo $result["price"];?>" />
 	<label>Description</label>
+    <br>
 	<input type="text" name="description" value="<?php echo $result["description"];?>" />
     <label>Category</label>
+    <br>
     <input type="text" name="category" value="<?php echo $result["category"];?>" />
     <label for="vis">Visibility:</label>
+    <br>
     <select name="vis" id="vis">
         <option value="1">True</option>
         <option value="0">False</option>

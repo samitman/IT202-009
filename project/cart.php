@@ -63,6 +63,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <h3>Add to Cart</h3>
     <form method="POST">
         <label>Select a Product</label>
+        <br>
         <select name="product_id">
             <option value="-1">None</option>
             <?php foreach ($products as $product): ?>
@@ -70,6 +71,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endforeach; ?>
         </select>
         <label>Quantity</label>
+        <br>
         <input name="quantity" type="number" value="1"/>
         <button type="submit" name="save" value="Submit">Submit</button>
     </form>
@@ -144,6 +146,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <br><br>
                         <form method="POST">
                             <label>Change Quantity</label>
+                            <br>
                             <input name="quantity" type="number"/>
                             <button type="submit" value="<?php safer_echo($product["product_id"]);?>" name="update">Update</button>
                         </form>
