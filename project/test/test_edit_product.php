@@ -64,21 +64,27 @@ if(isset($id)){
 ?>
 
 <form method="POST">
+    <br>
 	<label>Product Name</label>
     <br>
 	<input name="name" placeholder="Name" value="<?php echo $result["name"];?>"/>
+    <br>
 	<label>Quantity</label>
     <br>
 	<input type="number" min="0" name="quantity" value="<?php echo $result["quantity"];?>" />
+    <br>
 	<label>Price</label>
     <br>
 	<input type="number" min="0" step="0.01" name="price" value="<?php echo $result["price"];?>" />
+    <br>
 	<label>Description</label>
     <br>
 	<input type="text" name="description" value="<?php echo $result["description"];?>" />
+    <br>
     <label>Category</label>
     <br>
     <input type="text" name="category" value="<?php echo $result["category"];?>" />
+    <br>
     <label for="vis">Visibility:</label>
     <br>
     <select name="vis" id="vis">
@@ -86,7 +92,7 @@ if(isset($id)){
         <option value="0">False</option>
     </select>
     <br><br>
-	<input type="submit" name="save" value="Update"/>
+    <button type="submit" name="save" value="Update">Update</button>
 </form>
 
 

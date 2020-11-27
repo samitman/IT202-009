@@ -110,19 +110,24 @@ if (isset($_POST["saved"])) {
 ?>
 
     <form method="POST">
+        <br>
         <label for="email">Email</label>
         <br>
         <input type="email" name="email" value="<?php safer_echo(get_email()); ?>"/>
+        <br>
         <label for="username">Username</label>
         <br>
         <input type="text" maxlength="60" name="username" value="<?php safer_echo(get_username()); ?>"/>
+        <br>
         <!-- DO NOT PRELOAD PASSWORD-->
         <label for="pw">Password</label>
         <br>
         <input type="password" name="password"/>
+        <br>
         <label for="cpw">Confirm Password</label>
         <br>
         <input type="password" name="confirm"/>
+        <br>
         <button type="submit" name="saved" value="Save Profile">Update</button>
     </form>
 <?php require(__DIR__."/partials/flash.php"); ?>

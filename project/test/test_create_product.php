@@ -8,21 +8,27 @@ if (!has_role("Admin")) {
 ?>
 
 <form method="POST">
+    <br>
 	<label>Product Name</label>
     <br>
 	<input name="name" placeholder="Name"/>
+    <br>
 	<label>Quantity</label>
     <br>
 	<input type="number" min="0" name="quantity"/>
+    <br>
 	<label>Price</label>
     <br>
 	<input type="number" min="0" step="0.01" name="price"/>
+    <br>
     <label>Description</label>
     <br>
 	<input type="text" name="description"/>
+    <br>
     <label>Category</label>
     <br>
     <input type="text" name="category"/>
+    <br>
     <label for="vis">Visibility:</label>
     <br>
         <select name="vis" id="vis">

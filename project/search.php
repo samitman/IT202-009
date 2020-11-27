@@ -67,6 +67,7 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
 ?>
 
 <form method="POST">
+    <br>
     <label for="query">Search Products:</label>
     <br>
     <input name="query" id="query" placeholder="Search" value="<?php safer_echo($query); ?>"/>

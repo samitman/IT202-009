@@ -29,6 +29,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
     <h3>Edit Cart</h3>
     <form method="POST">
+        <br>
        <label>Select a Product</label>
         <br>
         <select name="product_id">
@@ -37,10 +38,12 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <option value="<?php safer_echo($product["id"]); ?>"> <?php safer_echo($product["name"]." $".$product["price"]);?> </option>
                 <?php endforeach; ?>
         </select>
+        <br>
         <label>Quantity</label>
         <br>
         <input name="quantity" type="number"/>
-        <input type="submit" name="save" value="Update"/>
+        <br>
+        <button type="submit" name="save" value="Update">Update<button/>
     </form>
 <?php
 //saving

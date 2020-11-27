@@ -69,18 +69,23 @@ if (!isset($username)) {
 }
 ?>
     <form method="POST">
+        <br>
         <label for="email">Email:</label>
         <br>
         <input type="email" id="email" name="email" required value="<?php safer_echo($email); ?>"/>
+        <br>
         <label for="user">Username:</label>
         <br>
         <input type="text" id="user" name="username" required maxlength="60" value="<?php safer_echo($username); ?>"/>
+        <br>
         <label for="p1">Password:</label>
         <br>
         <input type="password" id="p1" name="password" required/>
+        <br>
         <label for="p2">Confirm Password:</label>
         <br>
         <input type="password" id="p2" name="confirm" required/>
+        <br>
         <button type="submit" name="register" value="Register">Register</button>
     </form>
 <?php require(__DIR__."/partials/flash.php"); ?>
