@@ -4,7 +4,7 @@
         <input type="text" id="emailOrUsername" name="emailOrUsername" required/>
         <label for="p1">Password:</label>
         <input type="password" id="p1" name="password" required/>
-        <input type="submit" name="login" value="Login"/>
+        <button type="submit" name="login" value="Login">Login</button>
     </form>
 
 <?php

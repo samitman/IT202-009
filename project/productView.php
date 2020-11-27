@@ -45,7 +45,7 @@ if (isset($id)) {
         <form method="POST">
             <label>Quantity</label>
             <input name="quantity" type="number" value="1"/>
-            <input type="submit" name="save" value="Add to Cart"/>
+            <button type="submit" name="save" value="Add to Cart">Add</button>
         </form>
     </div>
 <?php

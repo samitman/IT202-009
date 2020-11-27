@@ -168,6 +168,6 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <form method="POST">
-        <button type="submit" name="clear">Clear Cart</button>
+        <button type="submit" name="clear">Clear</button>
     </form>
 <?php require(__DIR__ . "/partials/flash.php");

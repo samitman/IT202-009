@@ -77,7 +77,7 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
         <option value="price">Price</option>
     </select>
     <br>
-    <input type="submit" value="Search" name="search"/>
+    <button type="submit" value="Search" name="search">Search</button>
 </form>
 
 <div class="results">
