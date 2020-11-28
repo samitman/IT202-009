@@ -122,7 +122,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="results">
         <div class="list-group">
             <div>
-                <div><b>Cart Contents</b></div>
+                <div><h3>Cart Contents</h3></div>
             </div>
             <div>
                 <br>
@@ -133,7 +133,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($results as $product):?>
                 <div class="list-group-item">
                     <div>
-                        <div><u><?php safer_echo($product["product"]); ?></u></div>
+                        <div><?php safer_echo($product["product"]); ?></div>
                     </div>
                     <div>
                         <div>Quantity: <?php safer_echo($product["quantity"]); ?></div>

@@ -1,5 +1,5 @@
 <?php require_once(__DIR__ . "/partials/nav.php"); ?>
-<p>Product Catalog</p>
+<p><b>Product Catalog</b></p>
 
 <?php
 if (!has_role("Admin")) {
@@ -19,7 +19,7 @@ if (!has_role("Admin")) {
             <?php foreach ($results as $product): ?>
                 <div class="list-group-item">
                     <div>
-                        <div>Name: <?php safer_echo($product["name"]); ?></div>
+                        <div><?php safer_echo($product["name"]); ?></div>
                     </div>
                     <div>
                         <div>Price: $<?php safer_echo($product["price"]); ?></div>
