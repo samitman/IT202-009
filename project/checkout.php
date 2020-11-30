@@ -8,6 +8,7 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 $user_id = get_user_id();
+
 ?>
 
 <form method="POST">
