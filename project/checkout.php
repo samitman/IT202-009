@@ -30,7 +30,7 @@ $user_id = get_user_id();
     <h3>Payment Method</h3>
 
     <br>
-    <label>Choose Payment Type</label>
+    <label>Choose Payment Type:</label>
     <br>
     <select name="payment">
         <option value="cash">Cash</option>
@@ -40,7 +40,7 @@ $user_id = get_user_id();
         <option value="paypal">PayPal</option>
         <option value="visa">Visa</option>
     </select>
-    <br>
+    <br><br>
     <button type="submit" name="submit" value="Submit">Submit</button>
 </form>
 
