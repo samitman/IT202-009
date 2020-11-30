@@ -23,6 +23,7 @@ $user_id = get_user_id();
     <input name="city" type="text" required/>
     <br>
     <label>Zip:</label>
+    <br>
     <input name="zip" type="text" pattern="[0-9]{5}"/>
     <br>
 
@@ -39,8 +40,8 @@ $user_id = get_user_id();
         <option value="paypal">PayPal</option>
         <option value="visa">Visa</option>
     </select>
-
-    <button type="submit" name="submit" value="Submit">Place Order</button>
+    <br>
+    <button type="submit" name="submit" value="Submit">Submit</button>
 </form>
 
 <?php
@@ -76,10 +77,6 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div>Subtotal: $<?php safer_echo($product["price"]*$product["quantity"]); $total+=$product["price"]*$product["quantity"]; ?></div>
                 </div>
                 <div>
-                    <a type="button" href="productView.php?id=<?php safer_echo($product["product_id"]); ?>">View</a>
-                    <br><br>
-                </div>
-                <div>
                     <br>
                 </div>
             </div>
@@ -92,4 +89,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div><br></div>
     </div>
 </div>
+<form method="POST">
+    <button type="submit" name="placeOrder">Place Order</button>
+</form>
 
