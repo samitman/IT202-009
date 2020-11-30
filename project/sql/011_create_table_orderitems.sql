@@ -6,5 +6,5 @@ CREATE TABLE OrderItems (
     unit_price decimal (12,2) default 0.00,
     primary key (id),
     foreign key (order_id) references Orders (id),
-    foreign key (product_id) references Products (id),
+    foreign key (product_id) references Products (id)
 )
