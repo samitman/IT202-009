@@ -69,7 +69,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <br>
     <input name="city" type="text" required/>
     <br>
-    <label>Zip:</label>
+    <label>Zip: (5 Digits)</label>
     <br>
     <input name="zip" type="text" pattern="[0-9]{5}" required/>
     <br>
@@ -80,6 +80,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <label>Choose Payment Type:</label>
     <br>
     <select name="payment" required>
+        <option value="none" selected disabled hidden>Select an Option</option>
         <option value="cash">Cash</option>
         <option value="amex">Amex</option>
         <option value="discover">Discover</option>
