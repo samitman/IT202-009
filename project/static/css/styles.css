@@ -98,10 +98,9 @@ input:nth-of-type(5) {
 }
 
 #title {
-     font-size: 2em;
-     color: #000;
+     color: #4682B4;
      margin: 0;
-     font-family: Impact;
+     font-family: 'Arial Black', sans-serif;
 }
 a {
     margin-left: 5px;
