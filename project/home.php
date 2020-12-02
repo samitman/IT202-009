@@ -5,8 +5,10 @@ $email = "";
 if (isset($_SESSION["user"]) && isset($_SESSION["user"]["email"])) {
     $email = $_SESSION["user"]["email"];
     echo "Welcome,".$email;
+    echo "<br>";
 } elseif (!is_logged_in()) {
             flash("Welcome, please login!");
+            echo "<br>";
         }
 
 
