@@ -12,11 +12,60 @@ $user_id = get_user_id();
 ?>
 
 <?php
+//below will display the items being ordered, placed at the top so we can access cart variables
+$userID = get_user_id();
+$db = getDB();
+$stmt = $db->prepare("SELECT c.id,c.product_id,c.quantity,c.price, Product.name as product FROM Cart as c JOIN Users on c.user_id = Users.id LEFT JOIN Products Product on Product.id = c.product_id where c.user_id = :id ORDER by product");
+$r = $stmt->execute([":id" => $userID]);
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+    <div class="results">
+        <div class="list-group">
+            <div>
+                <div><h3>1. Review Items</h3></div>
+            </div>
+            <div>
+                <br>
+            </div>
+            <?php
+            $total = 0;
+            foreach ($results as $product):?>
+                <div class="list-group-item">
+                    <div>
+                        <div><?php safer_echo($product["product"]); ?></div>
+                    </div>
+                    <div>
+                        <div>Quantity: <?php safer_echo($product["quantity"]); ?></div>
+                    </div>
+                    <div>
+                        <div>Price: $<?php safer_echo($product["price"]); ?></div>
+                    </div>
+                    <div>
+                        <div>Subtotal: $<?php safer_echo($product["price"]*$product["quantity"]); $total+=$product["price"]*$product["quantity"]; ?></div>
+                    </div>
+                    <div>
+                        <br>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <div>
+            <div><b>Order Total: $<?php safer_echo($total); ?></b></div>
+        </div>
+        <div>
+            <div><br></div>
+        </div>
+    </div>
+<?php
 //before submitting any orders, we must validate that the shipping information is correct
 //zip is taken care of by html, need to make sure street address has a house number and at least two words
 if(isset($_POST["submit"])) {
     $adr = null;
     $payment = null;
+    $price = $total;
+    $created = date('Y-m-d H:i:s');
+    $id = $user_id;
+
     if(isset($_POST["payment"])){
         $payment = $_POST["payment"];
         if($payment==-1){
@@ -34,57 +83,12 @@ if(isset($_POST["submit"])) {
 
     //only if the address is set we will insert the order into the table
     if ($adr && ($payment!="-1")) {
-        echo "Address: ".$adr." Payment: ".$payment;
+        echo "Address: ".$adr." Payment: ".$payment." Total: $".$price." User: ".$id." Created: ".$created;
     }
 }
 
 ?>
 
-<?php
-//below will display the items being ordered
-$userID = get_user_id();
-$db = getDB();
-$stmt = $db->prepare("SELECT c.id,c.product_id,c.quantity,c.price, Product.name as product FROM Cart as c JOIN Users on c.user_id = Users.id LEFT JOIN Products Product on Product.id = c.product_id where c.user_id = :id ORDER by product");
-$r = $stmt->execute([":id" => $userID]);
-$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
-<div class="results">
-    <div class="list-group">
-        <div>
-            <div><h3>1. Review Items</h3></div>
-        </div>
-        <div>
-            <br>
-        </div>
-        <?php
-        $total = 0;
-        foreach ($results as $product):?>
-            <div class="list-group-item">
-                <div>
-                    <div><?php safer_echo($product["product"]); ?></div>
-                </div>
-                <div>
-                    <div>Quantity: <?php safer_echo($product["quantity"]); ?></div>
-                </div>
-                <div>
-                    <div>Price: $<?php safer_echo($product["price"]); ?></div>
-                </div>
-                <div>
-                    <div>Subtotal: $<?php safer_echo($product["price"]*$product["quantity"]); $total+=$product["price"]*$product["quantity"]; ?></div>
-                </div>
-                <div>
-                    <br>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-    <div>
-        <div><b>Order Total: $<?php safer_echo($total); ?></b></div>
-    </div>
-    <div>
-        <div><br></div>
-    </div>
-</div>
 <!--- Form to receive shipping and payment info--->
 <form method="POST">
     <h3>2. Shipping Address</h3>
