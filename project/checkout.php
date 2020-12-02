@@ -12,6 +12,27 @@ $user_id = get_user_id();
 ?>
 
 <?php
+//before submitting any orders, we must validate that the shipping information is correct
+//zip is taken care of by html, need to make sure street address has a house number and at least two words
+if(isset($_POST["submit"])) {
+
+    //validating street address
+    $streetAdr = $_POST["adr"];
+    $words = explode(" ", $streetAdr);
+    if (gettype($words[0] == "integer") && (sizeof($words) >= 3)) {
+        $adr = $_POST["adr"] . ", " . $_POST["city"] . ", " . $_POST["zip"];
+    } else {
+        flash("Please enter a valid street address.");
+    }
+
+    //only if the address is set we will insert the order into the table
+    if ($adr) {
+        echo "hey you made it here.";
+    }
+}
+?>
+
+<?php
 //below will display the items being ordered
 $userID = get_user_id();
 $db = getDB();
