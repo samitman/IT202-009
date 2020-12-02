@@ -91,14 +91,34 @@ if(isset($_POST["submit"])) {
         if($item["quantity"]>$item["inventory"]){
             flash("Sorry, there are only ".$item["inventory"]." ".$item["name"]." left in stock, please update your cart.");
             $validOrder = false;
+        }elseif($item["inventory"]==0){
+            flash("Sorry, ".$item["name"]." is out of stock.");
+            $validOrder = false;
         }
     endforeach;
 
     //only if the all validation is complete we will let the order go through to the orders table
     if ($adr && ($payment!="-1") && $validOrder) {
+        //this line is for testing purposes
         echo "Address: ".$adr." Payment: ".$payment." Total: $".$price." User: ".$id." Created: ".$created;
 
-        //TODO insert into orders table
+        $db = getDB();
+        $stmt = $db->prepare("INSERT INTO Orders (user_id,total_price,created,address,payment_method) VALUES(:user,:price,:cr,:adr,:pay)");
+        $r = $stmt->execute([
+            ":user"=>$id,
+            ":price"=>$price,
+            ":cr"=>$created,
+            ":adr"=>$adr,
+            ":pay"=>$payment
+        ]);
+        if($r){
+            flash("Thank you for your order!");
+                //TODO redirect to order confirmation page
+        }
+        else{
+            $e = $stmt->errorInfo();
+            flash("Error placing order: " . var_export($e, true));
+        }
     }
 }
 
