@@ -66,9 +66,9 @@ input[type=submit] {
     cursor: pointer;
 }
 
-ul[class="images"]{
-    margin-left: 25% !important;
-
+div[class="img"]{
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
 input:nth-of-type(1) {
