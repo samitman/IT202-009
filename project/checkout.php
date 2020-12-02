@@ -80,10 +80,25 @@ if(isset($_POST["submit"])) {
     } else {
         flash("Please enter a valid street address.");
     }
+    //before letting any order go through, we must validate that the desired product and quantity are available
+    $db = getDB();
+    $stmt = $db->prepare("SELECT Cart.product_id,Cart.quantity,Products.name,Products.quantity as inventory FROM Cart Join Products on Cart.product_id = Products.id JOIN Users on Cart.user_id = Users.id where Cart.user_id=:id");
+    $r = $stmt->execute([":id" => $id]);
+    $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    //only if the address is set we will insert the order into the table
-    if ($adr && ($payment!="-1")) {
+    $validOrder = true;
+    foreach($items as $item):
+        if($item["quantity"]>$item["inventory"]){
+            flash("Sorry, there are only ".$item["inventory"]." ".$item["name"]." left in stock, please update your cart.");
+            $validOrder = false;
+        }
+    endforeach;
+
+    //only if the all validation is complete we will let the order go through to the orders table
+    if ($adr && ($payment!="-1") && $validOrder) {
         echo "Address: ".$adr." Payment: ".$payment." Total: $".$price." User: ".$id." Created: ".$created;
+
+        //TODO insert into orders table
     }
 }
 
