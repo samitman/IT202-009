@@ -16,7 +16,7 @@ $user_id = get_user_id();
 //zip is taken care of by html, need to make sure street address has a house number and at least two words
 if(isset($_POST["submit"])) {
     $adr = null;
-    $payment = null;
+    $payment = $_POST["payment"];
     //validating street address
     $streetAdr = $_POST["adr"];
     $words = explode(" ", $streetAdr);
@@ -25,15 +25,12 @@ if(isset($_POST["submit"])) {
     } else {
         flash("Please enter a valid street address.");
     }
-    if (isset($_POST["payment"])){
-        $payment = $_POST["payment"];
-        if($payment=="none"){
+    if($payment=="none"){
             flash("Please select a valid payment method.");
-        }
     }
 
     //only if the address is set we will insert the order into the table
-    if ($adr && $payment) {
+    if ($adr && ($payment!="none")) {
         echo "Address: ".$adr." Payment: ".$payment;
     }
 }
