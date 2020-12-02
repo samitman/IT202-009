@@ -11,7 +11,9 @@ if (isset($_SESSION["user"]) && isset($_SESSION["user"]["email"])) {
 
 
 ?>
-<img src="http://34.121.103.64/~si237/repo/project/static/css/protein1.jpg" width="400" height="500">
-<img src="http://34.121.103.64/~si237/repo/project/static/css/protein2.jpg" width="400" height="500">
-<img src="http://34.121.103.64/~si237/repo/project/static/css/protein3.jpg" width="400" height="500">
+<br><br><br>
+<img src="http://34.121.103.64/~si237/repo/project/static/css/protein1.jpg" width="700" height="500">
+<img src="http://34.121.103.64/~si237/repo/project/static/css/protein2.jpg" width="700" height="500">
+<img src="http://34.121.103.64/~si237/repo/project/static/css/protein3.jpg" width="700" height="400">
+<br>
 <?php require(__DIR__."/partials/flash.php"); ?>
