@@ -100,7 +100,7 @@ if(isset($_POST["submit"])) {
     //only if the all validation is complete we will let the order go through to the orders table
     if ($adr && ($payment!="-1") && $validOrder) {
         //this line is for testing purposes
-        echo "Address: ".$adr." Payment: ".$payment." Total: $".$price." User: ".$id." Created: ".$created;
+        //echo "Address: ".$adr." Payment: ".$payment." Total: $".$price." User: ".$id." Created: ".$created;
 
         $db = getDB();
         $stmt = $db->prepare("INSERT INTO Orders (user_id,total_price,created,address,payment_method) VALUES(:user,:price,:cr,:adr,:pay)");
@@ -126,7 +126,25 @@ if(isset($_POST["submit"])) {
         $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $order_id = $order["id"];
-        echo($order_id);
+        //now to fill in the cart details into the order items table
+        //first we get the order items from the cart table
+        $db = getDB();
+        $stmt = $db->prepare("SELECT c.product_id,c.quantity,c.price FROM Cart as c JOIN Users on c.user_id = Users.id LEFT JOIN Products Product on Product.id = c.product_id where c.user_id = :id ORDER by Product.id");
+        $r = $stmt->execute([":id" => $id]);
+        $orderItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        //now we get the data for each item and make an entry into order items table
+        foreach($orderItems as $orderItem):
+            $pid = $orderItem["product_id"];
+            $itemQuantity = $orderItem["quantity"];
+            $unitPrice = $orderItem["price"];
+
+            $db = getDB();
+            $stmt = $db->prepare("INSERT INTO OrderItems (order_id,product_id,quantity,unit_price) VALUES(:order,:pid,:quant,:up)");
+            $r = $stmt->execute(["order"=>$order_id,":pid"=>$pid,":quant"=>$itemQuantity,":up"=>$unitPrice]);
+            
+        endforeach;
+
 
     }
 }
