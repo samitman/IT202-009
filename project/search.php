@@ -89,7 +89,7 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
             <?php foreach ($results as $r): ?>
                 <div class="list-group-item">
                     <div>
-                        <div><?php safer_echo($r["name"]); ?></div>
+                        <div><h4><u><?php safer_echo($r["name"]); ?></u></h4></div>
                     </div>
                     <div>
                         <div>Price: $<?php safer_echo($r["price"]); ?></div>
