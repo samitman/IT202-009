@@ -118,7 +118,7 @@ if(isset($_POST["submit"])) {
             $e = $stmt->errorInfo();
             flash("Error placing order: " . var_export($e, true));
         }
-        //TODO get order id and copy cart items to order items table, redirect to confirmation page
+
         //gets the most recent order id
         $db = getDB();
         $stmt = $db->prepare("SELECT id from Orders where user_id = :id ORDER by created DESC LIMIT 1");
@@ -142,10 +142,9 @@ if(isset($_POST["submit"])) {
             $db = getDB();
             $stmt = $db->prepare("INSERT INTO OrderItems (order_id,product_id,quantity,unit_price) VALUES(:order,:pid,:quant,:up)");
             $r = $stmt->execute(["order"=>$order_id,":pid"=>$pid,":quant"=>$itemQuantity,":up"=>$unitPrice]);
-            
         endforeach;
 
-
+        //TODO deduct ordered quantity of each item from products table, clear cart after order, redirect to confirmation page
     }
 }
 
