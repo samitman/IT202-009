@@ -76,7 +76,7 @@ if(isset($_POST["submit"])) {
     $streetAdr = $_POST["adr"];
     $words = explode(" ", $streetAdr);
     if (gettype($words[0] == "integer") && (sizeof($words) >= 3) && (is_string($_POST["city"])) && (is_string($_POST["state"]))) {
-        $adr = $_POST["adr"] . ", " . $_POST["city"] . ", " .$_POST["state"]." ".$_POST["zip"];
+        $adr = $_POST["adr"] . ", " . $_POST["city"] . ", " .$_POST["state"]."  ".$_POST["zip"];
     } else {
         flash("Please enter a valid address.");
     }
@@ -119,6 +119,14 @@ if(isset($_POST["submit"])) {
             flash("Error placing order: " . var_export($e, true));
         }
         //TODO get order id and copy cart items to order items table, redirect to confirmation page
+        //gets the most recent order id
+        $db = getDB();
+        $stmt = $db->prepare("SELECT id from Orders where user_id = :id ORDER by created DESC LIMIT 1");
+        $r = $stmt->execute([":id"=>$id]);
+        $order = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $order_id = $order["id"];
+        echo $order_id;
     }
 }
 
