@@ -75,10 +75,10 @@ if(isset($_POST["submit"])) {
     //validating street address
     $streetAdr = $_POST["adr"];
     $words = explode(" ", $streetAdr);
-    if (gettype($words[0] == "integer") && (sizeof($words) >= 3)) {
-        $adr = $_POST["adr"] . ", " . $_POST["city"] . ", " . $_POST["zip"];
+    if (gettype($words[0] == "integer") && (sizeof($words) >= 3) && (is_string($_POST["city"])) && (is_string($_POST["state"]))) {
+        $adr = $_POST["adr"] . ", " . $_POST["city"] . ", " .$_POST["state"]." ".$_POST["zip"];
     } else {
-        flash("Please enter a valid street address.");
+        flash("Please enter a valid address.");
     }
     //before letting any order go through, we must validate that the desired product and quantity are available
     $db = getDB();
@@ -113,12 +113,12 @@ if(isset($_POST["submit"])) {
         ]);
         if($r){
             flash("Thank you for your order!");
-                //TODO redirect to order confirmation page
         }
         else{
             $e = $stmt->errorInfo();
             flash("Error placing order: " . var_export($e, true));
         }
+        //TODO get order id and copy cart items to order items table, redirect to confirmation page
     }
 }
 
@@ -136,6 +136,10 @@ if(isset($_POST["submit"])) {
     <label>City:</label>
     <br>
     <input name="city" type="text" required/>
+    <br>
+    <label>State:</label>
+    <br>
+    <input name="state" type="text" required/>
     <br>
     <label>Zip: (5 Digits)</label>
     <br>
