@@ -123,7 +123,7 @@ if(isset($_POST["submit"])) {
         $db = getDB();
         $stmt = $db->prepare("SELECT id from Orders where user_id = :id ORDER by created DESC LIMIT 1");
         $r = $stmt->execute([":id"=>$id]);
-        $order = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $order = $stmt->fetch(PDO::FETCH_ASSOC);
         var_export($order);
         //$order_id = $order["id"];
 
