@@ -31,11 +31,12 @@ if (isset($id)) {
                 <p>Product Information:</p>
                 <div>Price: $<?php safer_echo($result["price"]); ?></div>
                 <div>Units Available: <?php safer_echo($result["quantity"]); ?></div>
-                <div>Description: <?php safer_echo($result["description"]); ?></div>
                 <div>Category: <?php safer_echo($result["category"]); ?></div>
                 <div>Seller ID: <?php safer_echo($result["username"]); ?></div>
             </div>
         </div>
+        <br>
+        <div>Description: <?php safer_echo($result["description"]); ?></div>
     </div>
 <br><br>
 <?php else: ?>
@@ -49,7 +50,7 @@ if (isset($id)) {
             <br>
             <input name="quantity" type="number" value="1"/>
             <br>
-            <button type="submit" name="save" value="Add to Cart">Add to Cart</button>
+            <button id="atc" type="submit" name="save" value="Add to Cart">Add to Cart</button>
         </form>
     </div>
 <?php

@@ -1,5 +1,5 @@
 <?php require_once(__DIR__ . "/partials/nav.php"); ?>
-<p><b>Product Catalog</b></p>
+<h3>Product Catalog</h3>
 
 <?php
 if (!has_role("Admin")) {

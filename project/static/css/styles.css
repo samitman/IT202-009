@@ -103,9 +103,20 @@ input:nth-of-type(5) {
      font-family: 'Arial Black', sans-serif;
 }
 
+a:visited{
+    color: blue;
+}
+a:hover{
+    color: #00BFFF;
+}
+
 img {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 50%;
+}
+
+#atc{
+    width: 15% !important;
 }
