@@ -19,7 +19,7 @@ if (!has_role("Admin")) {
             <?php foreach ($results as $product): ?>
                 <div class="list-group-item">
                     <div>
-                        <div><?php safer_echo($product["name"]); ?></div>
+                        <div><h3><u><?php safer_echo($product["name"]); ?></u></h3></div>
                     </div>
                     <div>
                         <div>Price: $<?php safer_echo($product["price"]); ?></div>

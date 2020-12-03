@@ -24,7 +24,7 @@ if (isset($id)) {
     <div class="card">
         <div class="card-title">
             <br>
-            <div><u><?php safer_echo($result["name"]); ?> </u></div>
+            <div><h1><u><?php safer_echo($result["name"]); ?> </u></h1></div>
         </div>
         <div class="card-body">
             <div>
@@ -41,7 +41,7 @@ if (isset($id)) {
 <?php else: ?>
     <p>Error looking up id...</p>
 <?php endif; ?>
-<h3>Add to Card</h3>
+<h3>Add to Cart</h3>
     <div>
         <form method="POST">
             <br>
