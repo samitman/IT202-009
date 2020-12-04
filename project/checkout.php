@@ -111,10 +111,7 @@ if(isset($_POST["submit"])) {
             ":adr"=>$adr,
             ":pay"=>$payment
         ]);
-        if($r){
-            flash("Thank you for your order!");
-        }
-        else{
+        if(!$r){
             $e = $stmt->errorInfo();
             flash("Error placing order: " . var_export($e, true));
         }
@@ -154,7 +151,9 @@ if(isset($_POST["submit"])) {
         $stmt = $db->prepare("DELETE FROM Cart where user_id=:id");
         $r = $stmt->execute([":id" => $userID]);
 
-        // TODO redirect to order confirmation page
+        // redirect to order confirmation page
+        flash("Thank you for your order!");
+        die(header("Location: orders.php"));
     }
 }
 
