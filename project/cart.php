@@ -180,6 +180,6 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </form>
 
     <br>
-    <a> type="button" href="checkout.php">Proceed to Checkout</a>
+    <a type="button" href="checkout.php">Proceed to Checkout</a>
     <br><br>
 <?php require(__DIR__ . "/partials/flash.php");
