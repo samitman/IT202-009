@@ -4,7 +4,20 @@
 $email = "";
 if (isset($_SESSION["user"]) && isset($_SESSION["user"]["email"])) {
     $email = $_SESSION["user"]["email"];
-}
+    echo "<br>";
+    echo "Welcome,".$email;
+} elseif (!is_logged_in()) {
+            echo "<br>";
+            flash("Welcome, please login!");
+        }
+
+
 ?>
-    <p>Welcome, <?php echo $email; ?></p>
+<br>
+    <img src="http://34.121.103.64/~si237/repo/project/static/css/protein1.jpg" width="700" height="500">
+    <img src="http://34.121.103.64/~si237/repo/project/static/css/protein2.jpg" width="700" height="500">
+    <img src="http://34.121.103.64/~si237/repo/project/static/css/protein3.jpg" width="700" height="400">
+<br>
+
+
 <?php require(__DIR__."/partials/flash.php"); ?>

@@ -23,32 +23,34 @@ if (isset($id)) {
 <?php if (isset($result) && !empty($result)): ?>
     <div class="card">
         <div class="card-title">
-            <div><u><?php safer_echo($result["name"]); ?> </u></div>
+            <br>
+            <div><h1><u><?php safer_echo($result["name"]); ?> </u></h1></div>
         </div>
         <div class="card-body">
             <div>
-                <p>Product Information</p>
+                <p>Product Information:</p>
                 <div>Price: $<?php safer_echo($result["price"]); ?></div>
                 <div>Units Available: <?php safer_echo($result["quantity"]); ?></div>
-                <div>Description: <?php safer_echo($result["description"]); ?></div>
                 <div>Category: <?php safer_echo($result["category"]); ?></div>
                 <div>Seller ID: <?php safer_echo($result["username"]); ?></div>
             </div>
         </div>
+        <br>
+        <div>Description: <?php safer_echo($result["description"]); ?></div>
     </div>
 <br><br>
 <?php else: ?>
     <p>Error looking up id...</p>
 <?php endif; ?>
-
+<h3>Add to Cart</h3>
     <div>
         <form method="POST">
             <br>
-            <label>Quantity</label>
+            <label>Quantity:</label>
             <br>
             <input name="quantity" type="number" value="1"/>
             <br>
-            <button type="submit" name="save" value="Add to Cart">Add</button>
+            <button id="atc" type="submit" name="save" value="Add to Cart">Add to Cart</button>
         </form>
     </div>
 <?php

@@ -98,11 +98,43 @@ input:nth-of-type(5) {
 }
 
 #title {
-     font-size: 2em;
-     color: #000;
+     color: #4682B4;
      margin: 0;
-     font-family: Impact;
+     font-family: 'Arial Black', sans-serif;
+     font-size: 2.0em;
 }
-a {
+
+a:visited{
+    color: blue;
+}
+a:hover{
+    color: #00BFFF;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+#atc{
+    width: 12% !important;
+}
+
+#placeOrder{
+    width: 12% !important;
+}
+#clear{
+    background-color: dimgrey;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    border: none;
+    padding: 10px 24px;
+    width: 8%;
     margin-left: 5px;
+    margin-right: 5px;
 }

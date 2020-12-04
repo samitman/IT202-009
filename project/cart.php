@@ -76,7 +76,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <br>
         <input name="quantity" type="number" value="1"/>
         <br>
-        <button type="submit" name="save" value="Submit">Submit</button>
+        <button id="atc" type="submit" name="save" value="Submit">Add to Cart</button>
     </form>
 
 <?php
@@ -133,7 +133,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($results as $product):?>
                 <div class="list-group-item">
                     <div>
-                        <div><?php safer_echo($product["product"]); ?></div>
+                        <div><h4><u><?php safer_echo($product["product"]); ?></u></h4></div>
                     </div>
                     <div>
                         <div>Quantity: <?php safer_echo($product["quantity"]); ?></div>
@@ -176,6 +176,10 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <form method="POST">
-        <button type="submit" name="clear">Clear</button>
+        <button id="clear" type="submit" name="clear">Clear</button>
     </form>
+
+    <br>
+    <a type="button" href="checkout.php">Proceed to Checkout</a>
+    <br><br>
 <?php require(__DIR__ . "/partials/flash.php");
