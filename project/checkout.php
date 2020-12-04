@@ -149,7 +149,12 @@ if(isset($_POST["submit"])) {
             $r = $stmt->execute([":pid"=>$pid,":itemQuantity"=>$itemQuantity]);
         endforeach;
 
-        //TODO clear cart after order, redirect to confirmation page
+        $userID = get_user_id();
+        $db = getDB();
+        $stmt = $db->prepare("DELETE FROM Cart where user_id=:id");
+        $r = $stmt->execute([":id" => $userID]);
+
+        // TODO redirect to order confirmation page
     }
 }
 
