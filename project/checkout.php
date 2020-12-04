@@ -187,7 +187,7 @@ if(isset($_POST["submit"])) {
         <option value="visa">Visa</option>
     </select>
     <br><br>
-    <button type="submit" name="submit" value="Submit">Place Order</button>
+    <button id="placeOrder" type="submit" name="submit" value="Submit">Place Order</button>
 </form>
 <?php require(__DIR__ . "/partials/flash.php");
 
