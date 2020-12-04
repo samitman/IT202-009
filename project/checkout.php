@@ -146,7 +146,7 @@ if(isset($_POST["submit"])) {
             //now deduct ordered quantity of the specific product from products table
             $db = getDB();
             $stmt = $db->prepare("UPDATE Products SET quantity=quantity-:itemQuantity where id=:pid");
-            $r = $stmt->execute([":pid"=>$pid,":quant"=>$itemQuantity]);
+            $r = $stmt->execute([":pid"=>$pid,":itemQuantity"=>$itemQuantity]);
         endforeach;
 
         //TODO clear cart after order, redirect to confirmation page
