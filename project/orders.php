@@ -59,10 +59,10 @@ if(!has_role("Admin")){
         foreach ($adminOrders as $order):?>
             <div class="list-group-item">
                 <div>
-                    <div>Order ID: $<?php safer_echo($order["id"]); ?></div>
+                    <div>Order ID: <?php safer_echo($order["id"]); ?></div>
                 </div>
                 <div>
-                    <div>User ID: $<?php safer_echo($order["user_id"]); ?></div>
+                    <div>User ID: <?php safer_echo($order["user_id"]); ?></div>
                 </div>
                 <div>
                     <div>Order Date: <?php safer_echo($order["created"]); ?></div>
@@ -71,7 +71,7 @@ if(!has_role("Admin")){
                     <div>Address: <?php safer_echo($order["address"]); ?></div>
                 </div>
                 <div>
-                    <div>Payment Method: $<?php safer_echo($order["payment_method"]); ?></div>
+                    <div>Payment Method: <?php safer_echo($order["payment_method"]); ?></div>
                 </div>
                 <div>
                     <div>Subtotal: $<?php safer_echo($order["total_price"]); ?></div>
