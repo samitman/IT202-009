@@ -142,9 +142,14 @@ if(isset($_POST["submit"])) {
             $db = getDB();
             $stmt = $db->prepare("INSERT INTO OrderItems (order_id,product_id,quantity,unit_price) VALUES(:order,:pid,:quant,:up)");
             $r = $stmt->execute(["order"=>$order_id,":pid"=>$pid,":quant"=>$itemQuantity,":up"=>$unitPrice]);
+
+            //now deduct ordered quantity of the specific product from products table
+            $db = getDB();
+            $stmt = $db->prepare("UPDATE Products SET quantity=quantity-:itemQuantity where id=:pid");
+            $r = $stmt->execute([":pid"=>$pid,":quant"=>$itemQuantity]);
         endforeach;
 
-        //TODO deduct ordered quantity of each item from products table, clear cart after order, redirect to confirmation page
+        //TODO clear cart after order, redirect to confirmation page
     }
 }
 
