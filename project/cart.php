@@ -76,7 +76,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <br>
         <input name="quantity" type="number" value="1"/>
         <br>
-        <button type="submit" name="save" value="Submit">Submit</button>
+        <button id="atc" type="submit" name="save" value="Submit">Add to Cart</button>
     </form>
 
 <?php
