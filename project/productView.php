@@ -34,8 +34,21 @@ if (isset($id)) {
             $didOrder = true;
         }
     endforeach;
-//TODO output all product ratings on this page
 ?>
+<?php
+//get all product ratings to be displayed on the page
+$id = $_GET["id"];
+$db = getDB();
+$stmt = $db->prepare("SELECT Ratings.rating,Ratings.comment,Ratings.created,Users.username FROM Ratings JOIN Users where product_id=1 and Ratings.user_id = Users.id");
+$r = $stmt->execute([":id"=>$id]);
+$ratings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$hasRatings = false;
+if($ratings){
+    $hasRatings = true;
+}
+?>
+
 <?php if (isset($result) && !empty($result)): ?>
     <div class="card">
         <div class="card-title">
@@ -113,6 +126,7 @@ if(isset($_POST["rate"])){
 ?>
 
 <?php if($didOrder):?>
+<br>
 <h3>Rate This Item:</h3>
     <div>
         <form method="POST">
@@ -134,6 +148,17 @@ if(isset($_POST["rate"])){
             <button type="submit" name="rate" value="Rate Product">Submit</button>
         </form>
     </div>
+<?php endif; ?>
+
+<?php if($hasRatings):?>
+    <br>
+    <h3>Product Reviews</h3>
+    <?php foreach($ratings as $rating): ?>
+        <div>Review by: <?php safer_echo($rating["username"])?></div>
+        <div>Rating: <?php safer_echo($rating["rating"])?></div>
+        <div>Comment: <?php safer_echo($rating["comment"])?></div>
+        <div>Date: <?php safer_echo($rating["created"])?></div>
+    <?php endforeach; ?>
 <?php endif; ?>
 
 <?php require(__DIR__ . "/partials/flash.php");
