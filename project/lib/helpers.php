@@ -25,6 +25,13 @@ function get_username() {
     return "";
 }
 
+function get_account_type() {
+    if (is_logged_in() && isset($_SESSION["user"]["account_type"])) {
+        return $_SESSION["user"]["account_type"];
+    }
+    return "";
+}
+
 function get_email() {
     if (is_logged_in() && isset($_SESSION["user"]["email"])) {
         return $_SESSION["user"]["email"];
