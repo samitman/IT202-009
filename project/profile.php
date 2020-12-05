@@ -89,6 +89,23 @@ if (isset($_POST["saved"])) {
                 }
             }
         }
+        //for account type
+        $userID = get_user_id();
+        $stmt = $db->prepare("SELECT account_type from Users WHERE id = :id LIMIT 1");
+        $stmt->execute([":id"=>$userID]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($_POST["account_type"]!=$result["account_type"]){
+            $type = $_POST["account_type"];
+            $stmt = $db->prepare("UPDATE Users set account_type= :account_type WHERE id = :id");
+            $r = $stmt->execute([":account_type"=>$type,":id"=>$userID]);
+            if($r){
+                flash("Updated account type");
+            }else{
+                flash("Error changing account type");
+            }
+        }
+
 //fetch/select fresh data in case anything changed
         $stmt = $db->prepare("SELECT email, username from Users WHERE id = :id LIMIT 1");
         $stmt->execute([":id" => get_user_id()]);
@@ -128,8 +145,14 @@ if (isset($_POST["saved"])) {
         <br>
         <input type="password" name="confirm"/>
         <br>
-        <label for="account_type">Account Type</label>
+        <label>Account Type: "<?php safer_echo(get_account_type());?>"</label>
         <br>
+        <label for="type">Change Account Type:</label>
+        <select name="account_type" id="type">
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+        </select>
+        <br><br>
         <button type="submit" name="saved" value="Save Profile">Update</button>
     </form>
 <?php require(__DIR__."/partials/flash.php"); ?>
