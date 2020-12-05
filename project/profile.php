@@ -99,9 +99,7 @@ if (isset($_POST["saved"])) {
             $type = $_POST["account_type"];
             $stmt = $db->prepare("UPDATE Users set account_type= :account_type WHERE id = :id");
             $r = $stmt->execute([":account_type"=>$type,":id"=>$userID]);
-            if($r){
-                flash("Updated account type");
-            }else{
+            if(!$r){
                 flash("Error changing account type");
             }
         }
