@@ -145,9 +145,8 @@ if (isset($_POST["saved"])) {
         <br>
         <input type="password" name="confirm"/>
         <br>
-        <label>Account Type: "<?php safer_echo(get_account_type());?>"</label>
-        <br>
         <label for="type">Change Account Type:</label>
+        <br>
         <select name="account_type" id="type">
             <option value="public">Public</option>
             <option value="private">Private</option>
