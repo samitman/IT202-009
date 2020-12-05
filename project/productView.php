@@ -127,7 +127,7 @@ if(isset($_POST["rate"])){
 
 <?php if($didOrder):?>
 <br>
-<h3>Rate This Item:</h3>
+<h3>Rate This Item</h3>
     <div>
         <form method="POST">
             <br>
@@ -158,6 +158,7 @@ if(isset($_POST["rate"])){
         <div>Rating: <?php safer_echo($rating["rating"])?></div>
         <div>Comment: <?php safer_echo($rating["comment"])?></div>
         <div>Date: <?php safer_echo($rating["created"])?></div>
+        <br>
     <?php endforeach; ?>
 <?php endif; ?>
 
