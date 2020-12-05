@@ -18,6 +18,9 @@ if (isset($_POST["register"])) {
     if (isset($_POST["username"])) {
         $username = $_POST["username"];
     }
+    if (isset($_POST["account_type"])) {
+        $type = $_POST["account_type"];
+    }
     $isValid = true;
     //check if passwords match on the server side
     if ($password == $confirm) {
@@ -38,9 +41,9 @@ if (isset($_POST["register"])) {
         $db = getDB();
         if (isset($db)) {
             //here we'll use placeholders to let PDO map and sanitize our data
-            $stmt = $db->prepare("INSERT INTO Users(email, username, password) VALUES(:email,:username, :password)");
+            $stmt = $db->prepare("INSERT INTO Users(email, username, password, account_type) VALUES(:email,:username, :password, :type)");
             //here's the data map for the parameter to data
-            $params = array(":email" => $email, ":username" => $username, ":password" => $hash);
+            $params = array(":email" => $email, ":username" => $username, ":password" => $hash, ":type" => $type);
             $r = $stmt->execute($params);
             $e = $stmt->errorInfo();
             if ($e[0] == "00000") {
@@ -86,6 +89,13 @@ if (!isset($username)) {
         <br>
         <input type="password" id="p2" name="confirm" required/>
         <br>
+        <label for="type">Account Type:</label>
+        <br>
+        <select name="account_type" id="type" required>
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+        </select>
+        <br><br>
         <button type="submit" name="register" value="Register">Register</button>
     </form>
 <?php require(__DIR__."/partials/flash.php"); ?>

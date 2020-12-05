@@ -128,6 +128,8 @@ if (isset($_POST["saved"])) {
         <br>
         <input type="password" name="confirm"/>
         <br>
+        <label for="account_type">Account Type</label>
+        <br>
         <button type="submit" name="saved" value="Save Profile">Update</button>
     </form>
 <?php require(__DIR__."/partials/flash.php"); ?>
