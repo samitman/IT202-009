@@ -39,7 +39,7 @@ if (isset($id)) {
 //get all product ratings to be displayed on the page
 $id = $_GET["id"];
 $db = getDB();
-$stmt = $db->prepare("SELECT Ratings.rating,Ratings.comment,Ratings.created,Users.username FROM Ratings JOIN Users where product_id=1 and Ratings.user_id = Users.id");
+$stmt = $db->prepare("SELECT Ratings.rating,Ratings.comment,Ratings.created,Users.username FROM Ratings JOIN Users where product_id=:id and Ratings.user_id = Users.id");
 $r = $stmt->execute([":id"=>$id]);
 $ratings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
