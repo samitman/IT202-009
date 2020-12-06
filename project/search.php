@@ -22,6 +22,7 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
                 break;
         }
 
+
         if($safeFilter == "category" || $safeFilter == "name") {
             if (!has_role("Admin")) {
                 $db = getDB();
