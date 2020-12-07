@@ -4,7 +4,7 @@
 <?php
 if (!has_role("Admin")) {
     $db = getDB();
-    $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE Products.visibility != 0 ORDER BY name");
+    $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE Products.visibility != 0 AND Products.quantity > 0 ORDER BY name");
     $r = $stmt->execute([]);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } elseif (has_role("Admin")) {
