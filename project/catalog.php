@@ -28,7 +28,7 @@ if (!has_role("Admin")) {
     $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE Products.visibility != 0 AND Products.quantity > 0 ORDER BY name LIMIT :offset, :count");
     $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
     $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
-    $r = $stmt->execute([]);
+    $r = $stmt->execute();
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } elseif (has_role("Admin")) {
     $db = getDB();
