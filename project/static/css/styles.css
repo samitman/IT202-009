@@ -142,7 +142,7 @@ ul[class="pagination"] {
     list-style-type: none;
     padding: 0;
     overflow: hidden;
-    display: block;
+    display: inline-block;
     margin-left: auto;
     margin-right: auto;
     width: 50%;
@@ -158,4 +158,13 @@ ul[class="pagination"] {
     padding: 16px;
     text-decoration: none;
     margin-left: 0px !important;
+}
+
+.pagination > li a.active {
+    background-color:#1E90FF;
+    color: #ffffff;
+}
+.pagination > li a:hover:not(.active) {
+    background-color: #00BFFF;
+    color: #ffffff;
 }
