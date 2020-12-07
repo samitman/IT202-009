@@ -36,6 +36,7 @@ if (!has_role("Admin")) {
     $r = $stmt->execute([]);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 ?>
 <div class="results">
         <div class="list-group">
