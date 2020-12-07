@@ -4,13 +4,7 @@
 <?php
 if (!has_role("Admin")) {
     $db = getDB();
-<<<<<<< HEAD
     $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE Products.visibility != 0 ORDER BY name");
-=======
-    $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE Products.visibility != 0 AND Products.quantity > 0 ORDER BY name LIMIT :offset, :count");
-    $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
-    $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
->>>>>>> 0e3011f950b4b34f0e60617551c4d86edd885079
     $r = $stmt->execute([]);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } elseif (has_role("Admin")) {
