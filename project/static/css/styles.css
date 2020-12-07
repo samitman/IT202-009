@@ -153,7 +153,7 @@ ul[class="pagination"] {
 
 .pagination > li a {
     display: block;
-    color: #ffffff;
+    color: #000;
     text-align: center;
     padding: 16px;
     text-decoration: none;
