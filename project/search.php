@@ -25,7 +25,7 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
         if($safeFilter == "category" || $safeFilter == "name") {
             if (!has_role("Admin")) {
                 $db = getDB();
-                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE $safeFilter LIKE :q AND Products.visibility!=0 ORDER BY name LIMIT 10");
+                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE $safeFilter LIKE :q AND Products.visibility!=0 AND Products.quantity > 0 ORDER BY name LIMIT 10");
                 $r = $stmt->execute([":q" => "%$query%"]);
                 if ($r) {
                     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -45,7 +45,7 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
         }elseif($safeFilter == "price") {
             if (!has_role("Admin")) {
                 $db = getDB();
-                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q AND Products.visibility!=0 ORDER BY price LIMIT 10");
+                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q AND Products.visibility!=0 AND Products.quantity > 0 ORDER BY price LIMIT 10");
                 $r = $stmt->execute([":q" => "%$query%"]);
                 if ($r) {
                     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
