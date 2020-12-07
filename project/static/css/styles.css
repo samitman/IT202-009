@@ -154,6 +154,7 @@ ul[class="pagination"] {
 .pagination > li a {
     font-weight:bold;
     display: inline-block;
+    color: #000;
     text-align: center;
     padding: 8px 16px;
     text-decoration: none;
@@ -161,7 +162,7 @@ ul[class="pagination"] {
 }
 
 .pagination > li.active {
-    background-color:#1E90FF;
+    background-color:#00BFFF;
     color: #ffffff !important;
     border-radius:5px;
 }
