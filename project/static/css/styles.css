@@ -163,7 +163,7 @@ ul[class="pagination"] {
 
 .pagination > li.active {
     background-color:#1E90FF;
-    color: #ffffff;
+    color: #ffffff !important;
     border-radius:5px;
 }
 .pagination > li a:hover:not(.active) {
