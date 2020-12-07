@@ -79,4 +79,5 @@ if (!has_role("Admin")) {
         </ul>
     </nav>
     </div>
+
 <?php require(__DIR__ . "/partials/flash.php");
