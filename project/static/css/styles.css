@@ -141,3 +141,17 @@ img {
 .pagination {
     display: inline-block;
 }
+.page-link {
+    font-weight:bold;
+    font-size:20px;
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+.page-link.active {
+    background-color:#009900;
+}
+.page-link:hover:not(.active) {
+    background-color: #d4d5d2;
+} 
