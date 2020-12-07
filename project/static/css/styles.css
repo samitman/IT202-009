@@ -140,10 +140,12 @@ img {
 }
 ul[class="pagination"] {
     list-style-type: none;
-    margin: 0px;
     padding: 0;
     overflow: hidden;
-    background-color: #1E90FF;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
 .pagination > li {
     float: left;
