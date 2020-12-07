@@ -66,7 +66,7 @@ if (!has_role("Admin")) {
     </div>
     <div>
         <nav aria-label="Pages">
-            <ul class="pagination justify-content-center">
+            <ul class="pagination">
                 <li class="page-item <?php echo ($page-1) < 1?"disabled":"";?>">
                     <a class="page-link" href="?page=<?php echo $page-1;?>" tabindex="-1">Previous</a>
                 </li>
