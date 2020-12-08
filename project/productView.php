@@ -191,15 +191,15 @@ if(isset($_POST["rate"])){
             <ul class="pagination">
                 <?php if(!(($page-1)<1)):?>
                     <li class="page-item <?php echo ($page-1) < 1?"disabled":"";?>">
-                        <a class="page-link" href="?id=<?php echo $result["id"];?>?page=<?php echo $page-1;?>" tabindex="-1">Previous</a>
+                        <a class="page-link" href="?id=<?php echo $result["id"];?>&page=<?php echo $page-1;?>" tabindex="-1">Previous</a>
                     </li>
                 <?php endif; ?>
                 <?php for($i = 0; $i < $total_pages; $i++):?>
-                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?id=<?php echo $result["id"];?>?page=<?php echo ($i+1);?>"><?php echo ($i+1);?></a></li>
+                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?id=<?php echo $result["id"];?>&page=<?php echo ($i+1);?>"><?php echo ($i+1);?></a></li>
                 <?php endfor; ?>
                 <?php if($page<$total_pages):?>
                     <li class="page-item <?php echo ($page) >= $total_pages?"disabled":"";?>">
-                        <a class="page-link" href="?id=<?php echo $result["id"];?>?page=<?php echo $page+1;?>">Next</a>
+                        <a class="page-link" href="?id=<?php echo $result["id"];?>&page=<?php echo $page+1;?>">Next</a>
                     </li>
                 <?php endif; ?>
             </ul>
