@@ -50,10 +50,10 @@ $id = $_GET["id"];
 $db = getDB();
 $stmt = $db->prepare("SELECT count(*) as total from Ratings WHERE product_id=:id");
 $stmt->execute([":id"=>$id]);
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
+$ratingResult = $stmt->fetch(PDO::FETCH_ASSOC);
 $total = 0;
-if($result){
-    $total = (int)$result["total"];
+if($ratingResult){
+    $total = (int)$ratingResult["total"];
 }
 $total_pages = ceil($total / $per_page);
 $offset = ($page-1) * $per_page;
