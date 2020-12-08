@@ -36,11 +36,36 @@ if (isset($id)) {
     endforeach;
 ?>
 <?php
+$page = 1;
+$per_page = 5;
+if(isset($_GET["page"])){
+    try {
+        $page = (int)$_GET["page"];
+    }
+    catch(Exception $e){
+
+    }
+}
+$id = $_GET["id"];
+$db = getDB();
+$stmt = $db->prepare("SELECT count(*) as total from Ratings WHERE product_id=:id");
+$stmt->execute([":id"=>$id]);
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+$total = 0;
+if($result){
+    $total = (int)$result["total"];
+}
+$total_pages = ceil($total / $per_page);
+$offset = ($page-1) * $per_page;
+
 //get all product ratings to be displayed on the page
 $id = $_GET["id"];
 $db = getDB();
-$stmt = $db->prepare("SELECT Ratings.rating,Ratings.comment,Ratings.created,Users.username FROM Ratings JOIN Users where product_id=:id and Ratings.user_id = Users.id");
-$r = $stmt->execute([":id"=>$id]);
+$stmt = $db->prepare("SELECT Ratings.rating,Ratings.comment,Ratings.created,Users.username FROM Ratings JOIN Users where product_id=:id and Ratings.user_id = Users.id LIMIT :offset, :count");
+$stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+$stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+$stmt->bindValue(":id", $id);
+$stmt->execute();
 $ratings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $hasRatings = false;
