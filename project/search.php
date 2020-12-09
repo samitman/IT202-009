@@ -3,8 +3,10 @@
 <?php
 $query = "";
 $results = [];
-if (isset($_POST["query"])) {
-    $query = $_POST["query"];
+if (isset($_POST["search"])){
+    if (isset($_POST["query"])) {
+        $query = $_POST["query"];
+    }
 }elseif(isset($_GET["query"])){
     $query = $_GET["query"];
 }
@@ -48,7 +50,7 @@ if($productResult){
 $total_pages = ceil($total / $per_page);
 $offset = ($page-1) * $per_page;
 
-if (isset($_POST["search"]) && !empty($query) && !empty($safeFilter)) {
+if (!empty($query) && !empty($safeFilter)) {
     if ($safeFilter == "category" || $safeFilter == "name") {
         if (!has_role("Admin")) {
             $db = getDB();
