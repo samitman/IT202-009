@@ -42,7 +42,11 @@ if(isset($_GET["page"])){
 
 if(!empty($safeFilter)) {
     $db = getDB();
-    $stmt = $db->prepare("SELECT count(*) as total from Products WHERE $safeFilter LIKE :q");
+    if ($safeFilter == "category" || $safeFilter == "name") {
+        $stmt = $db->prepare("SELECT count(*) as total from Products WHERE $safeFilter LIKE :q");
+    } elseif ($safeFilter == "price") {
+        $stmt = $db->prepare("SELECT count(*) as total from Products WHERE name LIKE :q");
+    }
     $stmt->execute([":q" => "%$query%"]);
     $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
     $total = 0;
