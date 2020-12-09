@@ -60,6 +60,7 @@ $offset = ($page-1) * $per_page;
                 $r = $stmt->execute();
                 if ($r) {
                     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    var_export($results);
                 } else {
                     flash("There was a problem fetching the results");
                 }
