@@ -162,10 +162,13 @@ if (!empty($query) && !empty($safeFilter)) {
                     <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?>"><?php echo ($i+1);?></a></li>
                 <?php endfor; ?>
                 <?php endif; ?>
-                <?php if(($page<$total_pages)&&!empty($safeFilter)):?>
+
+                <?php if(!empty($safeFilter)):?>
+                <?php if(($page<$total_pages)):?>
                     <li class="page-item <?php echo ($page) >= $total_pages?"disabled":"";?>">
                         <a class="page-link" href="?page=<?php echo $page+1;?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?>">Next</a>
                     </li>
+                <?php endif; ?>
                 <?php endif; ?>
             </ul>
         </nav>
