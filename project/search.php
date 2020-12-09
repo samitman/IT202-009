@@ -6,27 +6,9 @@ $results = [];
 if (isset($_POST["query"])) {
     $query = $_POST["query"];
 }
-//getting pagination values
-$page = 1;
-$per_page = 5;
-if(isset($_GET["page"])){
-    try {
-        $page = (int)$_GET["page"];
-    }
-    catch(Exception $e){
-
-    }
+if(isset($_GET["query"])){
+    $query = $_GET["query"];
 }
-$db = getDB();
-$stmt = $db->prepare("SELECT count(*) as total from Products");
-$stmt->execute([]);
-$productResult = $stmt->fetch(PDO::FETCH_ASSOC);
-$total = 0;
-if($productResult){
-    $total = (int)$productResult["total"];
-}
-$total_pages = ceil($total / $per_page);
-$offset = ($page-1) * $per_page;
 
 $safeFilter = "name";
 if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
@@ -46,6 +28,28 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
 } elseif(isset($_GET["filter"])){
     $safeFilter = $_GET["filter"];
 }
+//getting pagination values
+$page = 1;
+$per_page = 5;
+if(isset($_GET["page"])){
+    try {
+        $page = (int)$_GET["page"];
+    }
+    catch(Exception $e){
+
+    }
+}
+$db = getDB();
+$stmt = $db->prepare("SELECT count(*) as total from Products WHERE $safeFilter LIKE :q");
+$stmt->execute([":q"=>$query]);
+$productResult = $stmt->fetch(PDO::FETCH_ASSOC);
+$total = 0;
+if($productResult){
+    $total = (int)$productResult["total"];
+}
+$total_pages = ceil($total / $per_page);
+$offset = ($page-1) * $per_page;
+
 
         if($safeFilter == "category" || $safeFilter == "name") {
             if (!has_role("Admin")) {
@@ -143,15 +147,15 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
             <ul class="pagination">
                 <?php if(!(($page-1)<1)):?>
                     <li class="page-item <?php echo ($page-1) < 1?"disabled":"";?>">
-                        <a class="page-link" href="?page=<?php echo $page-1;?>&filter=<?php echo $safeFilter;?>" tabindex="-1">Previous</a>
+                        <a class="page-link" href="?page=<?php echo $page-1;?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?>" tabindex="-1">Previous</a>
                     </li>
                 <?php endif; ?>
                 <?php for($i = 0; $i < $total_pages; $i++):?>
-                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>&filter=<?php echo $safeFilter;?>"><?php echo ($i+1);?></a></li>
+                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?>"><?php echo ($i+1);?></a></li>
                 <?php endfor; ?>
                 <?php if($page<$total_pages):?>
                     <li class="page-item <?php echo ($page) >= $total_pages?"disabled":"";?>">
-                        <a class="page-link" href="?page=<?php echo $page+1;?>&filter=<?php echo $safeFilter;?>">Next</a>
+                        <a class="page-link" href="?page=<?php echo $page+1;?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?>">Next</a>
                     </li>
                 <?php endif; ?>
             </ul>
