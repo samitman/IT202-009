@@ -32,7 +32,7 @@ $safeFilter = "name";
 if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
 
     $filter = $_POST["filter"];
-    //$safeFilter = "name";
+    $safeFilter = "name";
     switch ($filter) {
         case "category":
             $safeFilter = "category";
