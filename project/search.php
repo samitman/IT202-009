@@ -6,6 +6,27 @@ $results = [];
 if (isset($_POST["query"])) {
     $query = $_POST["query"];
 }
+//getting pagination values
+$page = 1;
+$per_page = 5;
+if(isset($_GET["page"])){
+    try {
+        $page = (int)$_GET["page"];
+    }
+    catch(Exception $e){
+
+    }
+}
+$db = getDB();
+$stmt = $db->prepare("SELECT count(*) as total from Products");
+$stmt->execute([]);
+$productResult = $stmt->fetch(PDO::FETCH_ASSOC);
+$total = 0;
+if($productResult){
+    $total = (int)$productResult["total"];
+}
+$total_pages = ceil($total / $per_page);
+$offset = ($page-1) * $per_page;
 
 if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
 
@@ -24,27 +45,6 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
 
         //saving filter as a session variable
         $_SESSION["filter"] = $safeFilter;
-        //getting pagination values
-        $page = 1;
-        $per_page = 5;
-        if(isset($_GET["page"])){
-            try {
-                $page = (int)$_GET["page"];
-            }
-            catch(Exception $e){
-
-            }
-        }
-        $db = getDB();
-        $stmt = $db->prepare("SELECT count(*) as total from Products");
-        $stmt->execute([]);
-        $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
-        $total = 0;
-        if($productResult){
-            $total = (int)$productResult["total"];
-        }
-        $total_pages = ceil($total / $per_page);
-        $offset = ($page-1) * $per_page;
 
         if($safeFilter == "category" || $safeFilter == "name") {
             if (!has_role("Admin")) {
