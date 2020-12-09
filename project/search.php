@@ -117,7 +117,7 @@ if (!empty($query) && !empty($safeFilter)) {
     <label for="filter">Filter:</label>
     <br>
     <select name="filter" id="filter">
-        <option value="" disabled selected>Choose a Filter</option>
+        <option value="" disabled>Choose a Filter</option>
         <option value="name">Name</option>
         <option value="category">Category</option>
         <option value="price">Price</option>
