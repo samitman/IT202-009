@@ -2,7 +2,7 @@
 
 <?php
 $query = "";
-//$results = [];
+$results = [];
 if (isset($_POST["query"])) {
     $query = $_POST["query"];
 }elseif(isset($_GET["query"])){
@@ -48,7 +48,7 @@ if($productResult){
 $total_pages = ceil($total / $per_page);
 $offset = ($page-1) * $per_page;
 
-if (isset($_POST["search"]) && !empty($query)) {
+if (isset($_POST["search"]) && !empty($query) && !empty($safeFilter)) {
     if ($safeFilter == "category" || $safeFilter == "name") {
         if (!has_role("Admin")) {
             $db = getDB();
@@ -59,7 +59,6 @@ if (isset($_POST["search"]) && !empty($query)) {
             $r = $stmt->execute();
             if ($r) {
                 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                //var_export($results);
             } else {
                 flash("There was a problem fetching the results");
             }
