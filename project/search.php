@@ -11,9 +11,9 @@ if (isset($_POST["search"])){
     $query = $_GET["query"];
 }
 
-$safeFilter = "name";
 if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
 
+    $safeFilter = "name";
     $filter = $_POST["filter"];
     switch ($filter) {
         case "category":
