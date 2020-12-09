@@ -152,15 +152,17 @@ if (!empty($query) && !empty($safeFilter)) {
     <div>
         <nav aria-label="Pages">
             <ul class="pagination">
-                <?php if(!(($page-1)<1)):?>
+                <?php if(!(($page-1)<1)&&!empty($safeFilter)):?>
                     <li class="page-item <?php echo ($page-1) < 1?"disabled":"";?>">
                         <a class="page-link" href="?page=<?php echo $page-1;?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?>" tabindex="-1">Previous</a>
                     </li>
                 <?php endif; ?>
+                <?php if(!empty($safeFilter)):?>
                 <?php for($i = 0; $i < $total_pages; $i++):?>
                     <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?>"><?php echo ($i+1);?></a></li>
                 <?php endfor; ?>
-                <?php if($page<$total_pages):?>
+                <?php endif; ?>
+                <?php if(($page<$total_pages)&&!empty($safeFilter)):?>
                     <li class="page-item <?php echo ($page) >= $total_pages?"disabled":"";?>">
                         <a class="page-link" href="?page=<?php echo $page+1;?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?>">Next</a>
                     </li>
