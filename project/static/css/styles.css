@@ -138,3 +138,33 @@ img {
     margin-left: 5px;
     margin-right: 5px;
 }
+ul[class="pagination"] {
+    list-style-type: none;
+    padding: 0;
+    overflow: hidden;
+    display: inline-block;
+    margin-left: 30%;
+    width: 50%;
+}
+.pagination > li {
+    float: left;
+}
+
+.pagination > li a {
+    font-weight:bold;
+    display: inline-block;
+    color: #000;
+    text-align: center;
+    padding: 8px 16px;
+    text-decoration: none;
+    margin-left: 0px;
+}
+
+.pagination > li.active {
+    background-color:#00BFFF;
+    border-radius:5px;
+}
+.pagination > li a:hover:not(.active) {
+    background-color: #00BFFF;
+    border-radius:5px;
+}

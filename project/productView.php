@@ -36,11 +36,36 @@ if (isset($id)) {
     endforeach;
 ?>
 <?php
+$page = 1;
+$per_page = 5;
+if(isset($_GET["page"])){
+    try {
+        $page = (int)$_GET["page"];
+    }
+    catch(Exception $e){
+
+    }
+}
+$id = $_GET["id"];
+$db = getDB();
+$stmt = $db->prepare("SELECT count(*) as total from Ratings WHERE product_id=:id");
+$stmt->execute([":id"=>$id]);
+$ratingResult = $stmt->fetch(PDO::FETCH_ASSOC);
+$total = 0;
+if($ratingResult){
+    $total = (int)$ratingResult["total"];
+}
+$total_pages = ceil($total / $per_page);
+$offset = ($page-1) * $per_page;
+
 //get all product ratings to be displayed on the page
 $id = $_GET["id"];
 $db = getDB();
-$stmt = $db->prepare("SELECT Ratings.rating,Ratings.comment,Ratings.created,Users.username FROM Ratings JOIN Users where product_id=:id and Ratings.user_id = Users.id");
-$r = $stmt->execute([":id"=>$id]);
+$stmt = $db->prepare("SELECT Ratings.rating,Ratings.comment,Ratings.created,Users.username FROM Ratings JOIN Users where product_id=:id and Ratings.user_id = Users.id LIMIT :offset, :count");
+$stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+$stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+$stmt->bindValue(":id", $id);
+$stmt->execute();
 $ratings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $hasRatings = false;
@@ -161,5 +186,23 @@ if(isset($_POST["rate"])){
         <br>
     <?php endforeach; ?>
 <?php endif; ?>
-
+    <div>
+        <nav aria-label="Pages">
+            <ul class="pagination">
+                <?php if(!(($page-1)<1)):?>
+                    <li class="page-item <?php echo ($page-1) < 1?"disabled":"";?>">
+                        <a class="page-link" href="?id=<?php echo $result["id"];?>&page=<?php echo $page-1;?>" tabindex="-1">Previous</a>
+                    </li>
+                <?php endif; ?>
+                <?php for($i = 0; $i < $total_pages; $i++):?>
+                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?id=<?php echo $result["id"];?>&page=<?php echo ($i+1);?>"><?php echo ($i+1);?></a></li>
+                <?php endfor; ?>
+                <?php if($page<$total_pages):?>
+                    <li class="page-item <?php echo ($page) >= $total_pages?"disabled":"";?>">
+                        <a class="page-link" href="?id=<?php echo $result["id"];?>&page=<?php echo $page+1;?>">Next</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
+    </div>
 <?php require(__DIR__ . "/partials/flash.php");
