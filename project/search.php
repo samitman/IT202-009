@@ -2,7 +2,7 @@
 
 <?php
 $query = "";
-$results = [];
+//$results = [];
 if (isset($_POST["query"])) {
     $query = $_POST["query"];
 }elseif(isset($_GET["query"])){
