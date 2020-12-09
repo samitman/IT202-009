@@ -28,23 +28,24 @@ if($productResult){
 $total_pages = ceil($total / $per_page);
 $offset = ($page-1) * $per_page;
 
+$safeFilter = "name";
 if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
 
-        $filter = $_POST["filter"];
-        $safeFilter = "name";
-        switch($filter){
-            case "category":
-                $safeFilter = "category";
-                break;
-            case "price":
-                $safeFilter = "price";
-                break;
-            default:
-                break;
-        }
-
-        //saving filter as a session variable
-        $_SESSION["filter"] = $safeFilter;
+    $filter = $_POST["filter"];
+    //$safeFilter = "name";
+    switch ($filter) {
+        case "category":
+            $safeFilter = "category";
+            break;
+        case "price":
+            $safeFilter = "price";
+            break;
+        default:
+            break;
+    }
+} elseif(isset($_GET["filter"])){
+    $safeFilter = $_GET["filter"];
+}
 
         if($safeFilter == "category" || $safeFilter == "name") {
             if (!has_role("Admin")) {
@@ -90,7 +91,7 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
                 }
             }
         }
-}
+
 ?>
 
 <form method="POST">
@@ -142,15 +143,15 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
             <ul class="pagination">
                 <?php if(!(($page-1)<1)):?>
                     <li class="page-item <?php echo ($page-1) < 1?"disabled":"";?>">
-                        <a class="page-link" href="?page=<?php echo $page-1;?>" tabindex="-1">Previous</a>
+                        <a class="page-link" href="?page=<?php echo $page-1;?>&filter=<?php echo $safeFilter;?>" tabindex="-1">Previous</a>
                     </li>
                 <?php endif; ?>
                 <?php for($i = 0; $i < $total_pages; $i++):?>
-                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>"><?php echo ($i+1);?></a></li>
+                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>&filter=<?php echo $safeFilter;?>"><?php echo ($i+1);?></a></li>
                 <?php endfor; ?>
                 <?php if($page<$total_pages):?>
                     <li class="page-item <?php echo ($page) >= $total_pages?"disabled":"";?>">
-                        <a class="page-link" href="?page=<?php echo $page+1;?>">Next</a>
+                        <a class="page-link" href="?page=<?php echo $page+1;?>&filter=<?php echo $safeFilter;?>">Next</a>
                     </li>
                 <?php endif; ?>
             </ul>
