@@ -10,7 +10,7 @@ if(isset($_GET["query"])){
     $query = $_GET["query"];
 }
 
-$safeFilter = "name";
+
 if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
 
     $filter = $_POST["filter"];
