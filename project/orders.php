@@ -20,7 +20,11 @@ if(isset($_GET["page"])){
     }
 }
 $db = getDB();
-$stmt = $db->prepare("SELECT count(*) as total from Orders where user_id=:id");
+if(!has_role("Admin")) {
+    $stmt = $db->prepare("SELECT count(*) as total from Orders where user_id=:id");
+}elseif(has_role("Admin")){
+    $stmt = $db->prepare("SELECT count(*) as total from Orders");
+}
 $stmt->execute([":id"=>get_user_id()]);
 $orderResult = $stmt->fetch(PDO::FETCH_ASSOC);
 $total = 0;
