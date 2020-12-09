@@ -39,16 +39,19 @@ if(isset($_GET["page"])){
 
     }
 }
-$db = getDB();
-$stmt = $db->prepare("SELECT count(*) as total from Products WHERE $safeFilter LIKE :q");
-$stmt->execute([":q"=>"%$query%"]);
-$productResult = $stmt->fetch(PDO::FETCH_ASSOC);
-$total = 0;
-if($productResult){
-    $total = (int)$productResult["total"];
+
+if(!empty($safeFilter)) {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT count(*) as total from Products WHERE $safeFilter LIKE :q");
+    $stmt->execute([":q" => "%$query%"]);
+    $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
+    $total = 0;
+    if ($productResult) {
+        $total = (int)$productResult["total"];
+    }
+    $total_pages = ceil($total / $per_page);
+    $offset = ($page - 1) * $per_page;
 }
-$total_pages = ceil($total / $per_page);
-$offset = ($page-1) * $per_page;
 
 if (!empty($query) && !empty($safeFilter)) {
     if ($safeFilter == "category" || $safeFilter == "name") {
