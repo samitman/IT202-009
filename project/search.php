@@ -5,8 +5,7 @@ $query = "";
 $results = [];
 if (isset($_POST["query"])) {
     $query = $_POST["query"];
-}
-if(isset($_GET["query"])){
+}elseif(isset($_GET["query"])){
     $query = $_GET["query"];
 }
 
@@ -40,7 +39,7 @@ if(isset($_GET["page"])){
 }
 $db = getDB();
 $stmt = $db->prepare("SELECT count(*) as total from Products WHERE $safeFilter LIKE :q");
-$stmt->execute([":q"=>$query]);
+$stmt->execute([":q"=>"%$query%"]);
 $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
 $total = 0;
 if($productResult){
