@@ -10,11 +10,10 @@ if(isset($_GET["query"])){
     $query = $_GET["query"];
 }
 
-
+$safeFilter = "name";
 if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
 
     $filter = $_POST["filter"];
-    $safeFilter = "name";
     switch ($filter) {
         case "category":
             $safeFilter = "category";
@@ -77,8 +76,11 @@ $offset = ($page-1) * $per_page;
         }elseif($safeFilter == "price") {
             if (!has_role("Admin")) {
                 $db = getDB();
-                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q AND Products.visibility!=0 AND Products.quantity > 0 ORDER BY price LIMIT 10");
-                $r = $stmt->execute([":q" => "%$query%"]);
+                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q AND Products.visibility!=0 AND Products.quantity > 0 ORDER BY price LIMIT :offset, :count");
+                $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+                $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+                $stmt->bindValue(":q", $query);
+                $r = $stmt->execute();
                 if ($r) {
                     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 } else {
