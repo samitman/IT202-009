@@ -53,7 +53,7 @@ $offset = ($page-1) * $per_page;
         if($safeFilter == "category" || $safeFilter == "name") {
             if (!has_role("Admin")) {
                 $db = getDB();
-                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE $safeFilter LIKE :q AND Products.visibility!=0 AND Products.quantity > 0 ORDER BY name LIMIT :offset, :count");
+                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,visibility,category FROM Products JOIN Users on Products.user_id = Users.id WHERE $safeFilter LIKE :q AND Products.visibility!=0 AND Products.quantity > 0 ORDER BY name LIMIT :offset, :count");
                 $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
                 $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
                 $stmt->bindValue(":q", $query);
@@ -66,7 +66,7 @@ $offset = ($page-1) * $per_page;
                 }
             } elseif (has_role("Admin")) {
                 $db = getDB();
-                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE $safeFilter LIKE :q ORDER BY name LIMIT 10");
+                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,visibility,category FROM Products JOIN Users on Products.user_id = Users.id WHERE $safeFilter LIKE :q ORDER BY name LIMIT 10");
                 $r = $stmt->execute([":q" => "%$query%"]);
                 if ($r) {
                     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -77,7 +77,7 @@ $offset = ($page-1) * $per_page;
         }elseif($safeFilter == "price") {
             if (!has_role("Admin")) {
                 $db = getDB();
-                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q AND Products.visibility!=0 AND Products.quantity > 0 ORDER BY price LIMIT :offset, :count");
+                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,visibility,category FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q AND Products.visibility!=0 AND Products.quantity > 0 ORDER BY price LIMIT :offset, :count");
                 $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
                 $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
                 $stmt->bindValue(":q", $query);
@@ -89,7 +89,7 @@ $offset = ($page-1) * $per_page;
                 }
             } elseif (has_role("Admin")) {
                 $db = getDB();
-                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,user_id,visibility,category, Users.username FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q ORDER BY price LIMIT 10");
+                $stmt = $db->prepare("SELECT Products.id,name,quantity,price,visibility,category FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q ORDER BY price LIMIT 10");
                 $r = $stmt->execute([":q" => "%$query%"]);
                 if ($r) {
                     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
