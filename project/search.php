@@ -73,8 +73,11 @@ if (!empty($query) && !empty($safeFilter)) {
             }
         } elseif (has_role("Admin")) {
             $db = getDB();
-            $stmt = $db->prepare("SELECT Products.id,name,quantity,price,visibility,category FROM Products JOIN Users on Products.user_id = Users.id WHERE $safeFilter LIKE :q ORDER BY name LIMIT 10");
-            $r = $stmt->execute([":q" => "%$query%"]);
+            $stmt = $db->prepare("SELECT Products.id,name,quantity,price,visibility,category FROM Products JOIN Users on Products.user_id = Users.id WHERE $safeFilter LIKE :q ORDER BY name LIMIT :offset, :count");
+            $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+            $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+            $stmt->bindValue(":q", "%$query%");
+            $r = $stmt->execute();
             if ($r) {
                 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             } else {
@@ -96,8 +99,11 @@ if (!empty($query) && !empty($safeFilter)) {
             }
         } elseif (has_role("Admin")) {
             $db = getDB();
-            $stmt = $db->prepare("SELECT Products.id,name,quantity,price,visibility,category FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q ORDER BY price LIMIT 10");
-            $r = $stmt->execute([":q" => "%$query%"]);
+            $stmt = $db->prepare("SELECT Products.id,name,quantity,price,visibility,category FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q ORDER BY price LIMIT :offset, :count");
+            $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+            $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+            $stmt->bindValue(":q", "%$query%");
+            $r = $stmt->execute();
             if ($r) {
                 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             } else {

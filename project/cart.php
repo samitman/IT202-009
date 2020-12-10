@@ -55,7 +55,7 @@ if (isset($_POST["clear"])) {
 
 //gets products for dropdown
 $db = getDB();
-$stmt = $db->prepare("SELECT id,name,price,visibility from Products WHERE visibility != 0 LIMIT 10");
+$stmt = $db->prepare("SELECT id,name,price,visibility,quantity from Products WHERE visibility != 0 AND quantity > 0 LIMIT 10");
 $r = $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
