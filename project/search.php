@@ -33,8 +33,7 @@ if (isset($_POST["search"]) && !empty($query) && (isset($_POST["filter"]) || iss
     }
 }elseif(isset($_GET["filter"])){
     $safeFilter = $_GET["filter"];
-}
-if(isset($_GET["quantity"])){
+}elseif(isset($_GET["quantity"])){
     $quantFilter = $_GET["quantity"];
 }
 //getting pagination values
