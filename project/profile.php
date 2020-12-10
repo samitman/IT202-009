@@ -163,10 +163,10 @@ if (isset($_POST["saved"])) {
 if($profileID != get_user_id()){
     $stmt = $db->prepare("SELECT id,username,email,created,account_type from Users where id=:profileID LIMIT 1");
     $stmt->execute([":profileID" => $profileID]);
-    $profile = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $profile = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>
-<?php if($profileID != get_user_id()):?>
+<?php if(($profileID != get_user_id()) && !empty($profile)):?>
 <div>
     <div><h3>Welcome to <?php safer_echo($profile["username"]);?>'s Profile Page</h3></div>
     <div>Username: <?php safer_echo($profile["username"]);?></div>
