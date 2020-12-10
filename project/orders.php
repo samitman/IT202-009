@@ -85,6 +85,7 @@ if(!has_role("Admin")){
     </div>
     <?php
     if(has_role("Admin")):
+        $revenue = 0;
         foreach ($adminOrders as $order):?>
             <div class="list-group-item">
                 <div>
@@ -103,13 +104,14 @@ if(!has_role("Admin")){
                     <div>Payment Method: <?php safer_echo($order["payment_method"]); ?></div>
                 </div>
                 <div>
-                    <div>Subtotal: $<?php safer_echo($order["total_price"]); ?></div>
+                    <div>Subtotal: $<?php safer_echo($order["total_price"]); $revenue+=$order["total_price"];?></div>
                 </div>
                 <div>
                     <br>
                 </div>
             </div>
         <?php endforeach; ?>
+        <div><b>Total Revenue: $<?php safer_echo($revenue);?></b></div>
     <?php endif; ?>
     <div>
         <div><br></div>
