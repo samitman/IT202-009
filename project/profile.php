@@ -159,4 +159,23 @@ if (isset($_POST["saved"])) {
         <button type="submit" name="saved" value="Save Profile">Update</button>
     </form>
 <?php endif;?>
+<?php
+if($profileID != get_user_id()){
+    $stmt = $db->prepare("SELECT id,username,email,created,account_type from Users where id=:profileID LIMIT 1");
+    $stmt->execute([":profileID" => $profileID]);
+    $profile = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+?>
+<?php if($profileID != get_user_id()):?>
+<div>
+    <div><h3>Welcome to <?php safer_echo($profile["username"]);?>'s Profile Page</h3></div>
+    <div>Username: <?php safer_echo($profile["username"]);?></div>
+    <?php if($profile["account_type"] == "public"):?>
+        <div>Email: <?php safer_echo($profile["email"]);?></div>
+    <?php endif; ?>
+    <div>User ID: <?php safer_echo($profile["id"]);?></div>
+    <div>Account Type: <?php safer_echo($profile["account_type"]);?></div>
+    <div>Created: <?php safer_echo($profile["created"]);?></div>
+</div>
+<?php endif;?>
 <?php require(__DIR__."/partials/flash.php"); ?>

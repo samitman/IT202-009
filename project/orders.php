@@ -91,7 +91,7 @@ if(!has_role("Admin")){
                     <div>Order ID: <?php safer_echo($order["id"]); ?></div>
                 </div>
                 <div>
-                    <div>User ID: <?php safer_echo($order["user_id"]); ?></div>
+                    <div>User ID: <?php safer_echo($order["user_id"]); ?><a type="button" href="profile.php?id=<?php safer_echo($order["user_id"]); ?>">View Profile</a></div>
                 </div>
                 <div>
                     <div>Order Date: <?php safer_echo($order["created"]); ?></div>

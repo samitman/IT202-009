@@ -61,7 +61,7 @@ $offset = ($page-1) * $per_page;
 //get all product ratings to be displayed on the page
 $id = $_GET["id"];
 $db = getDB();
-$stmt = $db->prepare("SELECT Ratings.rating,Ratings.comment,Ratings.created,Users.username FROM Ratings JOIN Users where product_id=:id and Ratings.user_id = Users.id LIMIT :offset, :count");
+$stmt = $db->prepare("SELECT Ratings.rating,Ratings.comment,Ratings.created,Users.username,Users.id FROM Ratings JOIN Users where product_id=:id and Ratings.user_id = Users.id LIMIT :offset, :count");
 $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
 $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
 $stmt->bindValue(":id", $id);
@@ -87,6 +87,9 @@ if($ratings){
                 <div>Units Available: <?php safer_echo($result["quantity"]); ?></div>
                 <div>Category: <?php safer_echo($result["category"]); ?></div>
                 <div>Seller ID: <?php safer_echo($result["username"]); ?></div>
+                <div>
+                    <a type="button" href="profile.php?id=<?php safer_echo($result["id"]); ?>">View Profile</a>
+                </div>
             </div>
         </div>
         <br>
