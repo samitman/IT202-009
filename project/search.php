@@ -34,6 +34,9 @@ if (isset($_POST["search"]) && !empty($query) && (isset($_POST["filter"]) || iss
 }elseif(isset($_GET["filter"])){
     $safeFilter = $_GET["filter"];
 }
+if(isset($_GET["quantity"])){
+    $quantFilter = $_GET["quantity"];
+}
 //getting pagination values
 $page = 1;
 $per_page = 5;
@@ -198,19 +201,19 @@ if (!empty($query) && !empty($safeFilter)) {
             <ul class="pagination">
                 <?php if(!(($page-1)<1)&&!empty($safeFilter)):?>
                     <li class="page-item <?php echo ($page-1) < 1?"disabled":"";?>">
-                        <a class="page-link" href="?page=<?php echo $page-1;?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?>" tabindex="-1">Previous</a>
+                        <a class="page-link" href="?page=<?php echo $page-1;?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?><?php if(!empty($quantFilter)):?>&quantity=<?php echo $quantFilter;?><?php endif;?>" tabindex="-1">Previous</a>
                     </li>
                 <?php endif; ?>
                 <?php if(!empty($safeFilter)):?>
                 <?php for($i = 0; $i < $total_pages; $i++):?>
-                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?>"><?php echo ($i+1);?></a></li>
+                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?><?php if(!empty($quantFilter)):?>&quantity=<?php echo $quantFilter;?><?php endif;?>"><?php echo ($i+1);?></a></li>
                 <?php endfor; ?>
                 <?php endif; ?>
 
                 <?php if(!empty($safeFilter)):?>
                 <?php if(($page<$total_pages)):?>
                     <li class="page-item <?php echo ($page) >= $total_pages?"disabled":"";?>">
-                        <a class="page-link" href="?page=<?php echo $page+1;?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?>">Next</a>
+                        <a class="page-link" href="?page=<?php echo $page+1;?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?><?php if(!empty($quantFilter)):?>&quantity=<?php echo $quantFilter;?><?php endif;?>">Next</a>
                     </li>
                 <?php endif; ?>
                 <?php endif; ?>
