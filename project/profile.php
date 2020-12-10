@@ -166,7 +166,7 @@ if($profileID != get_user_id()){
     $profile = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 if(!empty($profile)){
-    if($profile["account_type"]=="private"){
+    if(!has_role("Admin")&&$profile["account_type"]=="private"){
         flash("Private account, access denied.");
         die(header("Location: home.php"));
     }
