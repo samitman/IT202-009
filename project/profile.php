@@ -165,14 +165,17 @@ if($profileID != get_user_id()){
     $stmt->execute([":profileID" => $profileID]);
     $profile = $stmt->fetch(PDO::FETCH_ASSOC);
 }
+if(!empty($profile)){
+    if($profile["account_type"]=="private"){
+        flash("Private account, access denied.");
+        die(header("Location: home.php"));
+    }
+}
 ?>
-<?php if(($profileID != get_user_id()) && !empty($profile)):?>
+<?php if(($profileID != get_user_id()) && !empty($profile) && $profile["account_type"] == "public"):?>
 <div>
     <div><h3>Welcome to <?php safer_echo($profile["username"]);?>'s profile page!</h3></div>
     <div>Username: <?php safer_echo($profile["username"]);?></div>
-    <?php if($profile["account_type"] == "public"):?>
-        <div>Email: <?php safer_echo($profile["email"]);?></div>
-    <?php endif; ?>
     <div>User ID: <?php safer_echo($profile["id"]);?></div>
     <div>Account Type: <?php safer_echo($profile["account_type"]);?></div>
     <div>Created: <?php safer_echo($profile["created"]);?></div>
