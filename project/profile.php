@@ -168,7 +168,7 @@ if($profileID != get_user_id()){
 ?>
 <?php if(($profileID != get_user_id()) && !empty($profile)):?>
 <div>
-    <div><h3>Welcome to <?php safer_echo($profile["username"]);?>'s Profile Page</h3></div>
+    <div><h3>Welcome to <?php safer_echo($profile["username"]);?>'s profile page!</h3></div>
     <div>Username: <?php safer_echo($profile["username"]);?></div>
     <?php if($profile["account_type"] == "public"):?>
         <div>Email: <?php safer_echo($profile["email"]);?></div>
