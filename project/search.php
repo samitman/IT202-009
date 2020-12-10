@@ -26,11 +26,12 @@ if (isset($_POST["search"]) && !empty($query) && (isset($_POST["filter"]) || iss
             default:
                 break;
         }
-    }elseif(isset($_POST["quantFilter"])){
-        $safeFiler = "quantity";
+    }
+    if(isset($_POST["quantFilter"])){
+        $safeFilter = "quantity";
         $quantFilter = $_POST["quantFilter"];
     }
-} elseif(isset($_GET["filter"])){
+}elseif(isset($_GET["filter"])){
     $safeFilter = $_GET["filter"];
 }
 //getting pagination values
@@ -115,7 +116,7 @@ if (!empty($query) && !empty($safeFilter)) {
                 flash("There was a problem fetching the results");
             }
         }
-    }elseif ($safeFilter == "quantity") {
+    } elseif ($safeFilter == "quantity") {
         if (has_role("Admin")) {
             $db = getDB();
             $stmt = $db->prepare("SELECT Products.id,name,quantity,price,visibility,category FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q AND quantity<=:quant ORDER BY name LIMIT :offset, :count");
@@ -151,7 +152,9 @@ if (!empty($query) && !empty($safeFilter)) {
     <br>
     <?php if(has_role("Admin")): ?>
     <label for="quantFilter">Filter By Quantity:</label>
+    <br>
     <input name="quantFilter" type="number"/>
+    <br>
     <?php endif; ?>
     <button type="submit" value="Search" name="search">Search</button>
 </form>
@@ -169,6 +172,9 @@ if (!empty($query) && !empty($safeFilter)) {
                     </div>
                     <div>
                         <div>Category: <?php safer_echo($r["category"]); ?></div>
+                    </div>
+                    <div>
+                        <div>Units Available: <?php safer_echo($r["quantity"]); ?></div>
                     </div>
                     <div>
                         <a type="button" href="productView.php?id=<?php safer_echo($r['id']); ?>">View</a>
@@ -208,5 +214,5 @@ if (!empty($query) && !empty($safeFilter)) {
         </nav>
     </div>
 
-<?php require(__DIR__ . "/partials/flash.php");
+<?php require(__DIR__ . "/partials/flash.php"); ?>
 
