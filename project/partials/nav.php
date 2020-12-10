@@ -24,7 +24,7 @@ require_once(__DIR__ . "/../lib/helpers.php");
             <li><a href="<?php echo getURL("cart.php"); ?>">Cart</a></li>
             <li><a href="<?php echo getURL("orders.php"); ?>">Orders</a></li>
             <li><a href="<?php echo getURL("profile.php"); ?>">Profile</a></li>
-            <li><a href="<?php echo getURL("logout.php"); ?>">Logout</a></li>
+            <li><a href="<?php echo getURL("logout.php");echo get_user_id(); ?>">Logout</a></li>
         <?php endif; ?>
     </ul>
 </nav>

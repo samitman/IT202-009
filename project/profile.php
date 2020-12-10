@@ -9,6 +9,11 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 
+$profileID = null;
+if(isset($_GET["id"])){
+    $profileID = $_GET["id"];
+}
+
 $db = getDB();
 //save data if we submitted the form
 if (isset($_POST["saved"])) {
@@ -124,6 +129,7 @@ if (isset($_POST["saved"])) {
 
 ?>
 
+<?php if($profileID == get_user_id()): ?>
     <form method="POST">
         <br>
         <label for="email">Email</label>
@@ -152,4 +158,5 @@ if (isset($_POST["saved"])) {
         <br><br>
         <button type="submit" name="saved" value="Save Profile">Update</button>
     </form>
+<?php endif;?>
 <?php require(__DIR__."/partials/flash.php"); ?>
