@@ -11,22 +11,31 @@ if (isset($_POST["search"])){
     $query = $_GET["query"];
 }
 
-if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
+if (isset($_POST["search"]) && !empty($query) && (isset($_POST["filter"]) || isset($_POST["quantFilter"]))) {
 
     $safeFilter = "name";
-    $filter = $_POST["filter"];
-    switch ($filter) {
-        case "category":
-            $safeFilter = "category";
-            break;
-        case "price":
-            $safeFilter = "price";
-            break;
-        default:
-            break;
+    if(isset($_POST["filter"])) {
+        $filter = $_POST["filter"];
+        switch ($filter) {
+            case "category":
+                $safeFilter = "category";
+                break;
+            case "price":
+                $safeFilter = "price";
+                break;
+            default:
+                break;
+        }
     }
-} elseif(isset($_GET["filter"])){
+    if(isset($_POST["quantFilter"])){
+        $safeFilter = "quantity";
+        $quantFilter = $_POST["quantFilter"];
+    }
+}elseif(isset($_GET["filter"])) {
     $safeFilter = $_GET["filter"];
+}
+if(isset($_GET["quantity"])){
+    $quantFilter = $_GET["quantity"];
 }
 //getting pagination values
 $page = 1;
@@ -44,10 +53,14 @@ if(!empty($safeFilter)) {
     $db = getDB();
     if ($safeFilter == "category" || $safeFilter == "name") {
         $stmt = $db->prepare("SELECT count(*) as total from Products WHERE $safeFilter LIKE :q");
+        $stmt->execute([":q" => "%$query%"]);
     } elseif ($safeFilter == "price") {
         $stmt = $db->prepare("SELECT count(*) as total from Products WHERE name LIKE :q");
+        $stmt->execute([":q" => "%$query%"]);
+    } elseif ($safeFilter == "quantity") {
+        $stmt = $db->prepare("SELECT count(*) as total from Products WHERE name LIKE :q AND quantity<=:quant");
+        $stmt->execute([":q" => "%$query%",":quant"=>$quantFilter]);
     }
-    $stmt->execute([":q" => "%$query%"]);
     $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
     $total = 0;
     if ($productResult) {
@@ -110,6 +123,21 @@ if (!empty($query) && !empty($safeFilter)) {
                 flash("There was a problem fetching the results");
             }
         }
+    } elseif ($safeFilter == "quantity") {
+        if (has_role("Admin")) {
+            $db = getDB();
+            $stmt = $db->prepare("SELECT Products.id,name,quantity,price,visibility,category FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q AND quantity<=:quant ORDER BY quantity LIMIT :offset, :count");
+            $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+            $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+            $stmt->bindValue(":quant", $quantFilter, PDO::PARAM_INT);
+            $stmt->bindValue(":q", "%$query%");
+            $r = $stmt->execute();
+            if ($r) {
+                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                flash("There was a problem fetching the results");
+            }
+        }
     }
 }
 ?>
@@ -129,6 +157,12 @@ if (!empty($query) && !empty($safeFilter)) {
         <option value="price">Price</option>
     </select>
     <br>
+    <?php if(has_role("Admin")): ?>
+    <label for="quantFilter">Filter By Quantity:</label>
+    <br>
+    <input name="quantFilter" type="number" value="<?php if(!empty($quantFilter)){safer_echo($quantFilter);}?>"/>
+    <br>
+    <?php endif; ?>
     <button type="submit" value="Search" name="search">Search</button>
 </form>
 
@@ -145,6 +179,9 @@ if (!empty($query) && !empty($safeFilter)) {
                     </div>
                     <div>
                         <div>Category: <?php safer_echo($r["category"]); ?></div>
+                    </div>
+                    <div>
+                        <div>Units Available: <?php safer_echo($r["quantity"]); ?></div>
                     </div>
                     <div>
                         <a type="button" href="productView.php?id=<?php safer_echo($r['id']); ?>">View</a>
@@ -164,19 +201,19 @@ if (!empty($query) && !empty($safeFilter)) {
             <ul class="pagination">
                 <?php if(!(($page-1)<1)&&!empty($safeFilter)):?>
                     <li class="page-item <?php echo ($page-1) < 1?"disabled":"";?>">
-                        <a class="page-link" href="?page=<?php echo $page-1;?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?>" tabindex="-1">Previous</a>
+                        <a class="page-link" href="?page=<?php echo $page-1;?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?><?php if(!empty($quantFilter)):?>&quantity=<?php echo $quantFilter;?><?php endif;?>" tabindex="-1">Previous</a>
                     </li>
                 <?php endif; ?>
                 <?php if(!empty($safeFilter)):?>
                 <?php for($i = 0; $i < $total_pages; $i++):?>
-                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?>"><?php echo ($i+1);?></a></li>
+                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?><?php if(!empty($quantFilter)):?>&quantity=<?php echo $quantFilter;?><?php endif;?>"><?php echo ($i+1);?></a></li>
                 <?php endfor; ?>
                 <?php endif; ?>
 
                 <?php if(!empty($safeFilter)):?>
                 <?php if(($page<$total_pages)):?>
                     <li class="page-item <?php echo ($page) >= $total_pages?"disabled":"";?>">
-                        <a class="page-link" href="?page=<?php echo $page+1;?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?>">Next</a>
+                        <a class="page-link" href="?page=<?php echo $page+1;?>&query=<?php echo $query;?>&filter=<?php echo $safeFilter;?><?php if(!empty($quantFilter)):?>&quantity=<?php echo $quantFilter;?><?php endif;?>">Next</a>
                     </li>
                 <?php endif; ?>
                 <?php endif; ?>
@@ -184,5 +221,5 @@ if (!empty($query) && !empty($safeFilter)) {
         </nav>
     </div>
 
-<?php require(__DIR__ . "/partials/flash.php");
+<?php require(__DIR__ . "/partials/flash.php"); ?>
 
