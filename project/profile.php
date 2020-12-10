@@ -9,6 +9,11 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 
+$profileID = null;
+if(isset($_GET["id"])){
+    $profileID = $_GET["id"];
+}
+
 $db = getDB();
 //save data if we submitted the form
 if (isset($_POST["saved"])) {
@@ -124,6 +129,7 @@ if (isset($_POST["saved"])) {
 
 ?>
 
+<?php if($profileID == get_user_id()): ?>
     <form method="POST">
         <br>
         <label for="email">Email</label>
@@ -152,4 +158,24 @@ if (isset($_POST["saved"])) {
         <br><br>
         <button type="submit" name="saved" value="Save Profile">Update</button>
     </form>
+<?php endif;?>
+<?php
+if($profileID != get_user_id()){
+    $stmt = $db->prepare("SELECT id,username,email,created,account_type from Users where id=:profileID LIMIT 1");
+    $stmt->execute([":profileID" => $profileID]);
+    $profile = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+?>
+<?php if(($profileID != get_user_id()) && !empty($profile)):?>
+<div>
+    <div><h3>Welcome to <?php safer_echo($profile["username"]);?>'s profile page!</h3></div>
+    <div>Username: <?php safer_echo($profile["username"]);?></div>
+    <?php if($profile["account_type"] == "public"):?>
+        <div>Email: <?php safer_echo($profile["email"]);?></div>
+    <?php endif; ?>
+    <div>User ID: <?php safer_echo($profile["id"]);?></div>
+    <div>Account Type: <?php safer_echo($profile["account_type"]);?></div>
+    <div>Created: <?php safer_echo($profile["created"]);?></div>
+</div>
+<?php endif;?>
 <?php require(__DIR__."/partials/flash.php"); ?>

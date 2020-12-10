@@ -11,7 +11,7 @@ if (isset($_GET["id"])) {
 $result = [];
 if (isset($id)) {
     $db = getDB();
-    $stmt = $db->prepare("SELECT Products.id,name,quantity,price,description,category,user_id, Users.username FROM Products JOIN Users on Products.user_id = Users.id where Products.id = :id");
+    $stmt = $db->prepare("SELECT Products.id,name,quantity,price,description,category,user_id,Users.username,Users.id as uid FROM Products JOIN Users on Products.user_id = Users.id where Products.id = :id");
     $r = $stmt->execute([":id" => $id]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$result) {
@@ -87,6 +87,9 @@ if($ratings){
                 <div>Units Available: <?php safer_echo($result["quantity"]); ?></div>
                 <div>Category: <?php safer_echo($result["category"]); ?></div>
                 <div>Seller ID: <?php safer_echo($result["username"]); ?></div>
+                <div>
+                    <a type="button" href="profile.php?id=<?php safer_echo($result["uid"]); ?>">View Profile</a>
+                </div>
             </div>
         </div>
         <br>
