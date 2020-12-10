@@ -11,19 +11,24 @@ if (isset($_POST["search"])){
     $query = $_GET["query"];
 }
 
-if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])) {
+if (isset($_POST["search"]) && !empty($query) && (isset($_POST["filter"]) || isset($_POST["quantFilter"]))) {
 
     $safeFilter = "name";
-    $filter = $_POST["filter"];
-    switch ($filter) {
-        case "category":
-            $safeFilter = "category";
-            break;
-        case "price":
-            $safeFilter = "price";
-            break;
-        default:
-            break;
+    if(isset($_POST["filter"])) {
+        $filter = $_POST["filter"];
+        switch ($filter) {
+            case "category":
+                $safeFilter = "category";
+                break;
+            case "price":
+                $safeFilter = "price";
+                break;
+            default:
+                break;
+        }
+    }elseif(isset($_POST["quantFilter"])){
+        $safeFiler = "quantity";
+        $quantFilter = $_POST["quantFilter"];
     }
 } elseif(isset($_GET["filter"])){
     $safeFilter = $_GET["filter"];
@@ -110,6 +115,21 @@ if (!empty($query) && !empty($safeFilter)) {
                 flash("There was a problem fetching the results");
             }
         }
+    }elseif ($safeFilter == "quantity") {
+        if (has_role("Admin")) {
+            $db = getDB();
+            $stmt = $db->prepare("SELECT Products.id,name,quantity,price,visibility,category FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q AND quantity<=:quant ORDER BY name LIMIT :offset, :count");
+            $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+            $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+            $stmt->bindValue(":quant", $quantFilter, PDO::PARAM_INT);
+            $stmt->bindValue(":q", "%$query%");
+            $r = $stmt->execute();
+            if ($r) {
+                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                flash("There was a problem fetching the results");
+            }
+        }
     }
 }
 ?>
@@ -129,6 +149,10 @@ if (!empty($query) && !empty($safeFilter)) {
         <option value="price">Price</option>
     </select>
     <br>
+    <?php if(has_role("Admin")): ?>
+    <label for="quantFilter">Filter By Quantity:</label>
+    <input name="quantFilter" type="number"/>
+    <?php endif; ?>
     <button type="submit" value="Search" name="search">Search</button>
 </form>
 
