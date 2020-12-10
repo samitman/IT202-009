@@ -180,5 +180,13 @@ if(!empty($profile)){
     <div>Account Type: <?php safer_echo($profile["account_type"]);?></div>
     <div>Created: <?php safer_echo($profile["created"]);?></div>
 </div>
+<?php if(($profileID != get_user_id()) && !empty($profile) && has_role("Admin") && $profile["account_type"] == "private"):?>
+    <div>
+        <div><h3>Welcome to <?php safer_echo($profile["username"]);?>'s profile page!</h3></div>
+        <div>Username: <?php safer_echo($profile["username"]);?></div>
+        <div>User ID: <?php safer_echo($profile["id"]);?></div>
+        <div>Account Type: <?php safer_echo($profile["account_type"]);?></div>
+        <div>Created: <?php safer_echo($profile["created"]);?></div>
+    </div>
 <?php endif;?>
 <?php require(__DIR__."/partials/flash.php"); ?>
