@@ -31,9 +31,10 @@ if (isset($_POST["search"]) && !empty($query) && (isset($_POST["filter"]) || iss
         $safeFilter = "quantity";
         $quantFilter = $_POST["quantFilter"];
     }
-}elseif(isset($_GET["filter"])){
+}elseif(isset($_GET["filter"])) {
     $safeFilter = $_GET["filter"];
-}elseif(isset($_GET["quantity"])){
+}
+if(isset($_GET["quantity"])){
     $quantFilter = $_GET["quantity"];
 }
 //getting pagination values
@@ -125,7 +126,7 @@ if (!empty($query) && !empty($safeFilter)) {
     } elseif ($safeFilter == "quantity") {
         if (has_role("Admin")) {
             $db = getDB();
-            $stmt = $db->prepare("SELECT Products.id,name,quantity,price,visibility,category FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q AND quantity<=:quant ORDER BY name LIMIT :offset, :count");
+            $stmt = $db->prepare("SELECT Products.id,name,quantity,price,visibility,category FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q AND quantity<=:quant ORDER BY quantity LIMIT :offset, :count");
             $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
             $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
             $stmt->bindValue(":quant", $quantFilter, PDO::PARAM_INT);
