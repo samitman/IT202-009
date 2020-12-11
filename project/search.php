@@ -216,7 +216,7 @@ if (!empty($query) && !empty($safeFilter)) {
                     <div>
                         <div>Units Available: <?php safer_echo($r["quantity"]); ?></div>
                     </div>
-                    <?php if($r["rating"]):
+                    <?php if(isset($r["rating"])):
                         $rate = $r["rating"];
                         $displayRate = substr($rate,0,4);
                         ?>
