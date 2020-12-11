@@ -23,6 +23,9 @@ if (isset($_POST["search"]) && !empty($query) && (isset($_POST["filter"]) || iss
             case "price":
                 $safeFilter = "price";
                 break;
+            case "rating":
+                $safeFilter = "rating";
+                break;
             default:
                 break;
         }
@@ -123,6 +126,32 @@ if (!empty($query) && !empty($safeFilter)) {
                 flash("There was a problem fetching the results");
             }
         }
+    } elseif ($safeFilter == "rating") {
+        if (!has_role("Admin")) {
+            $db = getDB();
+            $stmt = $db->prepare("SELECT Products.id,Products.name,Products.quantity,Products.price,Products.visibility,Products.category,AVG(rating) as rating FROM Products JOIN Ratings on Products.id = Ratings.product_id WHERE name LIKE :q AND Products.visibility!=0 AND Products.quantity > 0 GROUP BY Products.id ORDER BY rating DESC LIMIT :offset, :count");
+            $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+            $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+            $stmt->bindValue(":q", "%$query%");
+            $r = $stmt->execute();
+            if ($r) {
+                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                flash("There was a problem fetching the results");
+            }
+        } elseif (has_role("Admin")) {
+            $db = getDB();
+            $stmt = $db->prepare("SELECT Products.id,Products.name,Products.quantity,Products.price,Products.visibility,Products.category,AVG(rating) as rating FROM Products JOIN Ratings on Products.id = Ratings.product_id WHERE name LIKE :q GROUP BY Products.id ORDER BY rating DESC LIMIT :offset, :count");
+            $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+            $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+            $stmt->bindValue(":q", "%$query%");
+            $r = $stmt->execute();
+            if ($r) {
+                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                flash("There was a problem fetching the results");
+            }
+        }
     } elseif ($safeFilter == "quantity") {
         if (has_role("Admin")) {
             $db = getDB();
@@ -155,6 +184,7 @@ if (!empty($query) && !empty($safeFilter)) {
         <option value="name">Name</option>
         <option value="category">Category</option>
         <option value="price">Price</option>
+        <option value="rating">Rating</option>
     </select>
     <br>
     <?php if(has_role("Admin")): ?>
@@ -183,6 +213,11 @@ if (!empty($query) && !empty($safeFilter)) {
                     <div>
                         <div>Units Available: <?php safer_echo($r["quantity"]); ?></div>
                     </div>
+                    <?php if($r["rating"]):?>
+                    <div>
+                        <div>Rating: <?php safer_echo($r["rating"]); ?></div>
+                    </div>
+                    <?php endif;?>
                     <div>
                         <a type="button" href="productView.php?id=<?php safer_echo($r['id']); ?>">View</a>
                     </div>
