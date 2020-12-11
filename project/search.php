@@ -217,11 +217,11 @@ if (!empty($query) && !empty($safeFilter)) {
                         <div>Units Available: <?php safer_echo($r["quantity"]); ?></div>
                     </div>
                     <?php if($r["rating"]):
-                        $rate = safer_echo($r["rating"]);
+                        $rate = $r["rating"];
                         $displayRate = substr($rate,0,4);
                         ?>
                     <div>
-                        <div>Rating: <?php echo $displayRate; ?></div>
+                        <div>Rating: <?php safer_echo($displayRate); ?></div>
                     </div>
                     <?php endif;?>
                     <div>
