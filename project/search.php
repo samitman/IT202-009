@@ -63,6 +63,9 @@ if(!empty($safeFilter)) {
     } elseif ($safeFilter == "quantity") {
         $stmt = $db->prepare("SELECT count(*) as total from Products WHERE name LIKE :q AND quantity<=:quant");
         $stmt->execute([":q" => "%$query%",":quant"=>$quantFilter]);
+    } elseif ($safeFilter == "rating") {
+        $stmt = $db->prepare("SELECT count(DISTINCT product_id) as total from Ratings JOIN Products on Products.id = Ratings.product_id WHERE name LIKE :q AND Products.id=Ratings.product_id");
+        $stmt->execute([":q" => "%$query%"]);
     }
     $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
     $total = 0;
