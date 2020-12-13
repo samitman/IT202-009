@@ -52,6 +52,31 @@ if(!has_role("Admin")){
     $adminOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
+<?php if(has_role("Admin")):?>
+    <form method="POST">
+        <h3>Filter Orders</h3>
+        <br>
+        <label for="cat">Category:</label>
+        <br>
+        <select name="cat" id="cat">
+            <option value="" disabled selected>Select a Category</option>
+            <option value="Health">Health</option>
+            <option value="Protein">Protein</option>
+            <option value="Recovery">Recovery</option>
+            <option value="Stimulant">Stimulant</option>
+        </select>
+        <br>
+        <label>Date Range: (Y-M-D H:Min:S)</label>
+        <br>
+        <label>Date 1: </label>
+        <input type="text" name="date1"/>
+        <br>
+        <label>Date 2: </label>
+        <input type="text" name="date2"/>
+        <button type="submit" value="Search" name="search">Submit</button>
+    </form>
+<?php endif;?>
+
 <div class="results">
     <div class="list-group">
         <div>
