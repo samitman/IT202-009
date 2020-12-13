@@ -9,6 +9,26 @@ if (!is_logged_in()) {
 ?>
 
 <?php
+if(isset($_POST["submit"])){
+    if(isset($_POST["cat"])){
+        $filter = "category";
+        $cat = $_POST["cat"];
+    }elseif(isset($_POST["date1"]) && isset($_POST["date2"])){
+        $filter = "date";
+        $date1 = $_POST["date1"];
+        $date2 = $_POST["date2"];
+    }
+}elseif(isset($_GET["filter"])) {
+    $filter = $_GET["filter"];
+}elseif(isset($_GET["cat"])) {
+    $cat = $_GET["cat"];
+}elseif(isset($_GET["date1"]) && isset($_GET["date2"])) {
+    $date1 = $_GET["date1"];
+    $date2 = $_GET["date2"];
+}
+?>
+
+<?php
 $page = 1;
 $per_page = 5;
 if(isset($_GET["page"])){
@@ -22,10 +42,22 @@ if(isset($_GET["page"])){
 $db = getDB();
 if(!has_role("Admin")) {
     $stmt = $db->prepare("SELECT count(*) as total from Orders where user_id=:id");
+    $stmt->execute([":id"=>get_user_id()]);
 }elseif(has_role("Admin")){
-    $stmt = $db->prepare("SELECT count(*) as total from Orders");
+    if(empty($filter)) {
+        $stmt = $db->prepare("SELECT count(*) as total from Orders");
+        $stmt->execute();
+    } elseif(!empty($filter)){
+        if($filter=="category" && !empty($cat)){
+            $stmt = $db->prepare("SELECT count(*) as total from OrderItems JOIN Products on product_id=Products.id where Products.category=:cat");
+            $stmt->execute([":cat"=>$cat]);
+        }elseif($filter=="date" && !empty($date1) && !empty($date2)){
+            $stmt = $db->prepare("SELECT count(*) as total from Orders WHERE created BETWEEN :date1 and :date2");
+            $stmt->execute([":date1"=>$date1,":date2"=>$date2]);
+        }
+    }
 }
-$stmt->execute([":id"=>get_user_id()]);
+
 $orderResult = $stmt->fetch(PDO::FETCH_ASSOC);
 $total = 0;
 if($orderResult){
@@ -33,7 +65,7 @@ if($orderResult){
 }
 $total_pages = ceil($total / $per_page);
 $offset = ($page-1) * $per_page;
-//below will display orders for regular users
+//below will display orders
 if(!has_role("Admin")){
     $userID = get_user_id();
     $db = getDB();
@@ -76,7 +108,7 @@ if(!has_role("Admin")){
         <br>
         <input type="text" name="date2"/>
         <br>
-        <button type="submit" value="Search" name="search">Submit</button>
+        <button type="submit" value="submit" name="submit">Submit</button>
         <br>
     </form>
 <?php endif;?>
@@ -151,15 +183,15 @@ if(!has_role("Admin")){
             <ul class="pagination">
                 <?php if(!(($page-1)<1)):?>
                     <li class="page-item <?php echo ($page-1) < 1?"disabled":"";?>">
-                        <a class="page-link" href="?page=<?php echo $page-1;?>" tabindex="-1">Previous</a>
+                        <a class="page-link" href="?page=<?php echo $page-1;?><?php if(!empty($filter)):?>&filter=<?php echo $filter;?><?php endif;?><?php if(!empty($cat)):?>&cat=<?php echo $cat;?><?php endif;?><?php if(!empty($date1)):?>&date1=<?php echo $date1;?><?php endif;?><?php if(!empty($date2)):?>&date2=<?php echo $date2;?><?php endif;?>" tabindex="-1">Previous</a>
                     </li>
                 <?php endif; ?>
                 <?php for($i = 0; $i < $total_pages; $i++):?>
-                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>"><?php echo ($i+1);?></a></li>
+                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?><?php if(!empty($filter)):?>&filter=<?php echo $filter;?><?php endif;?><?php if(!empty($cat)):?>&cat=<?php echo $cat;?><?php endif;?><?php if(!empty($date1)):?>&date1=<?php echo $date1;?><?php endif;?><?php if(!empty($date2)):?>&date2=<?php echo $date2;?><?php endif;?>"><?php echo ($i+1);?></a></li>
                 <?php endfor; ?>
                 <?php if($page<$total_pages):?>
                     <li class="page-item <?php echo ($page) >= $total_pages?"disabled":"";?>">
-                        <a class="page-link" href="?page=<?php echo $page+1;?>">Next</a>
+                        <a class="page-link" href="?page=<?php echo $page+1;?><?php if(!empty($filter)):?>&filter=<?php echo $filter;?><?php endif;?><?php if(!empty($cat)):?>&cat=<?php echo $cat;?><?php endif;?><?php if(!empty($date1)):?>&date1=<?php echo $date1;?><?php endif;?><?php if(!empty($date2)):?>&date2=<?php echo $date2;?><?php endif;?>">Next</a>
                     </li>
                 <?php endif; ?>
             </ul>
