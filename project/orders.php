@@ -73,7 +73,9 @@ if(!has_role("Admin")){
         <br>
         <label>Date 2: </label>
         <input type="text" name="date2"/>
+        <br>
         <button type="submit" value="Search" name="search">Submit</button>
+        <br>
     </form>
 <?php endif;?>
 
