@@ -69,9 +69,11 @@ if(!has_role("Admin")){
         <label>Date Range: (Y-M-D H:Min:S)</label>
         <br>
         <label>Date 1: </label>
+        <br>
         <input type="text" name="date1"/>
         <br>
         <label>Date 2: </label>
+        <br>
         <input type="text" name="date2"/>
         <br>
         <button type="submit" value="Search" name="search">Submit</button>
