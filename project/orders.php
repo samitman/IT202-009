@@ -43,22 +43,26 @@ $db = getDB();
 if(!has_role("Admin")) {
     $stmt = $db->prepare("SELECT count(*) as total from Orders where user_id=:id");
     $stmt->execute([":id"=>get_user_id()]);
+    $orderResult = $stmt->fetch(PDO::FETCH_ASSOC);
 }elseif(has_role("Admin")){
     if(empty($filter)) {
         $stmt = $db->prepare("SELECT count(*) as total from Orders");
         $stmt->execute();
-    } elseif(!empty($filter)){
+        $orderResult = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
         if($filter=="category" && !empty($cat)){
             $stmt = $db->prepare("SELECT count(*) as total from OrderItems JOIN Products on product_id=Products.id where Products.category=:cat");
             $stmt->execute([":cat"=>$cat]);
+            $orderResult = $stmt->fetch(PDO::FETCH_ASSOC);
         }elseif($filter=="date" && !empty($date1) && !empty($date2)){
             $stmt = $db->prepare("SELECT count(*) as total from Orders WHERE created BETWEEN :date1 and :date2");
             $stmt->execute([":date1"=>$date1,":date2"=>$date2]);
+            $orderResult = $stmt->fetch(PDO::FETCH_ASSOC);
         }
-    }
 }
 
-$orderResult = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
 $total = 0;
 if($orderResult){
     $total = (int)$orderResult["total"];
