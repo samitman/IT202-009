@@ -86,21 +86,21 @@ if(!has_role("Admin")){
 }elseif(has_role("Admin")){
     if(!isset($filter)) {
         $db = getDB();
-        $stmt = $db->prepare("SELECT * FROM Orders ORDER by created DESC LIMIT :offset, :count");
+        $stmt = $db->prepare("SELECT *,Orders.id as oid FROM Orders ORDER by created DESC LIMIT :offset, :count");
         $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
         $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
         $stmt->execute();
         $adminOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }else{
         if($filter=="category" && isset($cat)){
-            $stmt = $db->prepare("SELECT * FROM Orders JOIN OrderItems JOIN Products on product_id=Products.id where Products.category=:cat LIMIT :offset, :count");
+            $stmt = $db->prepare("SELECT *,Orders.id as oid FROM Orders JOIN OrderItems JOIN Products on product_id=Products.id where Products.category=:cat LIMIT :offset, :count");
             $stmt->bindValue(":cat",$cat);
             $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
             $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
             $stmt->execute();
             $adminOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }elseif($filter=="date"&&isset($date1)&&isset($date2)){
-            $stmt = $db->prepare("SELECT *,Orders.id as id FROM Orders WHERE created BETWEEN :date1 and :date2 LIMIT :offset, :count");
+            $stmt = $db->prepare("SELECT *,Orders.id as oid FROM Orders WHERE created BETWEEN :date1 and :date2 LIMIT :offset, :count");
             $stmt->bindValue(":date1",$date1);
             $stmt->bindValue(":date2",$date2);
             $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
@@ -176,7 +176,7 @@ if(!has_role("Admin")){
         foreach ($adminOrders as $order):?>
             <div class="list-group-item">
                 <div>
-                    <div>Order ID: <?php safer_echo($order["id"]); ?></div>
+                    <div>Order ID: <?php safer_echo($order["oid"]); ?></div>
                 </div>
                 <div>
                     <div>User ID: <?php safer_echo($order["user_id"]); ?><?php echo " ";?><a type="button" href="profile.php?id=<?php safer_echo($order["user_id"]); ?>">View Profile</a></div>
