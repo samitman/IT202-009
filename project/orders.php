@@ -64,7 +64,7 @@ if(!has_role("Admin")) {
 
 
 $total = 0;
-if($orderResult){
+if(!empty($orderResult)){
     $total = (int)$orderResult["total"];
 }
 $total_pages = ceil($total / $per_page);
