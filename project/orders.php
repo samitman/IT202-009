@@ -84,12 +84,30 @@ if(!has_role("Admin")){
     $stmt->execute();
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }elseif(has_role("Admin")){
-    $db = getDB();
-    $stmt = $db->prepare("SELECT * FROM Orders ORDER by created DESC LIMIT :offset, :count");
-    $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
-    $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
-    $stmt->execute();
-    $adminOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if(!isset($filter)) {
+        $db = getDB();
+        $stmt = $db->prepare("SELECT * FROM Orders ORDER by created DESC LIMIT :offset, :count");
+        $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+        $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+        $stmt->execute();
+        $adminOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }else{
+        if($filter=="category" && isset($cat)){
+            $stmt = $db->prepare("SELECT * FROM Orders JOIN OrderItems JOIN Products on product_id=Products.id where Products.category=:cat LIMIT :offset, :count");
+            $stmt->bindValue(":cat",$cat);
+            $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+            $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+            $stmt->execute();
+            $adminOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }elseif($filter=="date"&&isset($date1)&&isset($date2)){
+            $stmt = $db->prepare("SELECT * FROM Orders WHERE created BETWEEN :date1 and :date2 LIMIT :offset, :count");
+            $stmt->bindValue(":date1",$date1);
+            $stmt->bindValue(":date2",$date2);
+            $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+            $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+            $stmt->execute();
+        }
+    }
 }
 ?>
 <?php if(has_role("Admin")):?>
