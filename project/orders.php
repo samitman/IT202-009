@@ -18,9 +18,11 @@ if(isset($_POST["submit"])){
         $date1 = $_POST["date1"];
         $date2 = $_POST["date2"];
     }
-}elseif(isset($_GET["filter"])) {
+}
+if(isset($_GET["filter"])) {
     $filter = $_GET["filter"];
-}elseif(isset($_GET["cat"])) {
+}
+if(isset($_GET["cat"])) {
     $cat = $_GET["cat"];
 }elseif(isset($_GET["date1"]) && isset($_GET["date2"])) {
     $date1 = $_GET["date1"];
