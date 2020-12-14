@@ -60,7 +60,7 @@ if(!empty($safeFilter)) {
     } elseif ($safeFilter == "price") {
         $stmt = $db->prepare("SELECT count(*) as total from Products WHERE name LIKE :q");
         $stmt->execute([":q" => "%$query%"]);
-    } elseif ($safeFilter == "quantity") {
+    } elseif ($safeFilter == "quantity" && isset($quantFilter)) {
         $stmt = $db->prepare("SELECT count(*) as total from Products WHERE name LIKE :q AND quantity<=:quant");
         $stmt->execute([":q" => "%$query%",":quant"=>$quantFilter]);
     } elseif ($safeFilter == "rating") {
@@ -155,7 +155,7 @@ if (!empty($query) && !empty($safeFilter)) {
                 flash("There was a problem fetching the results");
             }
         }
-    } elseif ($safeFilter == "quantity") {
+    } elseif ($safeFilter == "quantity" && isset($quantFilter)) {
         if (has_role("Admin")) {
             $db = getDB();
             $stmt = $db->prepare("SELECT Products.id,name,quantity,price,visibility,category FROM Products JOIN Users on Products.user_id = Users.id WHERE name LIKE :q AND quantity<=:quant ORDER BY quantity LIMIT :offset, :count");
