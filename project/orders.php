@@ -100,7 +100,7 @@ if(!has_role("Admin")){
             $stmt->execute();
             $adminOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }elseif($filter=="date"&&isset($date1)&&isset($date2)){
-            $stmt = $db->prepare("SELECT * FROM Orders WHERE created BETWEEN :date1 and :date2 LIMIT :offset, :count");
+            $stmt = $db->prepare("SELECT *,Orders.id as id FROM Orders WHERE created BETWEEN :date1 and :date2 LIMIT :offset, :count");
             $stmt->bindValue(":date1",$date1);
             $stmt->bindValue(":date2",$date2);
             $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
