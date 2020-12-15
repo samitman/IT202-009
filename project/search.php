@@ -33,7 +33,7 @@ if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])){
 }elseif(isset($_GET["filter"])) {
     $safeFilter = $_GET["filter"];
 }
-if(isset($_POST["search"]) && !empty($query)&&isset($_POST["quantFilter"])){
+if(isset($_POST["search"]) && !empty($query) && !isset($_POST["filter"]) && isset($_POST["quantFilter"])){
     $safeFilter = "quantity";
     $quantFilter = $_POST["quantFilter"];
 }
