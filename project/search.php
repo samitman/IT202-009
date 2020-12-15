@@ -11,7 +11,7 @@ if (isset($_POST["search"])){
     $query = $_GET["query"];
 }
 
-if (isset($_POST["search"]) && !empty($query) && (isset($_POST["filter"]) || isset($_POST["quantFilter"]))) {
+if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])){
 
     $safeFilter = "name";
     if(isset($_POST["filter"])) {
@@ -30,13 +30,14 @@ if (isset($_POST["search"]) && !empty($query) && (isset($_POST["filter"]) || iss
                 break;
         }
     }
-    if(isset($_POST["quantFilter"])){
-        $safeFilter = "quantity";
-        $quantFilter = $_POST["quantFilter"];
-    }
 }elseif(isset($_GET["filter"])) {
     $safeFilter = $_GET["filter"];
 }
+if(isset($_POST["search"]) && !empty($query)&&isset($_POST["quantFilter"])){
+    $safeFilter = "quantity";
+    $quantFilter = $_POST["quantFilter"];
+}
+
 if(isset($_GET["quantity"])){
     $quantFilter = $_GET["quantity"];
 }
