@@ -58,19 +58,23 @@ if(!empty($safeFilter)) {
     if ($safeFilter == "category" || $safeFilter == "name") {
         $stmt = $db->prepare("SELECT count(*) as total from Products WHERE $safeFilter LIKE :q");
         $stmt->execute([":q" => "%$query%"]);
+        $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
     } elseif ($safeFilter == "price") {
         $stmt = $db->prepare("SELECT count(*) as total from Products WHERE name LIKE :q");
         $stmt->execute([":q" => "%$query%"]);
+        $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
     } elseif ($safeFilter == "quantity" && isset($quantFilter)) {
         $stmt = $db->prepare("SELECT count(*) as total from Products WHERE name LIKE :q AND quantity<=:quant");
         $stmt->execute([":q" => "%$query%",":quant"=>$quantFilter]);
+        $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
     } elseif ($safeFilter == "rating") {
         $stmt = $db->prepare("SELECT count(DISTINCT product_id) as total from Ratings JOIN Products on Products.id = Ratings.product_id WHERE name LIKE :q AND Products.id=Ratings.product_id");
         $stmt->execute([":q" => "%$query%"]);
+        $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
+
     $total = 0;
-    if ($productResult) {
+    if (isset($productResult)) {
         $total = (int)$productResult["total"];
     }
     $total_pages = ceil($total / $per_page);
