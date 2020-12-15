@@ -198,7 +198,7 @@ if (!empty($query) && !empty($safeFilter)) {
     <?php if(has_role("Admin")): ?>
     <label for="quantFilter">Filter By Quantity:</label>
     <br>
-    <input name="quantFilter" type="number" value="<?php if(!empty($quantFilter)){safer_echo($quantFilter);}?>"/>
+    <input name="quantFilter" type="number"/>
     <br>
     <?php endif; ?>
     <button type="submit" value="Search" name="search">Search</button>
