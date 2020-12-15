@@ -11,7 +11,7 @@ if (isset($_POST["search"])){
     $query = $_GET["query"];
 }
 
-if (isset($_POST["search"]) && !empty($query) && (isset($_POST["filter"]) || isset($_POST["quantFilter"]))) {
+if (isset($_POST["search"]) && !empty($query) && isset($_POST["filter"])){
 
     $safeFilter = "name";
     if(isset($_POST["filter"])) {
@@ -30,13 +30,14 @@ if (isset($_POST["search"]) && !empty($query) && (isset($_POST["filter"]) || iss
                 break;
         }
     }
-    if(isset($_POST["quantFilter"])){
-        $safeFilter = "quantity";
-        $quantFilter = $_POST["quantFilter"];
-    }
 }elseif(isset($_GET["filter"])) {
     $safeFilter = $_GET["filter"];
 }
+if(isset($_POST["search"]) && !empty($query) && !isset($_POST["filter"]) && isset($_POST["quantFilter"])){
+    $safeFilter = "quantity";
+    $quantFilter = $_POST["quantFilter"];
+}
+
 if(isset($_GET["quantity"])){
     $quantFilter = $_GET["quantity"];
 }
@@ -57,19 +58,23 @@ if(!empty($safeFilter)) {
     if ($safeFilter == "category" || $safeFilter == "name") {
         $stmt = $db->prepare("SELECT count(*) as total from Products WHERE $safeFilter LIKE :q");
         $stmt->execute([":q" => "%$query%"]);
+        $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
     } elseif ($safeFilter == "price") {
         $stmt = $db->prepare("SELECT count(*) as total from Products WHERE name LIKE :q");
         $stmt->execute([":q" => "%$query%"]);
+        $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
     } elseif ($safeFilter == "quantity" && isset($quantFilter)) {
         $stmt = $db->prepare("SELECT count(*) as total from Products WHERE name LIKE :q AND quantity<=:quant");
         $stmt->execute([":q" => "%$query%",":quant"=>$quantFilter]);
+        $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
     } elseif ($safeFilter == "rating") {
         $stmt = $db->prepare("SELECT count(DISTINCT product_id) as total from Ratings JOIN Products on Products.id = Ratings.product_id WHERE name LIKE :q AND Products.id=Ratings.product_id");
         $stmt->execute([":q" => "%$query%"]);
+        $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    $productResult = $stmt->fetch(PDO::FETCH_ASSOC);
+
     $total = 0;
-    if ($productResult) {
+    if (isset($productResult)) {
         $total = (int)$productResult["total"];
     }
     $total_pages = ceil($total / $per_page);
@@ -193,7 +198,7 @@ if (!empty($query) && !empty($safeFilter)) {
     <?php if(has_role("Admin")): ?>
     <label for="quantFilter">Filter By Quantity:</label>
     <br>
-    <input name="quantFilter" type="number" value="<?php if(!empty($quantFilter)){safer_echo($quantFilter);}?>"/>
+    <input name="quantFilter" type="number"/>
     <br>
     <?php endif; ?>
     <button type="submit" value="Search" name="search">Search</button>
