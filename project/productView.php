@@ -90,6 +90,11 @@ if($ratings){
                 <div>
                     <a type="button" href="profile.php?id=<?php safer_echo($result["uid"]); ?>">View Profile</a>
                 </div>
+                <?php if(has_role("Admin")):?>
+                <div>
+                    <a type="button" href="test_edit_product.php?id=<?php safer_echo($result["id"]); ?>">Edit</a>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
         <br>
