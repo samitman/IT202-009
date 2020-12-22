@@ -92,7 +92,7 @@ if($ratings){
                 </div>
                 <?php if(has_role("Admin")):?>
                 <div>
-                    <a type="button" href="test_edit_product.php?id=<?php safer_echo($result["id"]); ?>">Edit</a>
+                    <a type="button" href="test/test_edit_product.php?id=<?php safer_echo($result["id"]); ?>">Edit</a>
                 </div>
                 <?php endif; ?>
             </div>

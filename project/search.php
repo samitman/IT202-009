@@ -234,7 +234,7 @@ if (!empty($query) && !empty($safeFilter)) {
                     </div>
                     <?php if(has_role("Admin")):?>
                     <div>
-                        <a type="button" href="test_edit_product.php?id=<?php safer_echo($r['id']); ?>">Edit</a>
+                        <a type="button" href="test/test_edit_product.php?id=<?php safer_echo($r['id']); ?>">Edit</a>
                         <br>
                     </div>
                     <?php endif; ?>

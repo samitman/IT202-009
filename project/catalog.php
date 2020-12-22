@@ -60,6 +60,7 @@ if (!has_role("Admin")) {
                         <a type="button" href="productView.php?id=<?php safer_echo($product['id']); ?>">View</a>
                     </div>
                     <div>
+                        <a type="button" href="test/test_edit_product.php?id=<?php safer_echo($product['id']); ?>">Edit</a>
                         <br>
                     </div>
                 </div>
