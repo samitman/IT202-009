@@ -118,6 +118,13 @@ a:hover{
     width: 50%;
 }
 
+#productPic {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    display: block;
+}
+
 #atc{
     width: 12% !important;
 }
