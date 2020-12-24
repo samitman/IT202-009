@@ -11,7 +11,7 @@ if (isset($_GET["id"])) {
 $result = [];
 if (isset($id)) {
     $db = getDB();
-    $stmt = $db->prepare("SELECT Products.id,name,quantity,price,description,category,user_id,Users.username,Users.id as uid FROM Products JOIN Users on Products.user_id = Users.id where Products.id = :id");
+    $stmt = $db->prepare("SELECT Products.id,name,quantity,price,description,category,img,user_id,Users.username,Users.id as uid FROM Products JOIN Users on Products.user_id = Users.id where Products.id = :id");
     $r = $stmt->execute([":id" => $id]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$result) {
@@ -80,6 +80,11 @@ if($ratings){
             <br>
             <div><h1><u><?php safer_echo($result["name"]); ?> </u></h1></div>
         </div>
+        <?php if(isset($result["img"])):?>
+            <div>
+                <img src="http://146.148.84.25/~si237/repo/project/static/css/productPic<?php echo $result["id"];?>.jpg" id="productPic" width="400" height="400">
+            </div>
+        <?php endif; ?>
         <div class="card-body">
             <div>
                 <p>Product Information:</p>
