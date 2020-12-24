@@ -82,7 +82,7 @@ if($ratings){
         </div>
         <?php if(isset($result["img"])):?>
             <div>
-                <img src="http://146.148.84.25/~si237/repo/project/static/css/productPic<?php echo $result["id"];?>.jpg" id="productPic" width="400" height="400">
+                <img src="<?php safer_echo($result["img"]);?>" id="productPic" width="400" height="400" alt="Product Image">
             </div>
         <?php endif; ?>
         <div class="card-body">
