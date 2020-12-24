@@ -232,9 +232,12 @@ if (!empty($query) && !empty($safeFilter)) {
                     <div>
                         <a type="button" href="productView.php?id=<?php safer_echo($r['id']); ?>">View</a>
                     </div>
+                    <?php if(has_role("Admin")):?>
                     <div>
+                        <a type="button" href="test/test_edit_product.php?id=<?php safer_echo($r['id']); ?>">Edit</a>
                         <br>
                     </div>
+                    <?php endif; ?>
                 </div>
             <?php endforeach; ?>
         </div>
