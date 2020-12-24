@@ -14,9 +14,9 @@ if (isset($_SESSION["user"]) && isset($_SESSION["user"]["email"])) {
 
 ?>
 <br>
-    <img src="http://146.148.84.25/~si237/repo/project/static/css/protein1.jpg" width="700" height="500">
-    <img src="http://146.148.84.25/~si237/repo/project/static/css/protein2.jpg" width="700" height="500">
-    <img src="http://146.148.84.25/~si237/repo/project/static/css/protein3.jpg" width="700" height="400">
+    <img src="http://146.148.84.25/~si237/repo/project/static/css/protein1.jpg" id="homeimg" width="700" height="500">
+    <img src="http://146.148.84.25/~si237/repo/project/static/css/protein2.jpg" id="homeimg" width="700" height="500">
+    <img src="http://146.148.84.25/~si237/repo/project/static/css/protein3.jpg" id="homeimg" width="700" height="400">
 <br>
 
 
