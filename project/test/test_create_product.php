@@ -29,6 +29,10 @@ if (!has_role("Admin")) {
     <br>
     <input type="text" name="category"/>
     <br>
+    <label>Image Link</label>
+    <br>
+    <input type="text" name="imgLink"/>
+    <br>
     <label for="vis">Visibility:</label>
     <br>
         <select name="vis" id="vis">
@@ -47,11 +51,12 @@ if(isset($_POST["save"])){
 	$price = $_POST["price"];
 	$description = $_POST["description"];
 	$category = $_POST["category"];
+	$imgLink = $_POST["imgLink"];
 	$visibility = $_POST["vis"];
 	$created = date('Y-m-d H:i:s'); //calc
 	$user = get_user_id();
 	$db = getDB();
-	$stmt = $db->prepare("INSERT INTO Products (name, quantity, price, description, created, user_id, category, visibility) VALUES(:name, :quantity, :price, :description, :created, :user, :cat, :vis)");
+	$stmt = $db->prepare("INSERT INTO Products (name, quantity, price, description, created, user_id, category, visibility, img) VALUES(:name, :quantity, :price, :description, :created, :user, :cat, :vis, :img)");
 	$r = $stmt->execute([
 		":name"=>$name,
 		":quantity"=>$quantity,
@@ -60,7 +65,8 @@ if(isset($_POST["save"])){
 		":created"=>$created,
 		":user"=>$user,
         ":cat"=>$category,
-        ":vis"=>$visibility
+        ":vis"=>$visibility,
+        ":img"=>$imgLink
 	]);
 	if($r){
 		flash("Created successfully with id: " . $db->lastInsertId());

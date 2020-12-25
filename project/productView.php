@@ -78,7 +78,7 @@ if($ratings){
     <div class="card">
         <div class="card-title">
             <br>
-            <div><h1><u><?php safer_echo($result["name"]); ?> </u></h1></div>
+            <div><h2><u><?php safer_echo($result["name"]); ?> </u></h2></div>
         </div>
         <?php if(isset($result["img"])):?>
             <div>
