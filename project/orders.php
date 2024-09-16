@@ -9,6 +9,28 @@ if (!is_logged_in()) {
 ?>
 
 <?php
+if(isset($_POST["submit"])){
+    if(isset($_POST["cat"])){
+        $filter = "category";
+        $cat = $_POST["cat"];
+    }elseif(isset($_POST["date1"]) && isset($_POST["date2"])){
+        $filter = "date";
+        $date1 = $_POST["date1"];
+        $date2 = $_POST["date2"];
+    }
+}
+if(isset($_GET["filter"])) {
+    $filter = $_GET["filter"];
+}
+if(isset($_GET["cat"])) {
+    $cat = $_GET["cat"];
+}elseif(isset($_GET["date1"]) && isset($_GET["date2"])) {
+    $date1 = $_GET["date1"];
+    $date2 = $_GET["date2"];
+}
+?>
+
+<?php
 $page = 1;
 $per_page = 5;
 if(isset($_GET["page"])){
@@ -22,18 +44,36 @@ if(isset($_GET["page"])){
 $db = getDB();
 if(!has_role("Admin")) {
     $stmt = $db->prepare("SELECT count(*) as total from Orders where user_id=:id");
+    $stmt->execute([":id"=>get_user_id()]);
+    $orderResult = $stmt->fetch(PDO::FETCH_ASSOC);
 }elseif(has_role("Admin")){
-    $stmt = $db->prepare("SELECT count(*) as total from Orders");
+    if(empty($filter)) {
+        $stmt = $db->prepare("SELECT count(*) as total from Orders");
+        $stmt->execute();
+        $orderResult = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    if(isset($filter)) {
+        if ($filter == "category" && !empty($cat)) {
+            $stmt = $db->prepare("SELECT count(*) as total from OrderItems JOIN Products on product_id=Products.id where Products.category=:cat");
+            $stmt->execute([":cat" => $cat]);
+            $orderResult = $stmt->fetch(PDO::FETCH_ASSOC);
+        } elseif ($filter == "date" && !empty($date1) && !empty($date2)) {
+            $stmt = $db->prepare("SELECT count(*) as total from Orders WHERE created BETWEEN :date1 and :date2");
+            $stmt->execute([":date1" => $date1, ":date2" => $date2]);
+            $orderResult = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+    }
 }
-$stmt->execute([":id"=>get_user_id()]);
-$orderResult = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+
 $total = 0;
-if($orderResult){
+if(!empty($orderResult)){
     $total = (int)$orderResult["total"];
 }
 $total_pages = ceil($total / $per_page);
 $offset = ($page-1) * $per_page;
-//below will display orders for regular users
+//below will display orders
 if(!has_role("Admin")){
     $userID = get_user_id();
     $db = getDB();
@@ -44,14 +84,61 @@ if(!has_role("Admin")){
     $stmt->execute();
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }elseif(has_role("Admin")){
-    $db = getDB();
-    $stmt = $db->prepare("SELECT * FROM Orders ORDER by created DESC LIMIT :offset, :count");
-    $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
-    $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
-    $stmt->execute();
-    $adminOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if(!isset($filter)) {
+        $db = getDB();
+        $stmt = $db->prepare("SELECT *,Orders.id as oid FROM Orders ORDER by created DESC LIMIT :offset, :count");
+        $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+        $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+        $stmt->execute();
+        $adminOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }else{
+        if($filter=="category" && isset($cat)){
+            $stmt = $db->prepare("SELECT *,Orders.id as oid FROM Orders JOIN OrderItems JOIN Products on product_id=Products.id where Products.category=:cat LIMIT :offset, :count");
+            $stmt->bindValue(":cat",$cat);
+            $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+            $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+            $stmt->execute();
+            $adminOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }elseif($filter=="date"&&isset($date1)&&isset($date2)){
+            $stmt = $db->prepare("SELECT *,Orders.id as oid FROM Orders WHERE created BETWEEN :date1 and :date2 LIMIT :offset, :count");
+            $stmt->bindValue(":date1",$date1);
+            $stmt->bindValue(":date2",$date2);
+            $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+            $stmt->bindValue(":count", $per_page, PDO::PARAM_INT);
+            $stmt->execute();
+        }
+    }
 }
 ?>
+<?php if(has_role("Admin")):?>
+    <form method="POST">
+        <h3>Filter Orders</h3>
+        <br>
+        <label for="cat">Category:</label>
+        <br>
+        <select name="cat" id="cat">
+            <option value="" disabled selected>Select a Category</option>
+            <option value="Health">Health</option>
+            <option value="Protein">Protein</option>
+            <option value="Recovery">Recovery</option>
+            <option value="Stimulant">Stimulant</option>
+        </select>
+        <br>
+        <label>Date Range: (Y-M-D H:Min:S)</label>
+        <br>
+        <label>Date 1: </label>
+        <br>
+        <input type="text" name="date1"/>
+        <br>
+        <label>Date 2: </label>
+        <br>
+        <input type="text" name="date2"/>
+        <br>
+        <button type="submit" value="submit" name="submit">Submit</button>
+        <br>
+    </form>
+<?php endif;?>
+
 <div class="results">
     <div class="list-group">
         <div>
@@ -89,7 +176,7 @@ if(!has_role("Admin")){
         foreach ($adminOrders as $order):?>
             <div class="list-group-item">
                 <div>
-                    <div>Order ID: <?php safer_echo($order["id"]); ?></div>
+                    <div>Order ID: <?php safer_echo($order["oid"]); ?></div>
                 </div>
                 <div>
                     <div>User ID: <?php safer_echo($order["user_id"]); ?><?php echo " ";?><a type="button" href="profile.php?id=<?php safer_echo($order["user_id"]); ?>">View Profile</a></div>
@@ -122,15 +209,15 @@ if(!has_role("Admin")){
             <ul class="pagination">
                 <?php if(!(($page-1)<1)):?>
                     <li class="page-item <?php echo ($page-1) < 1?"disabled":"";?>">
-                        <a class="page-link" href="?page=<?php echo $page-1;?>" tabindex="-1">Previous</a>
+                        <a class="page-link" href="?page=<?php echo $page-1;?><?php if(!empty($filter)):?>&filter=<?php echo $filter;?><?php endif;?><?php if(!empty($cat)):?>&cat=<?php echo $cat;?><?php endif;?><?php if(!empty($date1)):?>&date1=<?php echo $date1;?><?php endif;?><?php if(!empty($date2)):?>&date2=<?php echo $date2;?><?php endif;?>" tabindex="-1">Previous</a>
                     </li>
                 <?php endif; ?>
                 <?php for($i = 0; $i < $total_pages; $i++):?>
-                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?>"><?php echo ($i+1);?></a></li>
+                    <li class="page-item <?php echo ($page-1) == $i?"active":"";?>"><a class="page-link" href="?page=<?php echo ($i+1);?><?php if(!empty($filter)):?>&filter=<?php echo $filter;?><?php endif;?><?php if(!empty($cat)):?>&cat=<?php echo $cat;?><?php endif;?><?php if(!empty($date1)):?>&date1=<?php echo $date1;?><?php endif;?><?php if(!empty($date2)):?>&date2=<?php echo $date2;?><?php endif;?>"><?php echo ($i+1);?></a></li>
                 <?php endfor; ?>
                 <?php if($page<$total_pages):?>
                     <li class="page-item <?php echo ($page) >= $total_pages?"disabled":"";?>">
-                        <a class="page-link" href="?page=<?php echo $page+1;?>">Next</a>
+                        <a class="page-link" href="?page=<?php echo $page+1;?><?php if(!empty($filter)):?>&filter=<?php echo $filter;?><?php endif;?><?php if(!empty($cat)):?>&cat=<?php echo $cat;?><?php endif;?><?php if(!empty($date1)):?>&date1=<?php echo $date1;?><?php endif;?><?php if(!empty($date2)):?>&date2=<?php echo $date2;?><?php endif;?>">Next</a>
                     </li>
                 <?php endif; ?>
             </ul>
